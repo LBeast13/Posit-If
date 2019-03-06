@@ -56,9 +56,9 @@ public class Test {
         Calendar calendar3 = new GregorianCalendar(2016,3,6);
         Date dateNais3 =  calendar3.getTime();
         
-        Client p1 = new Client(dateNais1,"Chine","06254789","chien","bleu","hiboux");
-        Client p2 = new Client(dateNais2,"France","06478954","chat","bleu","hiboux");
-        Client p3 = new Client(dateNais3,"Espagne","06451278","tigre","bleu","hiboux");
+        Client p1 = new Client(dateNais1,"Chine","blb@gmail.com","06254789","chien","bleu","hiboux");
+        Client p2 = new Client(dateNais2,"France","sdlfjhs@gmail.com","06478954","chat","bleu","hiboux");
+        Client p3 = new Client(dateNais3,"Espagne","dkfs@gmail.com","06451278","tigre","bleu","hiboux");
 
         Service service = new Service();
         

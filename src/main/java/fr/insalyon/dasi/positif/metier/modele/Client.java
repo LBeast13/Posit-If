@@ -37,6 +37,11 @@ public class Client implements Serializable {
     private String adresse;
     
     /**
+     * L'adresse du email.
+     */
+    private String email;
+    
+    /**
      * Le numéro de téléphone du client.
      */
     private String numeroTel;
@@ -65,14 +70,16 @@ public class Client implements Serializable {
      * Constructeur
      * @param dateNaissance La date de naissance du Client
      * @param adresse L'adresse du Client
+     * @param email L'adresse mail du Client;
      * @param numeroTel Le numéro de téléphone du Client
      * @param signeChinois Le signe Chinois du Client
      * @param couleur La couleur porte bonheur du Client
      * @param animal L'animal totem du Client
      */
-    public Client(Date dateNaissance, String adresse, String numeroTel, String signeChinois, String couleur, String animal) {
+    public Client(Date dateNaissance, String adresse, String email, String numeroTel, String signeChinois, String couleur, String animal) {
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
+        this.email = email;
         this.numeroTel = numeroTel;
         this.signeChinois = signeChinois;
         this.couleur = couleur;
