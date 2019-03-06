@@ -6,6 +6,7 @@
 package fr.insalyon.dasi.positif.metier.service;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.metier.modele.Client;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -34,6 +35,12 @@ public class Service {
     public void ajouterPersonne(Personne p){
         tx.begin();
         em.persist(p);
+        tx.commit();
+    }
+    
+    public void ajouterClient(Client c){
+        tx.begin();
+        em.persist(c);
         tx.commit();
     }
 }

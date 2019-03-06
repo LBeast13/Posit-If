@@ -6,8 +6,12 @@
 package fr.insalyon.dasi.positif.vue;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -41,6 +45,27 @@ public class Test {
         service.ajouterPersonne(p3);
 
     }
+    
+    public static void testCreerClients() {
+        Calendar calendar1 = new GregorianCalendar(1996,1,30);
+        Date dateNais1 =  calendar1.getTime();
+        
+        Calendar calendar2 = new GregorianCalendar(2000,4,3);
+        Date dateNais2 =  calendar2.getTime();
+        
+        Calendar calendar3 = new GregorianCalendar(2016,3,6);
+        Date dateNais3 =  calendar3.getTime();
+        
+        Client p1 = new Client(dateNais1,"Chine","06254789","chien","bleu","hiboux");
+        Client p2 = new Client(dateNais2,"France","06478954","chat","bleu","hiboux");
+        Client p3 = new Client(dateNais3,"Espagne","06451278","tigre","bleu","hiboux");
+
+        Service service = new Service();
+        
+        service.ajouterClient(p1);
+        service.ajouterClient(p2);
+        service.ajouterClient(p3);
+    }
 
     /**
      * Méthode main(): point d'entrée de ce programme de test.
@@ -53,10 +78,13 @@ public class Test {
 
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
-        
+        testCreerPersonnes();
+        testCreerClients();
         // Libération du JpaUtil
         JpaUtil.destroy();
     }
+
+    
 
 }
 
