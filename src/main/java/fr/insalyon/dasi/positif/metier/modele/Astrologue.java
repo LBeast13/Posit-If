@@ -6,78 +6,66 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
-import javax.persistence.DiscriminatorColumn;
+import java.util.Date;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.Temporal;
 
 /**
- * Classe représentant un Medium.
+ * Classe représentant un astrologue.
+ * Super classe : Medium
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="talent")
-public class Medium implements Serializable {
+@DiscriminatorValue("A")
+public class Astrologue extends Medium implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    /**
+     * La formation de l'astrologue.
+     */
+    private String formation;
     
     /**
-     * Le nom du medium
+     * La promotion de l'astrologue.
      */
-    private String nom;
-    
-    /**
-     * Le descriptif du medium
-     */
-    private String descriptif;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date promotion;
 
     /**
      * Constructeur par défaut
      */
-    public Medium() {
+    public Astrologue() {
     }
 
     /**
      * Constructeur
-     * @param nom Le nom du Medium
-     * @param descriptif Le descriptif du Medium
+     * @param nom Le nom de l'astrologue
+     * @param descriptif Le descriptif de l'astrologue
+     * @param promotion La date de promotion de l'astrologue
      */
-    public Medium(String nom, String descriptif) {
-        this.nom = nom;
-        this.descriptif = descriptif;
+    public Astrologue(String nom, String descriptif, Date promotion) {
+        super(nom, descriptif);
+        this.promotion = promotion;
     }
     
-/****** GETTERS ET SETTERS *********/
+/*********** GETTERS ET SETTERS *************/
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescriptif() {
-        return descriptif;
-    }
-
-    public void setDescriptif(String descriptif) {
-        this.descriptif = descriptif;
-    }   
 
     @Override
     public int hashCode() {
@@ -89,10 +77,10 @@ public class Medium implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Medium)) {
+        if (!(object instanceof Astrologue)) {
             return false;
         }
-        Medium other = (Medium) object;
+        Astrologue other = (Astrologue) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -101,6 +89,7 @@ public class Medium implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Medium[ id=" + id + " ]";
+        return "fr.insalyon.dasi.positif.metier.modele.Astrologue[ id=" + id + " ]";
     }
+    
 }

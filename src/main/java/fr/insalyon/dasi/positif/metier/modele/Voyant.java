@@ -6,22 +6,20 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
-import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 /**
- * Classe représentant un Medium.
+ * Classe représentant un Voyant.
+ * Super Classe : Medium
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="talent")
-public class Medium implements Serializable {
+@DiscriminatorValue("V")
+public class Voyant extends Medium implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -29,55 +27,47 @@ public class Medium implements Serializable {
     private Long id;
     
     /**
-     * Le nom du medium
+     * La spécialité du Voyant.
      */
-    private String nom;
-    
-    /**
-     * Le descriptif du medium
-     */
-    private String descriptif;
+    private String specialite;
 
     /**
      * Constructeur par défaut
      */
-    public Medium() {
+    public Voyant() {
+        super();
     }
 
     /**
      * Constructeur
-     * @param nom Le nom du Medium
-     * @param descriptif Le descriptif du Medium
+     * @param specialite La specialité du Voyant
+     * @param nom Le nom du Voyant
+     * @param descriptif Le descriptif du Voyant.
      */
-    public Medium(String nom, String descriptif) {
-        this.nom = nom;
-        this.descriptif = descriptif;
+    public Voyant(String specialite, String nom, String descriptif) {
+        super(nom, descriptif);
+        this.specialite = specialite;
     }
     
-/****** GETTERS ET SETTERS *********/
+//******* GETTERS SETTERS *********/
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getSpecialite() {
+        return specialite;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
     }
-
-    public String getDescriptif() {
-        return descriptif;
-    }
-
-    public void setDescriptif(String descriptif) {
-        this.descriptif = descriptif;
-    }   
+    
 
     @Override
     public int hashCode() {
@@ -89,10 +79,10 @@ public class Medium implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Medium)) {
+        if (!(object instanceof Voyant)) {
             return false;
         }
-        Medium other = (Medium) object;
+        Voyant other = (Voyant) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -101,6 +91,7 @@ public class Medium implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Medium[ id=" + id + " ]";
+        return "fr.insalyon.dasi.positif.metier.modele.Voyant[ id=" + id + " ]";
     }
+    
 }

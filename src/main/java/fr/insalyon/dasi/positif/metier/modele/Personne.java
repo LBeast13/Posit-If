@@ -10,8 +10,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- *
- * @author Liam
+ * Classe représentant une personne.
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -22,10 +22,30 @@ public class Personne implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    /**
+     * Le nom de la Personne.
+     */
     private String nom;
+    
+    /**
+     * Le prénom de la Personne.
+     */
     private String prenom;
+    
+    /**
+     * Le mot de passe de la Personne.
+     */
     private String motDePasse;
+    
+    /**
+     * L'adresse email de la Personne.
+     */
     private String email;
+    
+    /**
+     * Le numéro de téléphone de la Personne.
+     */
     private String numeroTel;
     
     /**
@@ -48,35 +68,24 @@ public class Personne implements Serializable {
         this.email = email;
         this.numeroTel = numeroTel;
     }
-    
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Personne)) {
-            return false;
-        }
-        Personne other = (Personne) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Personne[ id=" + id + " ]";
-    }
-    
 // ********** GETTERS AND SETTERS ***********
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNumeroTel() {
+        return numeroTel;
+    }
     
+    public void setNumeroTel(String numeroTel) {
+        this.numeroTel = numeroTel;
+    }
+
     public String getNom() {
         return nom;
     }
@@ -109,4 +118,28 @@ public class Personne implements Serializable {
         this.id = id;
     }
     
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Personne)) {
+            return false;
+        }
+        Personne other = (Personne) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "fr.insalyon.dasi.positif.metier.modele.Personne[ id=" + id + " ]";
+    }
 }

@@ -6,78 +6,53 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
-import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 /**
- * Classe représentant un Medium.
+ * Classe représentant un Tarologue.
+ * Super classe : Medium
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="talent")
-public class Medium implements Serializable {
+@DiscriminatorValue("T")
+public class Tarologue extends Medium implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    /**
-     * Le nom du medium
-     */
-    private String nom;
-    
-    /**
-     * Le descriptif du medium
-     */
-    private String descriptif;
 
     /**
-     * Constructeur par défaut
+     * Constructeur par défaut.
      */
-    public Medium() {
+    public Tarologue() {
+        super();
     }
 
     /**
      * Constructeur
-     * @param nom Le nom du Medium
-     * @param descriptif Le descriptif du Medium
+     * @param nom Le nom du Tarologue
+     * @param descriptif Le descriptif du Tarologue
      */
-    public Medium(String nom, String descriptif) {
-        this.nom = nom;
-        this.descriptif = descriptif;
+    public Tarologue(String nom, String descriptif) {
+        super(nom, descriptif);
     }
     
-/****** GETTERS ET SETTERS *********/
+/******* GETTERS ET SETTERS ******/
+    
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescriptif() {
-        return descriptif;
-    }
-
-    public void setDescriptif(String descriptif) {
-        this.descriptif = descriptif;
-    }   
 
     @Override
     public int hashCode() {
@@ -89,10 +64,10 @@ public class Medium implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Medium)) {
+        if (!(object instanceof Tarologue)) {
             return false;
         }
-        Medium other = (Medium) object;
+        Tarologue other = (Tarologue) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -101,6 +76,7 @@ public class Medium implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Medium[ id=" + id + " ]";
+        return "fr.insalyon.dasi.positif.metier.modele.Tarologue[ id=" + id + " ]";
     }
+    
 }

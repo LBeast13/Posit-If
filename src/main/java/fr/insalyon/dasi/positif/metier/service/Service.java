@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.service;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
+import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import javax.persistence.EntityManager;
@@ -18,8 +14,8 @@ import fr.insalyon.dasi.positif.metier.modele.Personne;
 import java.util.List;
 
 /**
- *
- * @author Liam
+ * 
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class Service {
     
@@ -36,34 +32,24 @@ public class Service {
     }
     
     /**
-     * Permet d'inscrire un client en l'ajoutant à la base de donnée
-     * @param c 
+     * Permet d'ajouter un nouveau Client dans la base de donnée
+     * @param c Le nouveau client à ajouter
      */
-    public void sInscrire(Client c){
-        tx.begin();
-        em.persist(c);
-        tx.commit();
-    }
-    
-    public void ajouterPersonne(Personne p){
-        tx.begin();
-        em.persist(p);
-        tx.commit();
-    }
-    
     public void ajouterClient(Client c){
         tx.begin();
         em.persist(c);
         tx.commit();
     }
     
+    /**
+     * Permet d'ajouter un nouvel Employé dans la base de donnée
+     * @param e Le nouvel employé à ajouter
+     */
     public void ajouterEmploye(Employe e){
         tx.begin();
         em.persist(e);
         tx.commit();
     }
-    
-    
     
     /**
      * Recherche le client dans la base de donnée à l'aide de son
@@ -96,4 +82,9 @@ public class Service {
         
         return (List<Medium>) query.getResultList();
     }
+    
+    /* TODO
+    public Conversation demanderVoyance(Client client, Medium medium){
+       
+    }*/
 }

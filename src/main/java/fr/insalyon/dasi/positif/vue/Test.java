@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.vue;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
@@ -40,19 +35,6 @@ public class Test {
         service.ajouterEmploye(e1);
         service.ajouterEmploye(e2);
         service.ajouterEmploye(e3);
-    }
-    
-    public static void testerCreerPersonnes(){
-        
-        Personne p1 = new Personne("Mentor","Gerard","password1","email1@gmail.com","0624578675");
-        Personne p2 = new Personne("Terieur","Alain","password2","email2@gmail.com","0624578675");
-        Personne p3 = new Personne("Terieur","Alex","password3","email3@gmail.com","0624578675");
-
-        Service service = new Service();
-        
-        service.ajouterPersonne(p1);
-        service.ajouterPersonne(p2);
-        service.ajouterPersonne(p3);
     }
     
     public static void testerCreerClients(){

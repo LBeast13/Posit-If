@@ -15,8 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 
 /**
- *
- * @author Liam
+ * La classe représentant un Client.
+ * Super classe : Personne.
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
 @DiscriminatorValue("C")
@@ -78,7 +79,10 @@ public class Client extends Personne implements Serializable {
      * @param couleur La couleur porte bonheur du Client
      * @param animal L'animal totem du Client
      */
-    public Client(String nom, String prenom, String motDePasse, String email, String numeroTel,Date dateNaissance, String adresse, String signeChinois, String couleur, String animal) {
+    public Client(String nom, String prenom, String motDePasse, 
+            String email, String numeroTel, Date dateNaissance, 
+            String adresse, String signeChinois,String couleur, 
+            String animal) {
         super(nom, prenom, motDePasse, email, numeroTel);
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
@@ -87,42 +91,9 @@ public class Client extends Personne implements Serializable {
         this.couleur = couleur;
         this.animal = animal;
     }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Client)) {
-            return false;
-        }
-        Client other = (Client) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
 
-    @Override
-    public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Client[ id=" + id + " ]";
-    }
- 
-//******** GETTERS ET SETTERS *************
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
+/********** GETTERS ET SETTERS  ****************/
     public Date getDateNaissance() {
         return dateNaissance;
     }
@@ -166,9 +137,33 @@ public class Client extends Personne implements Serializable {
     public String getAnimal() {
         return animal;
     }
-
+    
     public void setAnimal(String animal) {
         this.animal = animal;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Client)) {
+            return false;
+        }
+        Client other = (Client) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "fr.insalyon.dasi.positif.metier.modele.Client[ id=" + id + " ]";
+    }
 }

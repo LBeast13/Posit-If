@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 
 /**
- *
- * @author Liam
+ * Classe représentant une Conversation.
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
 public class Conversation implements Serializable {

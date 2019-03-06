@@ -7,6 +7,9 @@
     <class>fr.insalyon.dasi.positif.metier.modele.Employe</class>
     <class>fr.insalyon.dasi.positif.metier.modele.Medium</class>
     <class>fr.insalyon.dasi.positif.metier.modele.Conversation</class>
+    <class>fr.insalyon.dasi.positif.metier.modele.Voyant</class>
+    <class>fr.insalyon.dasi.positif.metier.modele.Tarologue</class>
+    <class>fr.insalyon.dasi.positif.metier.modele.Astrologue</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/positif"/>
       <property name="javax.persistence.jdbc.user" value="B3XX"/>
