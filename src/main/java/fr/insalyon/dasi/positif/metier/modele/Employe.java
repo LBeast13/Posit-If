@@ -6,6 +6,7 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,13 +17,28 @@ import javax.persistence.Id;
  * @author Liam
  */
 @Entity
-public class Employe implements Serializable {
+@DiscriminatorValue("E")
+public class Employe extends Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    /**
+     * La disponibilité de l'employé.
+     */
+    private boolean dispo;
 
+    public Employe(){
+        super();
+    }
+    
+    public Employe(boolean dispo, String nom, String prenom, String motDePasse, String email, String numeroTel) {
+        super(nom, prenom, motDePasse, email, numeroTel);
+        this.dispo = dispo;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -7,6 +7,7 @@ package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,8 @@ import javax.persistence.Temporal;
  * @author Liam
  */
 @Entity
-public class Client implements Serializable {
+@DiscriminatorValue("C")
+public class Client extends Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,11 +37,6 @@ public class Client implements Serializable {
      * L'adresse du client.
      */
     private String adresse;
-    
-    /**
-     * L'adresse du email.
-     */
-    private String email;
     
     /**
      * Le numéro de téléphone du client.
@@ -64,10 +61,15 @@ public class Client implements Serializable {
     /**
      * Constructeur par défaut.
      */
-    public Client(){ }
+    public Client(){
+        super();
+    }
     
     /**
      * Constructeur
+     * @param nom Le nom du Client
+     * @param prenom Le prénom du Client
+     * @param motDePasse Le mot de passe du Client
      * @param dateNaissance La date de naissance du Client
      * @param adresse L'adresse du Client
      * @param email L'adresse mail du Client;
@@ -76,10 +78,10 @@ public class Client implements Serializable {
      * @param couleur La couleur porte bonheur du Client
      * @param animal L'animal totem du Client
      */
-    public Client(Date dateNaissance, String adresse, String email, String numeroTel, String signeChinois, String couleur, String animal) {
+    public Client(String nom, String prenom, String motDePasse, String email, String numeroTel,Date dateNaissance, String adresse, String signeChinois, String couleur, String animal) {
+        super(nom, prenom, motDePasse, email, numeroTel);
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
-        this.email = email;
         this.numeroTel = numeroTel;
         this.signeChinois = signeChinois;
         this.couleur = couleur;

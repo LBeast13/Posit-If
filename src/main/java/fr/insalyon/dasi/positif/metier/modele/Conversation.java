@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,11 +28,13 @@ public class Conversation implements Serializable {
     /**
      * Date de début de la conversation
      */
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date debut;
     
     /**
      * Date de fin de la conversation
      */
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fin;
     
     /**
@@ -39,6 +42,16 @@ public class Conversation implements Serializable {
      */
     private String commentaire;
 
+    public Conversation(){
+        
+    }
+    
+    public Conversation(Date debut, Date fin, String commentaire) {
+        this.debut = debut;
+        this.fin = fin;
+        this.commentaire = commentaire;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

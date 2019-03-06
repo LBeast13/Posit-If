@@ -1,16 +1,21 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  *
  * @author Liam
  */
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="person_type")  // Spécifie s'il s'agit d'un client ou d'un employé
 public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +25,8 @@ public class Personne implements Serializable {
     private String nom;
     private String prenom;
     private String motDePasse;
+    private String email;
+    private String numeroTel;
     
     /**
      * Constructeur par défaut
@@ -31,13 +38,18 @@ public class Personne implements Serializable {
      * @param nom Le nom de la personne
      * @param prenom Le prénom de la personne
      * @param motDePasse Le mot de passe de la personne
+     * @param email L'email de la personne
+     * @param numeroTel Le numéro de téléphone de la personne
      */
-    public Personne(String nom, String prenom, String motDePasse) {
+    public Personne(String nom, String prenom, String motDePasse, String email, String numeroTel) {
         this.nom = nom;
         this.prenom = prenom;
         this.motDePasse = motDePasse;
+        this.email = email;
+        this.numeroTel = numeroTel;
     }
-
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

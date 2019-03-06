@@ -7,6 +7,7 @@ package fr.insalyon.dasi.positif.metier.service;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
+import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,6 +45,26 @@ public class Service {
         tx.commit();
     }
     
+    public void ajouterPersonne(Personne p){
+        tx.begin();
+        em.persist(p);
+        tx.commit();
+    }
+    
+    public void ajouterClient(Client c){
+        tx.begin();
+        em.persist(c);
+        tx.commit();
+    }
+    
+    public void ajouterEmploye(Employe e){
+        tx.begin();
+        em.persist(e);
+        tx.commit();
+    }
+    
+    
+    
     /**
      * Recherche le client dans la base de donnée à l'aide de son
      * adresse email et son mot de passe.
@@ -74,11 +95,5 @@ public class Service {
         Query query = em.createQuery(jpql);
         
         return (List<Medium>) query.getResultList();
-    }
-    
-    public void ajouterClient(Client c){
-        tx.begin();
-        em.persist(c);
-        tx.commit();
     }
 }
