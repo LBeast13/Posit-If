@@ -6,6 +6,8 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import static java.util.Collections.list;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Classe représentant un employé.
- * Super classe : Personne.
+ * Classe représentant un employé. Super classe : Personne.
+ *
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
@@ -25,7 +27,7 @@ public class Employe extends Personne implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+    private List<Medium> mediums;
     /**
      * La disponibilité de l'employé.
      */
@@ -34,12 +36,13 @@ public class Employe extends Personne implements Serializable {
     /**
      * Constructeur par défaut
      */
-    public Employe(){
+    public Employe() {
         super();
     }
-    
+
     /**
      * Constructeur
+     *
      * @param dispo Disponibilité de l'employé
      * @param nom Nom de l'employé
      * @param prenom Prénom de l'employé
@@ -51,8 +54,10 @@ public class Employe extends Personne implements Serializable {
         super(nom, prenom, motDePasse, email, numeroTel);
         this.dispo = dispo;
     }
-    
-/****** GETTERS ET SETTERS ***********/
+
+    /**
+     * **** GETTERS ET SETTERS **********
+     */
     public Long getId() {
         return id;
     }
@@ -65,10 +70,21 @@ public class Employe extends Personne implements Serializable {
         return dispo;
     }
 
+    public List<Medium> getMedium() {
+        return mediums;
+    }
+
+    /**
+     * @param mediums que l'employé peut interpréter.
+     */
+    public void setMediums(List<Medium> mediums) {
+        this.mediums = mediums;
+    }
+
     public void setDispo(boolean dispo) {
         this.dispo = dispo;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
