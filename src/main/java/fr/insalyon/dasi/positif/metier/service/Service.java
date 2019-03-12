@@ -7,6 +7,9 @@ import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -14,6 +17,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -32,7 +36,16 @@ public class Service {
         em = emf.createEntityManager();
         tx = em.getTransaction();
     }
-
+    public static void Initialisation ()
+    {
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        JpaUtil.annulerTransaction();
+        JpaUtil.destroy();
+        JpaUtil.fermerEntityManager();
+        JpaUtil.init();
+        JpaUtil.validerTransaction();
+    }
     /**
      * Permet d'ajouter un nouveau Client dans la base de donnée
      *
@@ -40,13 +53,40 @@ public class Service {
      */
     public boolean sInscrire (Client client){
         
-//        client.setNom();
-  //      client.setPrenom();
-   //     client.setNumeroTel();
-    //    client.setEmail();
-      //  client.setDateNaissance();
-        //client.setAdresse();
-        //client.setMotDePasse();
+        Scanner sc = new Scanner (System.in);
+        
+        System.out.println("Nom");
+        String str = sc.nextLine();
+        client.setNom(str);
+        
+        System.out.println("Prenom");
+        str = sc.nextLine();
+        client.setPrenom(str);
+        
+        System.out.println("Numero de Telephone");
+        str = sc.nextLine();
+        client.setNumeroTel(str);
+        
+        System.out.println("Email");
+        str = sc.nextLine();
+        client.setEmail(str);
+        
+        System.out.println("Date de Naissance au format dd/MM/yyyy");
+        str = sc.nextLine();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("dd/MM/yyyy");
+        try {
+        client.setDateNaissance(simpleDateFormat.parse(str));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println("Adresse");
+        str = sc.nextLine();
+        client.setAdresse(str);
+        
+        System.out.println("MotDePasse");
+        str = sc.nextLine();
+        client.setMotDePasse(str);
         return false; 
     }
         
