@@ -36,8 +36,7 @@ public class Astrologue extends Medium implements Serializable {
     /**
      * La promotion de l'astrologue.
      */
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date promotion;
+    private String promotion;
 
     /**
      * Constructeur par défaut
@@ -49,14 +48,32 @@ public class Astrologue extends Medium implements Serializable {
      * Constructeur
      * @param nom Le nom de l'astrologue
      * @param descriptif Le descriptif de l'astrologue
+     * @param formation La formation de l'astrologue
      * @param promotion La date de promotion de l'astrologue
      */
-    public Astrologue(String nom, String descriptif, Date promotion) {
+    public Astrologue(String nom, String descriptif, String formation, String promotion) {
         super(nom, descriptif);
+        this.formation = formation;
         this.promotion = promotion;
     }
-    
+
 /*********** GETTERS ET SETTERS *************/
+    public String getFormation() {    
+        return formation;
+    }
+
+    public void setFormation(String formation) {
+        this.formation = formation;
+    }
+
+    public String getPromotion() {
+        return promotion;
+    }
+    
+    public void setPromotion(String promotion) {
+        this.promotion = promotion;
+    }
+
     @Override
     public Long getId() {
         return id;

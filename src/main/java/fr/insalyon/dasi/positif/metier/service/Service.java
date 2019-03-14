@@ -1,12 +1,18 @@
 package fr.insalyon.dasi.positif.metier.service;
 
+import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.dao.TarologueDAO;
+import fr.insalyon.dasi.positif.dao.VoyantDAO;
+import fr.insalyon.dasi.positif.metier.modele.Astrologue;
 import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
+import fr.insalyon.dasi.positif.metier.modele.Tarologue;
+import fr.insalyon.dasi.positif.metier.modele.Voyant;
 import fr.insalyon.dasi.positif.util.Message;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -15,7 +21,6 @@ import java.text.SimpleDateFormat;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Scanner;
@@ -38,16 +43,7 @@ public class Service {
         em = emf.createEntityManager();
         tx = em.getTransaction();*/
     }
-    public static void Initialisation ()
-    {
-        JpaUtil.creerEntityManager();
-        JpaUtil.ouvrirTransaction();
-        JpaUtil.annulerTransaction();
-        JpaUtil.destroy();
-        JpaUtil.fermerEntityManager();
-        JpaUtil.init();
-        JpaUtil.validerTransaction();
-    }
+    
     /**
      * Permet l'inscription d'un nouveau Client (Ajout dans la base)
      *
@@ -208,5 +204,42 @@ public class Service {
         mailWriter.println("    L'équipe POSIT'IF");
         
         Message.envoyerMail("contact@posit.if", c.getEmail(), "Bienvenue chez POSIT'IF", corps.toString());
+    }
+    
+    /**
+     * Initialisation en "dur" de la liste des mediums et des employés dans 
+     * la base de données.
+     */
+    public static void initialisation()
+    {
+        JpaUtil.creerEntityManager();
+        
+        // Employés
+        Employe e1 = new Employe(true,"Bette","Liam","toto123","liam.bette@posit.if","0600000001");
+        Employe e2 = new Employe(false,"Bosio","Alexis","123456","alexis.bosio@posit.if","0600000002");
+        Employe e3 = new Employe(true,"Remy","Thibault","blabli123","thibault.remy@posit.if","0600000003");
+         
+        // Mediums
+        Voyant m1 = new Voyant("Boule de Cristal", "Gwenaël", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.");
+        Voyant m2 = new Voyant("Marc de Café", "Professeur Maxwell", "Votre avenir est devant vous : regardons le ensemble !");
+        Tarologue m3 = new Tarologue("Mme Irma", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
+        Tarologue m4 = new Tarologue("Endora", "Mes cartes répondront à toutes vos questions personnelles.");
+        Astrologue m5 = new Astrologue("Serena", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.","École Normale Supérieur d'Astrologie (ENS-Astro)","2006");
+        Astrologue m6 = new Astrologue("Mr M. Histaire-Hyeux", "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter !","Institut des Nouveaux Savoirs Astrologiques","2010");
+
+        JpaUtil.ouvrirTransaction();
+        EmployeDAO.creer(e1);
+        EmployeDAO.creer(e2);
+        EmployeDAO.creer(e3);
+        
+        VoyantDAO.creer(m1);
+        VoyantDAO.creer(m2);
+        TarologueDAO.creer(m3);
+        TarologueDAO.creer(m4);
+        AstrologueDAO.creer(m5);
+        AstrologueDAO.creer(m6);
+        JpaUtil.validerTransaction();
+        
+        
     }
 }

@@ -33,6 +33,11 @@ public class EmployeDAO extends PersonneDAO {
         EntityManager em = JpaUtil.obtenirEntityManager();
         return em.createQuery("SELECT e FROM Employe e").getResultList();
     }
+    
+    public static void creer(Employe e) {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        em.persist(e);
+    }
 
     public static Employe obtenirEmployePourVoyance(Medium medium) {
         EntityManager em = JpaUtil.obtenirEntityManager();
