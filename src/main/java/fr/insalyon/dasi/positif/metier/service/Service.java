@@ -7,15 +7,16 @@ import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
+import fr.insalyon.dasi.positif.util.Message;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,9 +33,10 @@ public class Service {
     EntityTransaction tx;
 
     public Service() {
-        emf = Persistence.createEntityManagerFactory(jpaU.PERSISTENCE_UNIT_NAME);
+        JpaUtil.creerEntityManager();
+        /*emf = Persistence.createEntityManagerFactory(jpaU.PERSISTENCE_UNIT_NAME);
         em = emf.createEntityManager();
-        tx = em.getTransaction();
+        tx = em.getTransaction();*/
     }
     public static void Initialisation ()
     {
@@ -47,64 +49,62 @@ public class Service {
         JpaUtil.validerTransaction();
     }
     /**
-     * Permet d'ajouter un nouveau Client dans la base de donnée
+     * Permet l'inscription d'un nouveau Client (Ajout dans la base)
      *
-     * @param c Le nouveau client à ajouter
+     * @param client Le nouveau client à ajouter
+     * @return Vrai si l'inscription à été réalisée
      */
     public boolean sInscrire (Client client){
-        
-        Scanner sc = new Scanner (System.in);
-        
-        System.out.println("Nom");
-        String str = sc.nextLine();
-        client.setNom(str);
-        
-        System.out.println("Prenom");
-        str = sc.nextLine();
-        client.setPrenom(str);
-        
-        System.out.println("Numero de Telephone");
-        str = sc.nextLine();
-        client.setNumeroTel(str);
-        
-        System.out.println("Email");
-        str = sc.nextLine();
-        client.setEmail(str);
-        
-        System.out.println("Date de Naissance au format dd/MM/yyyy");
-        str = sc.nextLine();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("dd/MM/yyyy");
-        try {
-        client.setDateNaissance(simpleDateFormat.parse(str));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println("Adresse");
-        str = sc.nextLine();
-        client.setAdresse(str);
-        
-        System.out.println("MotDePasse");
-        str = sc.nextLine();
-        client.setMotDePasse(str);
-        return false; 
-    }
-        
-    public void ajouterClient(Client c) {
-        tx.begin();
-        em.persist(c);
-        tx.commit();
-    }
+        try{
+            Scanner sc = new Scanner (System.in);
 
-    /**
-     * Permet d'ajouter un nouvel Employé dans la base de donnée
-     *
-     * @param e Le nouvel employé à ajouter
-     */
-    public void ajouterEmploye(Employe e) {
-        tx.begin();
-        em.persist(e);
-        tx.commit();
+            System.out.println("Nom");
+            String str = sc.nextLine();
+            client.setNom(str);
+
+            System.out.println("Prenom");
+            str = sc.nextLine();
+            client.setPrenom(str);
+
+            System.out.println("Numero de Telephone");
+            str = sc.nextLine();
+            client.setNumeroTel(str);
+
+            System.out.println("Email");
+            str = sc.nextLine();
+            client.setEmail(str);
+
+            System.out.println("Date de Naissance au format dd/MM/yyyy");
+            str = sc.nextLine();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("dd/MM/yyyy");
+            
+            try {
+            client.setDateNaissance(simpleDateFormat.parse(str));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Adresse");
+            str = sc.nextLine();
+            client.setAdresse(str);
+
+            System.out.println("MotDePasse");
+            str = sc.nextLine();
+            client.setMotDePasse(str);
+
+            // Transaction Persistence
+            JpaUtil.ouvrirTransaction();
+            ClientDAO.creer(client);
+            JpaUtil.validerTransaction();
+            
+            envoiMailInscription(client,0);
+            return true;
+            
+        } catch(Exception e){
+            envoiMailInscription(client,1);
+            return false;
+        }
+         
     }
 
     /**
@@ -116,14 +116,14 @@ public class Service {
      * @return Le Client à condition qu'il existe dans la base.
      */
     public static Client seConnecter(String email, String motDePasse) {
-       JpaUtil.creerEntityManager();
-      Client client = ClientDAO.obtenir(email);
-      JpaUtil.fermerEntityManager();
-      if (client != null && client.getMotDePasse().equals(motDePasse))
-          return client;
-      else 
-          return null;
-           }
+        JpaUtil.creerEntityManager();
+        Client client = ClientDAO.obtenir(email);
+        JpaUtil.fermerEntityManager();
+        if (client != null && client.getMotDePasse().equals(motDePasse))
+            return client;
+        else 
+            return null;
+    }
 /**
      * Recherche l'employé  dans la base de donnée à l'aide de son adresse email
      * et son mot de passe.
@@ -133,14 +133,16 @@ public class Service {
      * @return Le Employé à condition qu'il existe dans la base.
      */
     public static Employe seConnecter(Long ID, String motDePasse) {
-       JpaUtil.creerEntityManager();
-      Employe employe = EmployeDAO.obtenir(ID);
-      JpaUtil.fermerEntityManager();
-      if (employe != null && employe.getMotDePasse().equals(motDePasse))
-          return employe;
-      else 
-          return null;
-           }
+        JpaUtil.creerEntityManager();
+        Employe employe = EmployeDAO.obtenir(ID);
+        JpaUtil.fermerEntityManager();
+        if (employe != null && employe.getMotDePasse().equals(motDePasse)) {
+            return employe;
+        } else {
+            return null;
+        }
+    }
+    
     /**
      * Récupère la liste de tous les Mediums de la base de donnée.
      *
@@ -175,4 +177,36 @@ public class Service {
 
     }
 
+    /**
+     * Simule l'envoi d'un mail de confirmation ou d'erreur dans la console 
+     * suite à l'inscription d'un nouveau client.
+     * 
+     * @param c le nouveau client
+     * @param statut pour différencier le message de confirmation (0) et d'erreur(1)
+     */
+    public void envoiMailInscription(Client c, int statut){
+        StringWriter corps = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(corps);
+        
+        mailWriter.println("Bonjour " + c.getPrenom() +",");
+        mailWriter.println();
+        
+        switch(statut){
+            case 0: // Inscription confirmée
+                mailWriter.println("  Nous vous confirmons votre inscription au service POSIT'IF.");
+                mailWriter.println("  Votre numéro de client est : 4578.");
+                break;
+                
+            case 1: // Erreur d'inscription
+                mailWriter.println("  Votre inscription au service POSIT'IF a malencontreusement échoué...");
+                mailWriter.println("  Merci de recommencer ultérieurement.");
+                break;
+        }
+        mailWriter.println();
+        mailWriter.println("  Cordialement,");
+        mailWriter.println();
+        mailWriter.println("    L'équipe POSIT'IF");
+        
+        Message.envoyerMail("contact@posit.if", c.getEmail(), "Bienvenue chez POSIT'IF", corps.toString());
+    }
 }

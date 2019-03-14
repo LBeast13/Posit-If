@@ -42,13 +42,55 @@ public class Conversation implements Serializable {
      */
     private String commentaire;
 
+    /**
+     * Constructeur par défaut
+     */
     public Conversation(){
         
     }
     
+    /**
+     * Constructeur
+     * @param debut Date de début de la conversation
+     * @param fin Date de fin de la conversation
+     * @param commentaire Commentaire suite à la conversation
+     */
     public Conversation(Date debut, Date fin, String commentaire) {
         this.debut = debut;
         this.fin = fin;
+        this.commentaire = commentaire;
+    }
+    
+//******** GETTERS ET SETTERS *************
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
     }
     
@@ -76,14 +118,4 @@ public class Conversation implements Serializable {
     public String toString() {
         return "fr.insalyon.dasi.positif.metier.modele.Conversation[ id=" + id + " ]";
     }
-    
-//******** GETTERS ET SETTERS *************
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
 }

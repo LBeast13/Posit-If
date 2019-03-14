@@ -25,19 +25,10 @@ public class Test {
         System.out.println("#" + p.getId() + " " + p.getNom() + " " + p.getPrenom() + " (" + p.getMotDePasse() + ")");
     }
     
-    public static void testerCreerEmployes(){
-        Employe e1 = new Employe(true,"Mentor","Gerard","password1","email1@gmail.com","0624578675");
-        Employe e2 = new Employe(false,"Terieur","Alain","password2","email2@gmail.com","0624578675");
-        Employe e3 = new Employe(true,"Terieur","Alex","password3","email3@gmail.com","0624578675");
-
-        Service service = new Service();
-        
-        service.ajouterEmploye(e1);
-        service.ajouterEmploye(e2);
-        service.ajouterEmploye(e3);
-    }
-    
-    public static void testerCreerClients(){
+    /**
+     * Fonction de Test d'inscription
+     */
+    public static void testerInscription(){
         Calendar calendar1 = new GregorianCalendar(1996,1,30);
         Date dateNais1 =  calendar1.getTime();
         
@@ -53,9 +44,20 @@ public class Test {
 
         Service service = new Service();
         
-        service.ajouterClient(e1);
-        service.ajouterClient(e2);
-        service.ajouterClient(e3);
+        Client e = new Client();
+        service.sInscrire(e);
+ 
+    }
+    public static void testerCreerEmployes(){
+        Employe e1 = new Employe(true,"Mentor","Gerard","password1","email1@gmail.com","0624578675");
+        Employe e2 = new Employe(false,"Terieur","Alain","password2","email2@gmail.com","0624578675");
+        Employe e3 = new Employe(true,"Terieur","Alex","password3","email3@gmail.com","0624578675");
+
+        Service service = new Service();
+        
+        service.ajouterEmploye(e1);
+        service.ajouterEmploye(e2);
+        service.ajouterEmploye(e3);
     }
     
     /**
@@ -69,7 +71,8 @@ public class Test {
 
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
-        testerCreerEmployes();
+        
+        testerInscription();
        
         // Libération du JpaUtil
         JpaUtil.destroy();
