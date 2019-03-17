@@ -6,6 +6,8 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 
 /**
  * Classe représentant un Medium.
@@ -27,6 +30,9 @@ public class Medium implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToMany
+    private List<Employe> employes = new ArrayList<Employe>();
     
     /**
      * Le nom du medium
@@ -77,7 +83,15 @@ public class Medium implements Serializable {
 
     public void setDescriptif(String descriptif) {
         this.descriptif = descriptif;
-    }   
+    }  
+
+    public List<Employe> getEmployes() {
+        return employes;
+    }
+
+    public void setEmployes(List<Employe> employes) {
+        this.employes = employes;
+    }
 
     @Override
     public int hashCode() {

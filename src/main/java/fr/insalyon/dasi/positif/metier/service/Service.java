@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -38,10 +39,7 @@ public class Service {
     EntityTransaction tx;
 
     public Service() {
-        JpaUtil.creerEntityManager();
-        /*emf = Persistence.createEntityManagerFactory(jpaU.PERSISTENCE_UNIT_NAME);
-        em = emf.createEntityManager();
-        tx = em.getTransaction();*/
+        
     }
     
     /**
@@ -51,6 +49,7 @@ public class Service {
      * @return Vrai si l'inscription à été réalisée
      */
     public boolean sInscrire (Client client){
+        JpaUtil.creerEntityManager();
         try{
             Scanner sc = new Scanner (System.in);
 
@@ -94,10 +93,12 @@ public class Service {
             JpaUtil.validerTransaction();
             
             envoiMailInscription(client,0);
+            JpaUtil.fermerEntityManager();
             return true;
             
         } catch(Exception e){
             envoiMailInscription(client,1);
+            JpaUtil.fermerEntityManager();
             return false;
         }
          
@@ -115,10 +116,14 @@ public class Service {
         JpaUtil.creerEntityManager();
         Client client = ClientDAO.obtenir(email);
         JpaUtil.fermerEntityManager();
-        if (client != null && client.getMotDePasse().equals(motDePasse))
+        if (client != null && client.getMotDePasse().equals(motDePasse)){
+            System.out.println("Vous êtes connecté !");
             return client;
-        else 
+        }
+        else {
+            System.out.println("Votre email ou votre mot de passe est incorrect !");
             return null;
+        }
     }
 /**
      * Recherche l'employé  dans la base de donnée à l'aide de son adresse email
@@ -213,12 +218,12 @@ public class Service {
     public static void initialisation()
     {
         JpaUtil.creerEntityManager();
-        
-        // Employés
+
+        // Employés Init
         Employe e1 = new Employe(true,"Bette","Liam","toto123","liam.bette@posit.if","0600000001");
         Employe e2 = new Employe(false,"Bosio","Alexis","123456","alexis.bosio@posit.if","0600000002");
         Employe e3 = new Employe(true,"Remy","Thibault","blabli123","thibault.remy@posit.if","0600000003");
-         
+        
         // Mediums
         Voyant m1 = new Voyant("Boule de Cristal", "Gwenaël", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.");
         Voyant m2 = new Voyant("Marc de Café", "Professeur Maxwell", "Votre avenir est devant vous : regardons le ensemble !");
@@ -227,6 +232,51 @@ public class Service {
         Astrologue m5 = new Astrologue("Serena", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.","École Normale Supérieur d'Astrologie (ENS-Astro)","2006");
         Astrologue m6 = new Astrologue("Mr M. Histaire-Hyeux", "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter !","Institut des Nouveaux Savoirs Astrologiques","2010");
 
+        // Preparation des listes de mediums et d'employés
+        List listeEmp1 = new ArrayList();
+        listeEmp1.add(e1);
+        listeEmp1.add(e3);
+        
+        List listeEmp2 = new ArrayList();
+        listeEmp2.add(e2);
+        listeEmp2.add(e3);
+        
+        List listeEmp3 = new ArrayList();
+        listeEmp3.add(e1);
+        listeEmp3.add(e2);
+        
+        List listeEmp4 = new ArrayList();
+        listeEmp3.add(e3);
+        
+        List listeMed1 = new ArrayList();
+        listeMed1.add(m1);
+        listeMed1.add(m3);
+        listeMed1.add(m6);
+        
+        List listeMed2 = new ArrayList();
+        listeMed2.add(m2);
+        listeMed2.add(m3);
+        listeMed2.add(m5);
+        
+        List listeMed3 = new ArrayList();
+        listeMed3.add(m1);
+        listeMed3.add(m2);
+        listeMed3.add(m4);
+        listeMed3.add(m5);
+        listeMed3.add(m6);
+        
+        // Ajout des listes
+        m1.setEmployes(listeEmp1);
+        m2.setEmployes(listeEmp2);
+        m3.setEmployes(listeEmp3);
+        m4.setEmployes(listeEmp4);
+        m5.setEmployes(listeEmp2);
+        m6.setEmployes(listeEmp1);
+        
+        e1.setMediums(listeMed1);
+        e2.setMediums(listeMed2);
+        e3.setMediums(listeMed3);
+        
         JpaUtil.ouvrirTransaction();
         EmployeDAO.creer(e1);
         EmployeDAO.creer(e2);
@@ -239,7 +289,5 @@ public class Service {
         AstrologueDAO.creer(m5);
         AstrologueDAO.creer(m6);
         JpaUtil.validerTransaction();
-        
-        
     }
 }

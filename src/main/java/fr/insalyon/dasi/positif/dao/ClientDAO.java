@@ -1,14 +1,9 @@
 package fr.insalyon.dasi.positif.dao;
 
 import fr.insalyon.dasi.positif.metier.modele.Client;
-import fr.insalyon.dasi.positif.util.Message;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import static javax.swing.text.html.HTML.Tag.SELECT;
 
 /**
  *
@@ -33,7 +28,9 @@ public class ClientDAO extends PersonneDAO {
     public static Client obtenir(String email) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         try {
-            Query q = em.createQuery("SELECT c FROM Client c WHERE c.email = :email");
+            Query q = em.createQuery("SELECT c "
+                                   + "FROM Client c "
+                                   + "WHERE c.email = :email");
             q.setParameter("email", email);
             return (Client) q.getSingleResult();
         } catch (Exception e) {

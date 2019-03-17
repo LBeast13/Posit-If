@@ -6,6 +6,7 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,7 @@ public class Tarologue extends Medium implements Serializable {
      * Constructeur
      * @param nom Le nom du Tarologue
      * @param descriptif Le descriptif du Tarologue
+     * @param listEmp La liste des employés qui peuvent incarner ce personnage
      */
     public Tarologue(String nom, String descriptif) {
         super(nom, descriptif);

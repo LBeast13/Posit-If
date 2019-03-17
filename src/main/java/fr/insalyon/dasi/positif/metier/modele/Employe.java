@@ -6,13 +6,14 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
-import static java.util.Collections.list;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * Classe représentant un employé. Super classe : Personne.
@@ -27,7 +28,10 @@ public class Employe extends Personne implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private List<Medium> mediums;
+    
+    @ManyToMany
+    private List<Medium> mediums = new ArrayList<Medium>();
+    
     /**
      * La disponibilité de l'employé.
      */
@@ -84,6 +88,7 @@ public class Employe extends Personne implements Serializable {
     public void setDispo(boolean dispo) {
         this.dispo = dispo;
     }
+    
 
     @Override
     public int hashCode() {
