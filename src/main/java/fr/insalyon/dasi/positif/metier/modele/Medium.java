@@ -115,6 +115,6 @@ public class Medium implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Medium[ id=" + id + " ]";
+        return "Nom : " + this.nom;
     }
 }

@@ -91,9 +91,5 @@ public class Voyant extends Medium implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Voyant[ id=" + id + " ]";
-    }
     
 }

@@ -16,6 +16,10 @@ import javax.persistence.EntityManager;
  */
 public class MediumDAO {
 
+    /**
+     * Récupère la liste de tous les Mediums dans la base de données
+     * @return La liste des Mediums
+     */
     public static List<Medium> obtenirTous() {
         EntityManager em = JpaUtil.obtenirEntityManager();
         return em.createQuery("SELECT m FROM Medium m").getResultList();

@@ -75,10 +75,5 @@ public class Tarologue extends Medium implements Serializable {
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Tarologue[ id=" + id + " ]";
-    }
     
 }

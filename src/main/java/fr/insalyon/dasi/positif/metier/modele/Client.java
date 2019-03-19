@@ -5,10 +5,17 @@
  */
 package fr.insalyon.dasi.positif.metier.modele;
 
+import fr.insalyon.dasi.positif.util.AstroTest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+<<<<<<< HEAD
+=======
+import java.util.logging.Level;
+import java.util.logging.Logger;
+>>>>>>> cf30a3d31bee0eab0a9b7752a1336032e02174af
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,6 +59,11 @@ public class Client extends Personne implements Serializable {
     private String signeChinois;
     
     /**
+     * Le signe du zodiaque du client.
+     */
+    private String signeZodiaque;
+    
+    /**
      * La couleur porte bonheur du client.
      */
     private String couleur;
@@ -72,28 +84,38 @@ public class Client extends Personne implements Serializable {
     /**
      * Constructeur
      * @param nom Le nom du Client
-     * @param prenom Le prénom du Client
+     * @param prenom Le prÃ©nom du Client
      * @param motDePasse Le mot de passe du Client
      * @param dateNaissance La date de naissance du Client
      * @param adresse L'adresse du Client
      * @param email L'adresse mail du Client;
-     * @param numeroTel Le numéro de téléphone du Client
-     * @param signeChinois Le signe Chinois du Client
-     * @param couleur La couleur porte bonheur du Client
-     * @param animal L'animal totem du Client
+     * @param numeroTel Le numÃ©ro de tÃ©lÃ©phone du Client
      */
     public Client(String nom, String prenom, String motDePasse, 
             String email, String numeroTel, Date dateNaissance, 
-            String adresse, String signeChinois,String couleur, 
-            String animal) {
+            String adresse) {
         super(nom, prenom, motDePasse, email, numeroTel);
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
         this.numeroTel = numeroTel;
+<<<<<<< HEAD
         this.signeChinois = signeChinois;
         this.couleur = couleur;
         this.animal = animal;
         this.conversations = new ArrayList<> (); 
+=======
+        
+        AstroTest astroApi = new AstroTest();
+        try {
+            List<String> profil = astroApi.getProfil(prenom, this.dateNaissance);
+            this.signeZodiaque = profil.get(0);
+            this.signeChinois = profil.get(1);
+            this.couleur = profil.get(2);
+            this.animal = profil.get(3);
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+>>>>>>> cf30a3d31bee0eab0a9b7752a1336032e02174af
     }
 
 
@@ -151,6 +173,15 @@ public class Client extends Personne implements Serializable {
     public void setAnimal(String animal) {
         this.animal = animal;
     }
+
+    public String getSigneZodiaque() {
+        return signeZodiaque;
+    }
+
+    public void setSigneZodiaque(String signeZodiaque) {
+        this.signeZodiaque = signeZodiaque;
+    }
+    
 
     @Override
     public int hashCode() {

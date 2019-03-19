@@ -19,15 +19,11 @@ import fr.insalyon.dasi.positif.metier.modele.Voyant;
 import fr.insalyon.dasi.positif.util.Message;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  *
@@ -92,7 +88,6 @@ public class Service {
             return null;
         }
     }
-
     
     /**
      * Récupère la liste de tous les Mediums de la base de donnée.
@@ -100,7 +95,7 @@ public class Service {
      * @return La liste des Mediums
      */
     public static List<Medium> obtenirTousMediums() {
-         JpaUtil.creerEntityManager();
+      JpaUtil.creerEntityManager();
       List<Medium> listesMediums = MediumDAO.obtenirTous();
       JpaUtil.fermerEntityManager();
       return listesMediums;
