@@ -51,12 +51,7 @@ public class Test {
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
 
-    public static void obtenirTousLesMediums(){
-
-            
-  
-        System.out.println("service Obtenir medium="+ Service.obtenirTousMediums());
-
+   
     /**
      * Méthode test pour afficher tous les médiums de la base de données.
      */
@@ -67,9 +62,8 @@ public class Test {
            System.out.println("-" + listeMed.get(i).toString());
         }
         
->>>>>>> cf30a3d31bee0eab0a9b7752a1336032e02174af
-
     }
+    
      public static void obtenirTousLesClients(){
         
     }
