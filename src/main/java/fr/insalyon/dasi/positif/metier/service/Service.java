@@ -4,6 +4,7 @@ import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.dao.PersonneDAO;
 import fr.insalyon.dasi.positif.dao.TarologueDAO;
 import fr.insalyon.dasi.positif.dao.VoyantDAO;
 import fr.insalyon.dasi.positif.metier.modele.Astrologue;
@@ -11,6 +12,7 @@ import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
+import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.modele.Tarologue;
 import fr.insalyon.dasi.positif.metier.modele.Voyant;
 import fr.insalyon.dasi.positif.util.Message;
@@ -51,42 +53,6 @@ public class Service {
     public boolean sInscrire (Client client){
         JpaUtil.creerEntityManager();
         try{
-            Scanner sc = new Scanner (System.in);
-
-            System.out.println("Nom");
-            String str = sc.nextLine();
-            client.setNom(str);
-
-            System.out.println("Prenom");
-            str = sc.nextLine();
-            client.setPrenom(str);
-
-            System.out.println("Numero de Telephone");
-            str = sc.nextLine();
-            client.setNumeroTel(str);
-
-            System.out.println("Email");
-            str = sc.nextLine();
-            client.setEmail(str);
-
-            System.out.println("Date de Naissance au format dd/MM/yyyy");
-            str = sc.nextLine();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("dd/MM/yyyy");
-            
-            try {
-            client.setDateNaissance(simpleDateFormat.parse(str));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("Adresse");
-            str = sc.nextLine();
-            client.setAdresse(str);
-
-            System.out.println("MotDePasse");
-            str = sc.nextLine();
-            client.setMotDePasse(str);
-
             // Transaction Persistence
             JpaUtil.ouvrirTransaction();
             ClientDAO.creer(client);
@@ -105,51 +71,34 @@ public class Service {
     }
 
     /**
-     * Recherche le client dans la base de donnée à l'aide de son adresse email
+     * Recherche la personne  dans la base de donnée à l'aide de son adresse email
      * et son mot de passe.
      *
-     * @param email L'adresse email du client
-     * @param motDePasse Le mot de passe du client
-     * @return Le Client à condition qu'il existe dans la base.
+     * @param email L'adresse email de la personne 
+     * @param motDePasse Le mot de passe de la personne
+     * @return La Personne à condition qu'il existe dans la base.
      */
-    public static Client seConnecter(String email, String motDePasse) {
+    public static Personne seConnecter(String email, String motDePasse) {
         JpaUtil.creerEntityManager();
-        Client client = ClientDAO.obtenir(email);
+        Personne personne = PersonneDAO.obtenir(email);
         JpaUtil.fermerEntityManager();
-        if (client != null && client.getMotDePasse().equals(motDePasse)){
+        if (personne != null && personne.getMotDePasse().equals(motDePasse)){
             System.out.println("Vous êtes connecté !");
-            return client;
+            return personne;
         }
         else {
             System.out.println("Votre email ou votre mot de passe est incorrect !");
             return null;
         }
     }
-/**
-     * Recherche l'employé  dans la base de donnée à l'aide de son adresse email
-     * et son mot de passe.
-     *
-     * @param email L'adresse email de l'employé
-     * @param motDePasse Le mot de passe de l'employé
-     * @return Le Employé à condition qu'il existe dans la base.
-     */
-    public static Employe seConnecter(Long ID, String motDePasse) {
-        JpaUtil.creerEntityManager();
-        Employe employe = EmployeDAO.obtenir(ID);
-        JpaUtil.fermerEntityManager();
-        if (employe != null && employe.getMotDePasse().equals(motDePasse)) {
-            return employe;
-        } else {
-            return null;
-        }
-    }
+
     
     /**
      * Récupère la liste de tous les Mediums de la base de donnée.
      *
      * @return La liste des Mediums
      */
-    public List<Medium> obtenirTousMediums() {
+    public  List<Medium> obtenirTousMediums() {
         String jpql = "select m "
                 + "from Medium m ";
 

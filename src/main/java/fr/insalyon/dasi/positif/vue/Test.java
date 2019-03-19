@@ -24,11 +24,15 @@ public class Test {
         
         Client e = new Client();
         service.sInscrire(e);
+
  
-        /*Calendar calendar1 = new GregorianCalendar(1996,1,30);
+        Calendar calendar1 = new GregorianCalendar(1996,1,30);
         Date dateNais1 =  calendar1.getTime();
         Client e1 = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",dateNais1,"Chine","Tigre","Bleu","Hiboux");
-        */
+         Client e2 = new Client("Chirac","Jacques","password1","elysee@gmail.com","0610203040",dateNais1,"France","Lyon","Bleu","Hiboux");
+         
+                 service.sInscrire(e1);
+        service.sInscrire(e2);
     }
     
     /**
@@ -36,13 +40,21 @@ public class Test {
      */
     public static void testerConnexionClient(){
         // Client inexistant
-        Client e = Service.seConnecter("blabla", "blabla");
+        Personne e = Service.seConnecter("blabla", "blabla");
         
         // Client existant mais mauvais mot de passe
-        Client e1 = Service.seConnecter("jean.dujardin@gmail.com", "blabla");
+        Personne e1 = Service.seConnecter("jean.dujardin@gmail.com", "blabla");
         
         // Client existant et bon mot de passe
-        Client e2 = Service.seConnecter("jean.dujardin@gmail.com", "jdujardin123");
+        Personne e2 = Service.seConnecter("jean.dujardin@gmail.com", "jdujardin123");
+        
+        Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
+    }
+    public static void obtenirTousLesMediums(){
+        
+    }
+     public static void obtenirTousLesClients(){
+        
     }
     
     /**
@@ -55,7 +67,8 @@ public class Test {
         JpaUtil.init();
         
         //Initialisation des employés et des médiums
-        //Service.initialisation();
+        
+       // Service.initialisation();
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test

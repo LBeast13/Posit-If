@@ -20,25 +20,8 @@ public class ClientDAO extends PersonneDAO {
         return em.createQuery("SELECT c FROM Client c").getResultList();
     }
 
-    /**
-     * Recherche un client dans la base de donnée à partir de son email
-     * @param email
-     * @return Le client recherché
-     */
-    public static Client obtenir(String email) {
-        EntityManager em = JpaUtil.obtenirEntityManager();
-        try {
-            Query q = em.createQuery("SELECT c "
-                                   + "FROM Client c "
-                                   + "WHERE c.email = :email");
-            q.setParameter("email", email);
-            return (Client) q.getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
-
+    
+   
     /**
      * Crée un nouveau client dans la base de données
      * @param c le client à créer
