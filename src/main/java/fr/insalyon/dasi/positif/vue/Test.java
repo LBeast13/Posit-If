@@ -15,16 +15,6 @@ import java.util.GregorianCalendar;
  * @author DASI Team
  */
 public class Test {
-
-    /**
-     * Afficher une personne sur la Console.
-     * @param p Entité Personne à afficher
-     */
-    public static void afficher(Personne p) {
-
-        System.out.println("#" + p.getId() + " " + p.getNom() + " " + p.getPrenom() + " (" + p.getMotDePasse() + ")");
-    }
-    
     
     /**
      * Fonction de Test d'inscription
@@ -65,7 +55,7 @@ public class Test {
         JpaUtil.init();
         
         //Initialisation des employés et des médiums
-        Service.initialisation();
+        //Service.initialisation();
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
