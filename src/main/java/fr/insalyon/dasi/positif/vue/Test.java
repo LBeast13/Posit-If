@@ -47,16 +47,17 @@ public class Test {
         // Client existant et bon mot de passe
         Personne e2 = Service.seConnecter("jean.dujardin@gmail.com", "jdujardin123");
         
+        // Employé existant
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
-    public static void obtenirTousLesMediums(){
-<<<<<<< HEAD
-            
-  
-        System.out.println("service Obtenir medium="+ Service.obtenirTousMediums());
-=======
+    public static void obtenirTousLesMediums(){ 
+        List<Medium> listeMed = Service.obtenirTousMediums();
+        System.out.println("Voici tous les mediums : \n");
+        for(int i=0; i<listeMed.size(); i++){
+           System.out.println("-" + listeMed.get(i).toString());
+        }
         
->>>>>>> 3f00220aedb9a7cfad5710c83d0fa865e5a35a35
+
     }
      public static void obtenirTousLesClients(){
         
@@ -72,8 +73,7 @@ public class Test {
         JpaUtil.init();
         
         //Initialisation des employés et des médiums
-        
-       // Service.initialisation();
+        //Service.initialisation();
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test

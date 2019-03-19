@@ -103,10 +103,5 @@ public class Astrologue extends Medium implements Serializable {
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Astrologue[ id=" + id + " ]";
-    }
     
 }
