@@ -1,6 +1,7 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Classe représentant une personne.
@@ -41,6 +43,7 @@ public class Personne implements Serializable {
     /**
      * L'adresse email de la Personne.
      */
+    @Column(unique=true)
     private String email;
     
     /**

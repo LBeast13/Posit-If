@@ -17,17 +17,7 @@ import javax.persistence.Query;
  */
 public class EmployeDAO extends PersonneDAO {
 
-   public static Employe obtenir(Long ID) {
-        EntityManager em = JpaUtil.obtenirEntityManager();
-        try {
-            Query q = em.createQuery("SELECT e FROM Employe e WHERE e.ID = :ID");
-            q.setParameter("ID", ID);
-            return (Employe) q.getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
+ 
 
     public static List<Employe> obtenirTous() {
         EntityManager em = JpaUtil.obtenirEntityManager();
