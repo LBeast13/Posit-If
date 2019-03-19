@@ -4,6 +4,7 @@ import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.dao.MediumDAO;
 import fr.insalyon.dasi.positif.dao.PersonneDAO;
 import fr.insalyon.dasi.positif.dao.TarologueDAO;
 import fr.insalyon.dasi.positif.dao.VoyantDAO;
@@ -98,13 +99,11 @@ public class Service {
      *
      * @return La liste des Mediums
      */
-    public  List<Medium> obtenirTousMediums() {
-        String jpql = "select m "
-                + "from Medium m ";
-
-        Query query = em.createQuery(jpql);
-
-        return (List<Medium>) query.getResultList();
+    public static List<Medium> obtenirTousMediums() {
+         JpaUtil.creerEntityManager();
+      List<Medium> listesMediums = MediumDAO.obtenirTous();
+      JpaUtil.fermerEntityManager();
+      return listesMediums;
     }
 
     /**
