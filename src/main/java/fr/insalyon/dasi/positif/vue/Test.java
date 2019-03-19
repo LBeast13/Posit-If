@@ -1,13 +1,16 @@
 package fr.insalyon.dasi.positif.vue;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.dao.MediumDAO;
 import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Employe;
+import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 /**
@@ -47,7 +50,13 @@ public class Test {
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
     public static void obtenirTousLesMediums(){
+<<<<<<< HEAD
+            
+  
+        System.out.println("service Obtenir medium="+ Service.obtenirTousMediums());
+=======
         
+>>>>>>> 3f00220aedb9a7cfad5710c83d0fa865e5a35a35
     }
      public static void obtenirTousLesClients(){
         
@@ -68,7 +77,7 @@ public class Test {
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
-        
+        obtenirTousLesMediums();
         //testerInscription();
         //testerConnexionClient();
        
