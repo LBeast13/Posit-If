@@ -130,11 +130,10 @@ public class Service {
         envoiNotificationEmploye(conversation);
         
         return conversation;
-
     }
 
-    /**
-     * 
+    /** A REVOIR
+     * Accepte la voyance et envoi une notification au client
      * @param conversation 
      */
     public void AccepterVoyance(Conversation conversation) {
@@ -142,22 +141,40 @@ public class Service {
         envoiNotificationClient(conversation);
     }
 
+    /**
+     * Met fin à la voyance (date de fin) et rend disponible l'employé
+     * @param conversation 
+     */
     public static void TerminerVoyance(Conversation conversation) {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
+        
+        // MAJ de la date de fin de la conversation
         conversation.setFin();
+        
+        // MAJ de la disponibilité de l'employé
         Employe employe = conversation.getEmploye();
         employe.setDisponible(true);
+        
         ConversationDAO.modifier(conversation);
+        
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }
     
+    /**
+     * Ajoute un commentaire à la voyance
+     * @param conversation La conversation à laquelle ajouter le commentaire
+     * @param commentaire Le texte du commentaire
+     */
     public static void CommenterVoyance(Conversation conversation, String commentaire) {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
+        
+        // MAJ du commentaire de la conversation
         conversation.setCommentaire(commentaire);
         ConversationDAO.modifier(conversation);
+        
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }

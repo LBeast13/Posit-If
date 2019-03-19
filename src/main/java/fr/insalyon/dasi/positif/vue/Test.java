@@ -40,10 +40,10 @@ public class Test {
         Personne e = Service.seConnecter("blabla", "blabla");
         
         // Client existant mais mauvais mot de passe
-        Personne e1 = Service.seConnecter("jean.dujardin@gmail.com", "blabla");
+        Personne e1 = Service.seConnecter("email1@gmail.com", "blabla");
         
         // Client existant et bon mot de passe
-        Personne e2 = Service.seConnecter("jean.dujardin@gmail.com", "jdujardin123");
+        Personne e2 = Service.seConnecter("email1@gmail.com", "password1");
         
         // Employé existant
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
@@ -86,6 +86,13 @@ public class Test {
     }
     
     /**
+     * Méthode Test d'acceptation de voyance (envoi notification au client)
+     */
+    public static void testAccepterDemande(){
+        
+    }
+    
+    /**
      * Méthode main(): point d'entrée de ce programme de test.
      * @param args 
      */
@@ -99,6 +106,7 @@ public class Test {
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
+        // S'assurer que les tables sont bien remplies avant de tester !
         
         testerInscription();
         //testerConnexionClient();
