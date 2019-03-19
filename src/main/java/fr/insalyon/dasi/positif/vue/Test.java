@@ -21,17 +21,13 @@ public class Test {
      */
     public static void testerInscription(){
         Service service = new Service();
-        
-        Client e = new Client();
-        service.sInscrire(e);
-
- 
+       
         Calendar calendar1 = new GregorianCalendar(1996,1,30);
         Date dateNais1 =  calendar1.getTime();
-        Client e1 = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",dateNais1,"Chine","Tigre","Bleu","Hiboux");
-         Client e2 = new Client("Chirac","Jacques","password1","elysee@gmail.com","0610203040",dateNais1,"France","Lyon","Bleu","Hiboux");
+        Client e1 = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",dateNais1,"Chine");
+        Client e2 = new Client("Chirac","Jacques","password1","elysee@gmail.com","0610203040",dateNais1,"France");
          
-                 service.sInscrire(e1);
+        service.sInscrire(e1);
         service.sInscrire(e2);
     }
     

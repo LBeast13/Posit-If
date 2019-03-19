@@ -91,7 +91,6 @@ public class Service {
             return null;
         }
     }
-
     
     /**
      * Récupère la liste de tous les Mediums de la base de donnée.
