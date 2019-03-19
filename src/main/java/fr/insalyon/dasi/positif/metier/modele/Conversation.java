@@ -15,28 +15,30 @@ import javax.persistence.Temporal;
 
 /**
  * Classe représentant une Conversation.
+ *
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 @Entity
 public class Conversation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     /**
      * Date de début de la conversation
      */
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date debut;
-    
+
     /**
      * Date de fin de la conversation
      */
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fin;
-    
+
     /**
      * Commentaire de la conversation
      */
@@ -48,26 +50,27 @@ public class Conversation implements Serializable {
     /**
      * Constructeur par défaut
      */
-    public Conversation(){
-        
+    public Conversation() {
+
     }
-    
+
     /**
      * Constructeur
+     *
      * @param employe employe realisant conversation
      * @param medium medium joué par employe
-     * @param client Client realisant conversation 
+     * @param client Client realisant conversation
      */
-    public Conversation(Employe employe ,Medium medium, Client client) {
+    public Conversation(Employe employe, Medium medium, Client client) {
         this.employe = employe;
         this.medium = medium;
         this.client = client;
         client.getConversations();
-        employe.getConversations(); 
+        employe.getConversations();
         medium.getConversations();
-        
+
     }
-    
+
 //******** GETTERS ET SETTERS *************
     public Long getId() {
         return id;
@@ -81,16 +84,23 @@ public class Conversation implements Serializable {
         return debut;
     }
 
-    public void setDebut(Date debut) {
-        this.debut = debut;
+    /**
+     *
+     */
+    public void setDebut() {
+        this.debut = new Date();
     }
 
     public Date getFin() {
         return fin;
     }
 
-    public void setFin(Date fin) {
-        this.fin = fin;
+    public void setFin() {
+        this.fin = new Date();
+    }
+
+    public Employe getEmploye() {
+        return employe;
     }
 
     public String getCommentaire() {
@@ -100,7 +110,7 @@ public class Conversation implements Serializable {
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

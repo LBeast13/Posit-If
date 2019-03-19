@@ -2,6 +2,7 @@ package fr.insalyon.dasi.positif.metier.service;
 
 import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
+import fr.insalyon.dasi.positif.dao.ConversationDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.dao.MediumDAO;
@@ -20,6 +21,7 @@ import fr.insalyon.dasi.positif.util.Message;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -38,39 +40,39 @@ public class Service {
     EntityTransaction tx;
 
     public Service() {
-        
+
     }
-    
+
     /**
      * Permet l'inscription d'un nouveau Client (Ajout dans la base)
      *
      * @param client Le nouveau client à ajouter
      * @return Vrai si l'inscription à été réalisée
      */
-    public boolean sInscrire (Client client){
+    public boolean sInscrire(Client client) {
         JpaUtil.creerEntityManager();
-        try{
+        try {
             // Transaction Persistence
             JpaUtil.ouvrirTransaction();
             ClientDAO.creer(client);
             JpaUtil.validerTransaction();
-            
-            envoiMailInscription(client,0);
+
+            envoiMailInscription(client, 0);
             JpaUtil.fermerEntityManager();
             return true;
-            
-        } catch(Exception e){
-            envoiMailInscription(client,1);
+
+        } catch (Exception e) {
+            envoiMailInscription(client, 1);
             JpaUtil.fermerEntityManager();
             return false;
         }
     }
 
     /**
-     * Recherche la personne  dans la base de donnée à l'aide de son adresse email
-     * et son mot de passe.
+     * Recherche la personne dans la base de donnée à l'aide de son adresse
+     * email et son mot de passe.
      *
-     * @param email L'adresse email de la personne 
+     * @param email L'adresse email de la personne
      * @param motDePasse Le mot de passe de la personne
      * @return La Personne à condition qu'il existe dans la base.
      */
@@ -78,30 +80,29 @@ public class Service {
         JpaUtil.creerEntityManager();
         Personne personne = PersonneDAO.obtenir(email);
         JpaUtil.fermerEntityManager();
-        if (personne != null && personne.getMotDePasse().equals(motDePasse)){
+        if (personne != null && personne.getMotDePasse().equals(motDePasse)) {
             System.out.println("Vous êtes connecté !");
             return personne;
-        }
-        else {
+        } else {
             System.out.println("Votre email ou votre mot de passe est incorrect !");
             return null;
         }
     }
-    
+
     /**
      * Récupère la liste de tous les Mediums de la base de donnée.
      *
      * @return La liste des Mediums
      */
     public static List<Medium> obtenirTousMediums() {
-      JpaUtil.creerEntityManager();
-      List<Medium> listesMediums = MediumDAO.obtenirTous();
-      JpaUtil.fermerEntityManager();
-      return listesMediums;
+        JpaUtil.creerEntityManager();
+        List<Medium> listesMediums = MediumDAO.obtenirTous();
+        JpaUtil.fermerEntityManager();
+        return listesMediums;
     }
 
     /**
-     * ATTENTION NON TERMINE
+     *
      * Créer une conversation qui met en relation un Client et un Medium
      *
      * @param client Le client qui demande la consultation
@@ -110,36 +111,72 @@ public class Service {
      */
     public Conversation demanderVoyance(Client client, Medium medium) {
 
-        jpaU.creerEntityManager();
+        JpaUtil.creerEntityManager();
         Employe employe = (Employe) EmployeDAO.obtenirEmployePourVoyance(medium);
 
         if (employe == null) {
             return null;
         }
-        return null;
+        employe.setDispo(false);
+        Conversation conversation = new Conversation(employe, medium, client);
+        JpaUtil.ouvrirTransaction();
+        ConversationDAO.creer(conversation);
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+        return conversation;
 
     }
 
+    public static void AccepterVoyance(Conversation conversation) {
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        conversation.setDebut();
+        ConversationDAO.modifier(conversation);
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+    }
+
+    public static void TerminerVoyance(Conversation conversation) {
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        conversation.setFin();
+        Employe employe = conversation.getEmploye();
+        employe.setDispo(true);
+        ConversationDAO.modifier(conversation);
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+    }
+    
+    public static void CommenterVoyance(Conversation conversation, String commentaire) {
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        conversation.setCommentaire(commentaire);
+        ConversationDAO.modifier(conversation);
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+    }
+
     /**
-     * Simule l'envoi d'un mail de confirmation ou d'erreur dans la console 
+     * Simule l'envoi d'un mail de confirmation ou d'erreur dans la console
      * suite à l'inscription d'un nouveau client.
-     * 
+     *
      * @param c le nouveau client
-     * @param statut pour différencier le message de confirmation (0) et d'erreur(1)
+     * @param statut pour différencier le message de confirmation (0) et
+     * d'erreur(1)
      */
-    public void envoiMailInscription(Client c, int statut){
+    public void envoiMailInscription(Client c, int statut) {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
-        
-        mailWriter.println("Bonjour " + c.getPrenom() +",");
+
+        mailWriter.println("Bonjour " + c.getPrenom() + ",");
         mailWriter.println();
-        
-        switch(statut){
+
+        switch (statut) {
             case 0: // Inscription confirmée
                 mailWriter.println("  Nous vous confirmons votre inscription au service POSIT'IF.");
                 mailWriter.println("  Votre numéro de client est : 4578.");
                 break;
-                
+
             case 1: // Erreur d'inscription
                 mailWriter.println("  Votre inscription au service POSIT'IF a malencontreusement échoué...");
                 mailWriter.println("  Merci de recommencer ultérieurement.");
@@ -149,64 +186,63 @@ public class Service {
         mailWriter.println("  Cordialement,");
         mailWriter.println();
         mailWriter.println("    L'équipe POSIT'IF");
-        
+
         Message.envoyerMail("contact@posit.if", c.getEmail(), "Bienvenue chez POSIT'IF", corps.toString());
     }
-    
+
     /**
-     * Initialisation en "dur" de la liste des mediums et des employés dans 
-     * la base de données.
+     * Initialisation en "dur" de la liste des mediums et des employés dans la
+     * base de données.
      */
-    public static void initialisation()
-    {
+    public static void initialisation() {
         JpaUtil.creerEntityManager();
 
         // Employés Init
-        Employe e1 = new Employe(true,"Bette","Liam","toto123","liam.bette@posit.if","0600000001");
-        Employe e2 = new Employe(false,"Bosio","Alexis","123456","alexis.bosio@posit.if","0600000002");
-        Employe e3 = new Employe(true,"Remy","Thibault","blabli123","thibault.remy@posit.if","0600000003");
-        
+        Employe e1 = new Employe(true, "Bette", "Liam", "toto123", "liam.bette@posit.if", "0600000001");
+        Employe e2 = new Employe(false, "Bosio", "Alexis", "123456", "alexis.bosio@posit.if", "0600000002");
+        Employe e3 = new Employe(true, "Remy", "Thibault", "blabli123", "thibault.remy@posit.if", "0600000003");
+
         // Mediums
         Voyant m1 = new Voyant("Boule de Cristal", "Gwenaël", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.");
         Voyant m2 = new Voyant("Marc de Café", "Professeur Maxwell", "Votre avenir est devant vous : regardons le ensemble !");
         Tarologue m3 = new Tarologue("Mme Irma", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
         Tarologue m4 = new Tarologue("Endora", "Mes cartes répondront à toutes vos questions personnelles.");
-        Astrologue m5 = new Astrologue("Serena", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.","École Normale Supérieur d'Astrologie (ENS-Astro)","2006");
-        Astrologue m6 = new Astrologue("Mr M. Histaire-Hyeux", "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter !","Institut des Nouveaux Savoirs Astrologiques","2010");
+        Astrologue m5 = new Astrologue("Serena", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", "École Normale Supérieur d'Astrologie (ENS-Astro)", "2006");
+        Astrologue m6 = new Astrologue("Mr M. Histaire-Hyeux", "Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter !", "Institut des Nouveaux Savoirs Astrologiques", "2010");
 
         // Preparation des listes de mediums et d'employés
         List listeEmp1 = new ArrayList();
         listeEmp1.add(e1);
         listeEmp1.add(e3);
-        
+
         List listeEmp2 = new ArrayList();
         listeEmp2.add(e2);
         listeEmp2.add(e3);
-        
+
         List listeEmp3 = new ArrayList();
         listeEmp3.add(e1);
         listeEmp3.add(e2);
-        
+
         List listeEmp4 = new ArrayList();
         listeEmp3.add(e3);
-        
+
         List listeMed1 = new ArrayList();
         listeMed1.add(m1);
         listeMed1.add(m3);
         listeMed1.add(m6);
-        
+
         List listeMed2 = new ArrayList();
         listeMed2.add(m2);
         listeMed2.add(m3);
         listeMed2.add(m5);
-        
+
         List listeMed3 = new ArrayList();
         listeMed3.add(m1);
         listeMed3.add(m2);
         listeMed3.add(m4);
         listeMed3.add(m5);
         listeMed3.add(m6);
-        
+
         // Ajout des listes
         m1.setEmployes(listeEmp1);
         m2.setEmployes(listeEmp2);
@@ -214,16 +250,16 @@ public class Service {
         m4.setEmployes(listeEmp4);
         m5.setEmployes(listeEmp2);
         m6.setEmployes(listeEmp1);
-        
+
         e1.setMediums(listeMed1);
         e2.setMediums(listeMed2);
         e3.setMediums(listeMed3);
-        
+
         JpaUtil.ouvrirTransaction();
         EmployeDAO.creer(e1);
         EmployeDAO.creer(e2);
         EmployeDAO.creer(e3);
-        
+
         VoyantDAO.creer(m1);
         VoyantDAO.creer(m2);
         TarologueDAO.creer(m3);
