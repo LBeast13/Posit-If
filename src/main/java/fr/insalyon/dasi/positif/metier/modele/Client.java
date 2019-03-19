@@ -11,11 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-<<<<<<< HEAD
-=======
 import java.util.logging.Level;
 import java.util.logging.Logger;
->>>>>>> cf30a3d31bee0eab0a9b7752a1336032e02174af
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -73,7 +70,12 @@ public class Client extends Personne implements Serializable {
      */
     private String animal;
 
+    /**
+     * Liste des conversations du client
+     */
+    @
     protected List<Conversation> conversations; 
+    
     /**
      * Constructeur par défaut.
      */
@@ -98,12 +100,10 @@ public class Client extends Personne implements Serializable {
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
         this.numeroTel = numeroTel;
-<<<<<<< HEAD
         this.signeChinois = signeChinois;
         this.couleur = couleur;
         this.animal = animal;
         this.conversations = new ArrayList<> (); 
-=======
         
         AstroTest astroApi = new AstroTest();
         try {
@@ -115,7 +115,6 @@ public class Client extends Personne implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
->>>>>>> cf30a3d31bee0eab0a9b7752a1336032e02174af
     }
 
 

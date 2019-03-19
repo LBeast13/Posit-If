@@ -63,8 +63,8 @@ public class Conversation implements Serializable {
         this.medium = medium;
         this.client = client;
         client.getConversations();
-        employe.getConversation(); 
-        medium.getConversation();
+        employe.getConversations(); 
+        medium.getConversations();
         
     }
     
