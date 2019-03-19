@@ -50,6 +50,10 @@ public class Test {
         // Employé existant
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
+    
+    /**
+     * Méthode test pour afficher tous les médiums de la base de données.
+     */
     public static void obtenirTousLesMediums(){ 
         List<Medium> listeMed = Service.obtenirTousMediums();
         System.out.println("Voici tous les mediums : \n");
