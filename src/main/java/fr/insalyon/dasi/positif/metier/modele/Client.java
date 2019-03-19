@@ -70,7 +70,12 @@ public class Client extends Personne implements Serializable {
      */
     private String animal;
 
+    /**
+     * Liste des conversations du client
+     */
+    @
     protected List<Conversation> conversations; 
+    
     /**
      * Constructeur par défaut.
      */
@@ -95,12 +100,19 @@ public class Client extends Personne implements Serializable {
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
         this.numeroTel = numeroTel;
+<<<<<<< HEAD
 
+=======
+>>>>>>> c83c9862b800784b090b55cf7035b224287b9f35
         this.signeChinois = signeChinois;
         this.couleur = couleur;
         this.animal = animal;
         this.conversations = new ArrayList<> (); 
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> c83c9862b800784b090b55cf7035b224287b9f35
         AstroTest astroApi = new AstroTest();
         try {
             List<String> profil = astroApi.getProfil(prenom, this.dateNaissance);
@@ -111,7 +123,10 @@ public class Client extends Personne implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c83c9862b800784b090b55cf7035b224287b9f35
     }
 
 

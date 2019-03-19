@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * Classe représentant un employé. Super classe : Personne.
@@ -31,7 +32,7 @@ public class Employe extends Personne implements Serializable {
     
     @ManyToMany
     private List<Medium> mediums = new ArrayList<Medium>();
-    
+    @OneToMany
     private List<Conversation> conversation = new ArrayList<Conversation>();
     
     /**
