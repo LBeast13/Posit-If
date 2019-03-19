@@ -65,13 +65,13 @@ public class Test {
      */
     public static void testMediumsParEmploye(){
         Personne e = Service.seConnecter("alexis.bosio@posit.if", "123456");
-           
+        /*   
         List<Medium> listeMed = Service.getMediums(e);
         System.out.println("Voici de tous les mediums  que l'employé "
                             + e.getPrenom() + e.getNom() + " peut incarner :");
         for(int i=0; i<listeMed.size(); i++){
            System.out.println("-" + listeMed.get(i).toString());
-        }
+        }*/
     }
     
     /**

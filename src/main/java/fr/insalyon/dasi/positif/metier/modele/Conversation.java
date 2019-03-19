@@ -65,9 +65,7 @@ public class Conversation implements Serializable {
         this.employe = employe;
         this.medium = medium;
         this.client = client;
-        client.getConversations();
-        employe.getConversations();
-        medium.getConversations();
+        this.debut = new Date();
 
     }
 
@@ -80,15 +78,30 @@ public class Conversation implements Serializable {
         this.id = id;
     }
 
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+    
+    
+
     public Date getDebut() {
         return debut;
     }
 
-    /**
-     *
-     */
-    public void setDebut() {
-        this.debut = new Date();
+    public void setDebut(Date debut) {
+        this.debut = debut;
     }
 
     public Date getFin() {

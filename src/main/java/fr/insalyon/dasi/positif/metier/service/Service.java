@@ -102,7 +102,6 @@ public class Service {
     }
 
     /**
-     *
      * Créer une conversation qui met en relation un Client et un Medium
      *
      * @param client Le client qui demande la consultation
@@ -119,21 +118,27 @@ public class Service {
         }
         employe.setDispo(false);
         Conversation conversation = new Conversation(employe, medium, client);
+        
+        // Transaction
         JpaUtil.ouvrirTransaction();
         ConversationDAO.creer(conversation);
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
+        
+        // Envoi notification de demande de voyance à l'employé
+        envoiNotificationEmploye(conversation);
+        
         return conversation;
 
     }
 
-    public static void AccepterVoyance(Conversation conversation) {
-        JpaUtil.creerEntityManager();
-        JpaUtil.ouvrirTransaction();
-        conversation.setDebut();
-        ConversationDAO.modifier(conversation);
-        JpaUtil.validerTransaction();
-        JpaUtil.fermerEntityManager();
+    /**
+     * 
+     * @param conversation 
+     */
+    public void AccepterVoyance(Conversation conversation) {
+        // Envoi notification de confirmation de voyance au client
+        envoiNotificationClient(conversation);
     }
 
     public static void TerminerVoyance(Conversation conversation) {
@@ -188,6 +193,45 @@ public class Service {
         mailWriter.println("    L'équipe POSIT'IF");
 
         Message.envoyerMail("contact@posit.if", c.getEmail(), "Bienvenue chez POSIT'IF", corps.toString());
+    }
+    
+    /**
+     * Envoie une notification à l'employé chargé d'incarner un médium
+     * @param conv la conversation avec le client
+     */
+    public void envoiNotificationEmploye(Conversation conv) {
+        StringWriter corps = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(corps);
+        
+        Date currDate = new Date();
+        
+        mailWriter.println("Voyance demandée le " + currDate + " pour " 
+                          + conv.getClient().getPrenom() + " " 
+                          + conv.getClient().getNom() + "(#" 
+                          + conv.getClient().getId() + ")");
+        mailWriter.println("Médium à incarner : " + conv.getMedium().getNom());
+        
+        String telDest = conv.getEmploye().getNumeroTel();
+        Message.envoyerNotification(telDest, corps.toString());
+    }
+    
+    /**
+     * Envoie une notification au client chargé d'incarner un médium
+     * @param conv la conversation avec le client
+     */
+    public void envoiNotificationClient(Conversation conv) {
+        StringWriter corps = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(corps);
+        
+        mailWriter.println("Votre demande de voyance du " + conv.getDebut() 
+                         + " a vien été enregistrée. ");
+        mailWriter.println("Vous pouvez dès à présent me contacter au "
+                         + conv.getEmploye().getNumeroTel() +".");
+        mailWriter.println("A tout de suite !");
+        mailWriter.println("Posit'ifement vôtre, "+ conv.getMedium().getNom());
+        
+        String telDest = conv.getClient().getNumeroTel();
+        Message.envoyerNotification(telDest, corps.toString());
     }
 
     /**
