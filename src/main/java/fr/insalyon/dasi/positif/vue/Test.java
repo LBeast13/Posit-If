@@ -74,6 +74,17 @@ public class Test {
         }*/
     }
     
+    public static void testDemandeVoyance(){
+        Service service = new Service();
+        List<Medium> listeMed = Service.obtenirTousMediums();
+        
+        Calendar calendar1 = new GregorianCalendar(1996,1,30);
+        Date dateNais1 =  calendar1.getTime();
+        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",dateNais1,"Chine");
+
+        service.demanderVoyance(c, listeMed.get(0));
+    }
+    
     /**
      * Méthode main(): point d'entrée de ce programme de test.
      * @param args 
@@ -84,13 +95,15 @@ public class Test {
         JpaUtil.init();
         
         //Initialisation des employés et des médiums
-        //Service.initialisation();
+        Service.initialisation();
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
-        testObtenirTousLesMediums();
+        
         //testerInscription();
         //testerConnexionClient();
+        //testObtenirTousLesMediums();
+        testDemandeVoyance();
        
         // Libération du JpaUtil
         JpaUtil.destroy();

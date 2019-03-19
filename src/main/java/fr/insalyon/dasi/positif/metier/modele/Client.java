@@ -102,12 +102,9 @@ public class Client extends Personne implements Serializable {
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
         this.numeroTel = numeroTel;
-
-        this.signeChinois = signeChinois;
-        this.couleur = couleur;
-        this.animal = animal;
         this.conversations = new ArrayList<>();
 
+        /* A FAIRE
         AstroTest astroApi = new AstroTest();
         try {
             List<String> profil = astroApi.getProfil(prenom, this.dateNaissance);
@@ -117,7 +114,7 @@ public class Client extends Personne implements Serializable {
             this.animal = profil.get(3);
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
     }
 

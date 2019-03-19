@@ -116,7 +116,7 @@ public class Service {
         if (employe == null) {
             return null;
         }
-        employe.setDispo(false);
+        employe.setDisponible(false);
         Conversation conversation = new Conversation(employe, medium, client);
         
         // Transaction
@@ -146,7 +146,7 @@ public class Service {
         JpaUtil.ouvrirTransaction();
         conversation.setFin();
         Employe employe = conversation.getEmploye();
-        employe.setDispo(true);
+        employe.setDisponible(true);
         ConversationDAO.modifier(conversation);
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
@@ -179,7 +179,7 @@ public class Service {
         switch (statut) {
             case 0: // Inscription confirmée
                 mailWriter.println("  Nous vous confirmons votre inscription au service POSIT'IF.");
-                mailWriter.println("  Votre numéro de client est : 4578.");
+                mailWriter.println("  Votre numéro de client est : " + c.getId() +".");
                 break;
 
             case 1: // Erreur d'inscription
