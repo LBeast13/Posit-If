@@ -64,7 +64,6 @@ public class Service {
             JpaUtil.fermerEntityManager();
             return false;
         }
-         
     }
 
     /**

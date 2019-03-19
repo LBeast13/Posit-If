@@ -1,9 +1,7 @@
 package fr.insalyon.dasi.positif.vue;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
-import fr.insalyon.dasi.positif.dao.MediumDAO;
 import fr.insalyon.dasi.positif.metier.modele.Client;
-import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
@@ -50,29 +48,30 @@ public class Test {
         // Employé existant
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
-<<<<<<< HEAD
-    public static void obtenirTousLesMediums(){
-
-            
-  
-        System.out.println("service Obtenir medium="+ Service.obtenirTousMediums());
-=======
     
     /**
      * Méthode test pour afficher tous les médiums de la base de données.
      */
-    public static void obtenirTousLesMediums(){ 
+    public static void testObtenirTousLesMediums(){ 
         List<Medium> listeMed = Service.obtenirTousMediums();
-        System.out.println("Voici tous les mediums : \n");
+        System.out.println("Voici tous les mediums :");
         for(int i=0; i<listeMed.size(); i++){
            System.out.println("-" + listeMed.get(i).toString());
         }
-        
->>>>>>> cf30a3d31bee0eab0a9b7752a1336032e02174af
-
     }
-     public static void obtenirTousLesClients(){
+    
+    /**
+     * Méthode test qui renvoie la liste des mediums interpretable par un employé donné
+     */
+    public static void testMediumsParEmploye(){
+        Personne e = Service.seConnecter("alexis.bosio@posit.if", "123456");
         
+        List<Medium> listeMed = Service.getMediums(e);
+        System.out.println("Voici de tous les mediums  que l'employé "
+                            + e.getPrenom() + e.getNom() + " peut incarner :");
+        for(int i=0; i<listeMed.size(); i++){
+           System.out.println("-" + listeMed.get(i).toString());
+        }
     }
     
     /**
@@ -89,7 +88,7 @@ public class Test {
         
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
-        obtenirTousLesMediums();
+        testObtenirTousLesMediums();
         //testerInscription();
         //testerConnexionClient();
        
