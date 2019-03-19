@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * Classe représentant un Medium.
@@ -33,6 +34,8 @@ public class Medium implements Serializable {
     
     @ManyToMany
     private List<Employe> employes = new ArrayList<Employe>();
+    @OneToMany
+    private List<Conversation> conversation = new ArrayList<Conversation>();
     
     /**
      * Le nom du medium
@@ -88,6 +91,10 @@ public class Medium implements Serializable {
     public List<Employe> getEmployes() {
         return employes;
     }
+    public List<Conversation> getConversations() {
+        return conversation;
+    }
+
 
     public void setEmployes(List<Employe> employes) {
         this.employes = employes;
