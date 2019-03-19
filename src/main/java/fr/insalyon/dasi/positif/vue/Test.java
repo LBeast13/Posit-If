@@ -74,14 +74,14 @@ public class Test {
         }*/
     }
     
+    /**
+     * Méthode Test de demande de voyance (envoi notification à l'employé)
+     */
     public static void testDemandeVoyance(){
         Service service = new Service();
         List<Medium> listeMed = Service.obtenirTousMediums();
+        Client c = (Client) Service.seConnecter("email1@gmail.com", "password1");
         
-        Calendar calendar1 = new GregorianCalendar(1996,1,30);
-        Date dateNais1 =  calendar1.getTime();
-        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",dateNais1,"Chine");
-
         service.demanderVoyance(c, listeMed.get(0));
     }
     
@@ -100,7 +100,7 @@ public class Test {
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
         
-        //testerInscription();
+        testerInscription();
         //testerConnexionClient();
         //testObtenirTousLesMediums();
         testDemandeVoyance();

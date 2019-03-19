@@ -20,6 +20,7 @@ import fr.insalyon.dasi.positif.metier.modele.Voyant;
 import fr.insalyon.dasi.positif.util.Message;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.EntityManager;
@@ -32,7 +33,7 @@ import java.util.List;
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class Service {
-
+    
     //Entity Manager, Factory et Transaction (communication DB)
     JpaUtil jpaU = new JpaUtil();
     EntityManagerFactory emf;
@@ -203,9 +204,7 @@ public class Service {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
-        Date currDate = new Date();
-        
-        mailWriter.println("Voyance demandée le " + currDate + " pour " 
+        mailWriter.println("Voyance demandée pour " 
                           + conv.getClient().getPrenom() + " " 
                           + conv.getClient().getNom() + "(#" 
                           + conv.getClient().getId() + ")");
