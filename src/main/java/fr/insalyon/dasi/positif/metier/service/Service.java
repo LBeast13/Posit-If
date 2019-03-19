@@ -2,6 +2,7 @@ package fr.insalyon.dasi.positif.metier.service;
 
 import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
+import fr.insalyon.dasi.positif.dao.ConversationDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.dao.MediumDAO;
@@ -111,14 +112,22 @@ public class Service {
      */
     public Conversation demanderVoyance(Client client, Medium medium) {
 
-        jpaU.creerEntityManager();
+        JpaUtil.creerEntityManager();
         Employe employe = (Employe) EmployeDAO.obtenirEmployePourVoyance(medium);
 
         if (employe == null) {
             return null;
         }
-        return null;
-
+        employe.setDispo(false);
+        Conversation conversation =new Conversation (employe, medium, client);
+        JpaUtil.ouvrirTransaction();
+        ConversationDAO.creer(conversation);
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+        return conversation; 
+        
+        
+        
     }
 
     /**
