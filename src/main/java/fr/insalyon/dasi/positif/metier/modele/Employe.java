@@ -32,6 +32,8 @@ public class Employe extends Personne implements Serializable {
     @ManyToMany
     private List<Medium> mediums = new ArrayList<Medium>();
     
+    private List<Conversation> conversation = new ArrayList<Conversation>();
+    
     /**
      * La disponibilité de l'employé.
      */
@@ -76,6 +78,9 @@ public class Employe extends Personne implements Serializable {
 
     public List<Medium> getMedium() {
         return mediums;
+    }
+    public List<Conversation> getConversations() {
+        return conversation;
     }
 
     /**

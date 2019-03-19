@@ -6,7 +6,9 @@
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +61,7 @@ public class Client extends Personne implements Serializable {
      */
     private String animal;
 
+    protected List<Conversation> conversations; 
     /**
      * Constructeur par défaut.
      */
@@ -90,6 +93,7 @@ public class Client extends Personne implements Serializable {
         this.signeChinois = signeChinois;
         this.couleur = couleur;
         this.animal = animal;
+        this.conversations = new ArrayList<> (); 
     }
 
 
@@ -97,6 +101,12 @@ public class Client extends Personne implements Serializable {
     public Date getDateNaissance() {
         return dateNaissance;
     }
+    /**
+     * 
+     * @return liste des conversations auxquelles participe client 
+     */
+    public List<Conversation> getConversations(){
+    return conversations; }
 
     public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;

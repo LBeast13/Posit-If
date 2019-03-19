@@ -41,6 +41,9 @@ public class Conversation implements Serializable {
      * Commentaire de la conversation
      */
     private String commentaire;
+    private Employe employe;
+    private Medium medium;
+    private Client client;
 
     /**
      * Constructeur par défaut
@@ -51,14 +54,18 @@ public class Conversation implements Serializable {
     
     /**
      * Constructeur
-     * @param debut Date de début de la conversation
-     * @param fin Date de fin de la conversation
-     * @param commentaire Commentaire suite à la conversation
+     * @param employe employe realisant conversation
+     * @param medium medium joué par employe
+     * @param client Client realisant conversation 
      */
-    public Conversation(Date debut, Date fin, String commentaire) {
-        this.debut = debut;
-        this.fin = fin;
-        this.commentaire = commentaire;
+    public Conversation(Employe employe ,Medium medium, Client client) {
+        this.employe = employe;
+        this.medium = medium;
+        this.client = client;
+        client.getConversations();
+        employe.getConversation(); 
+        medium.getConversation();
+        
     }
     
 //******** GETTERS ET SETTERS *************
