@@ -60,6 +60,13 @@ public class Test {
         
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
+    public static void obtenirTousLesMediums(){
+        Service serviceApi
+       Service.obtenirTousMediums ();
+    }
+     public static void obtenirTousLesClients(){
+        
+    }
     
     /**
      * Méthode main(): point d'entrée de ce programme de test.

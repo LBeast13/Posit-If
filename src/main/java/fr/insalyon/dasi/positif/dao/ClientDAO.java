@@ -20,6 +20,7 @@ public class ClientDAO extends PersonneDAO {
         return em.createQuery("SELECT c FROM Client c").getResultList();
     }
 
+    
    
     /**
      * Crée un nouveau client dans la base de données

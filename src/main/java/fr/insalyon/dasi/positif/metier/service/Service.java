@@ -98,7 +98,7 @@ public class Service {
      *
      * @return La liste des Mediums
      */
-    public List<Medium> obtenirTousMediums() {
+    public  List<Medium> obtenirTousMediums() {
         String jpql = "select m "
                 + "from Medium m ";
 
