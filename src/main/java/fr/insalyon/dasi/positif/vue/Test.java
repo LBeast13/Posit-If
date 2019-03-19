@@ -18,16 +18,6 @@ import java.util.List;
  * @author DASI Team
  */
 public class Test {
-
-    /**
-     * Afficher une personne sur la Console.
-     * @param p Entité Personne à afficher
-     */
-    public static void afficher(Personne p) {
-
-        System.out.println("#" + p.getId() + " " + p.getNom() + " " + p.getPrenom() + " (" + p.getMotDePasse() + ")");
-    }
-    
     
     /**
      * Fonction de Test d'inscription
@@ -64,9 +54,13 @@ public class Test {
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
     public static void obtenirTousLesMediums(){
+<<<<<<< HEAD
             
   
         System.out.println("service Obtenir medium="+ Service.obtenirTousMediums());
+=======
+        
+>>>>>>> 3f00220aedb9a7cfad5710c83d0fa865e5a35a35
     }
      public static void obtenirTousLesClients(){
         
@@ -82,6 +76,7 @@ public class Test {
         JpaUtil.init();
         
         //Initialisation des employés et des médiums
+        
        // Service.initialisation();
         
         // Ici, appel des différentes méthodes de test
