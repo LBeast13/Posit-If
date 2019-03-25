@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -117,6 +118,7 @@ public class Service {
         // Transaction
         JpaUtil.ouvrirTransaction();
         ConversationDAO.creer(conversation);
+        
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
         
@@ -126,12 +128,12 @@ public class Service {
         return conversation;
     }
 
-    /** A REVOIR
+    /** 
      * Accepte la voyance et envoi une notification au client
      * @param conversation 
      */
     public void AccepterVoyance(Conversation conversation) {
-        // Envoi notification de confirmation de voyance au client
+        
         envoiNotificationClient(conversation);
     }
 
@@ -149,7 +151,7 @@ public class Service {
         // MAJ de la disponibilité de l'employé
         Employe employe = conversation.getEmploye();
         employe.setDisponible(true);
-        
+        EmployeDAO.modifier(employe);
         ConversationDAO.modifier(conversation);
         
         JpaUtil.validerTransaction();

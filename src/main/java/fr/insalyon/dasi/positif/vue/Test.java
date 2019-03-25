@@ -15,41 +15,41 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * Classe principale pour les tests.
+ *
  * @author DASI Team
  */
 public class Test {
-    
+
     /**
      * Fonction de Test d'inscription
      */
-    public static void testerInscription(){
+    public static void testerInscription() {
         Service service = new Service();
-       
-        Calendar calendar1 = new GregorianCalendar(1996,1,30);
-        Date dateNais1 =  calendar1.getTime();
-        Client e1 = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",dateNais1,"Chine");
-        Client e2 = new Client("Chirac","Jacques","password1","elysee@gmail.com","0610203040",dateNais1,"France");
-         
+
+        Calendar calendar1 = new GregorianCalendar(1996, 1, 30);
+        Date dateNais1 = calendar1.getTime();
+        Client e1 = new Client("Mentor", "Gerard", "password1", "email1@gmail.com", "0624578675", dateNais1, "Chine");
+        Client e2 = new Client("Chirac", "Jacques", "password1", "elysee@gmail.com", "0610203040", dateNais1, "France");
+
         service.sInscrire(e1);
         service.sInscrire(e2);
     }
-    
+
     /**
      * Test de la connexion d'un client à POSIT'IF
      */
-    public static void testerConnexionClient(){
+    public static void testerConnexionClient() {
         // Client inexistant
         Personne e = Service.seConnecter("blabla", "blabla");
-        
+
         // Client existant mais mauvais mot de passe
         Personne e1 = Service.seConnecter("email1@gmail.com", "blabla");
-        
+
         // Client existant et bon mot de passe
         Personne e2 = Service.seConnecter("email1@gmail.com", "password1");
-        
+
         // Employé existant
         Personne e3 = Service.seConnecter("alexis.bosio@posit.if", "123456");
     }
@@ -57,18 +57,19 @@ public class Test {
     /**
      * Méthode test pour afficher tous les médiums de la base de données.
      */
-    public static void testObtenirTousLesMediums(){ 
+    public static void testObtenirTousLesMediums() {
         List<Medium> listeMed = Service.obtenirTousMediums();
         System.out.println("Voici tous les mediums :");
-        for(int i=0; i<listeMed.size(); i++){
-           System.out.println("-" + listeMed.get(i).toString());
+        for (int i = 0; i < listeMed.size(); i++) {
+            System.out.println("-" + listeMed.get(i).toString());
         }
     }
-    
+
     /**
-     * Méthode test qui renvoie la liste des mediums interpretable par un employé donné
+     * Méthode test qui renvoie la liste des mediums interpretable par un
+     * employé donné
      */
-    public static void testMediumsParEmploye(){
+    public static void testMediumsParEmploye() {
         Personne e = Service.seConnecter("alexis.bosio@posit.if", "123456");
         /*   
         List<Medium> listeMed = Service.getMediums(e);
@@ -78,32 +79,32 @@ public class Test {
            System.out.println("-" + listeMed.get(i).toString());
         }*/
     }
-    
+
     /**
      * Méthode Test de demande de voyance (envoi notification à l'employé)
      */
-    public static void testDemandeVoyance(){
+    public static void testDemandeVoyance() {
         Service service = new Service();
         List<Medium> listeMed = Service.obtenirTousMediums();
         Client c = (Client) Service.seConnecter("email1@gmail.com", "password1");
-        
+
         service.demanderVoyance(c, listeMed.get(0));
     }
-    
+
     /**
      * Méthode Test d'acceptation de voyance (envoi notification au client)
      */
-    public static void testAccepterDemande(){
-        
+    public static void testAccepterDemande() {
+
     }
-    
-     public static void TestAstroTest() {
+
+    public static void TestAstroTest() {
         System.out.println("\n========== DEBUT TEST ASTROTEST ==========");
         AstroTest astro = new AstroTest();
         //Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
         Client c = (Client) Service.seConnecter("email1@gmail.com", "password1");
         System.out.println("Client initial = " + c);
-        
+
         List profil = null;
         try {
             profil = astro.getProfil(c.getPrenom(), (java.sql.Date) c.getDateNaissance());
@@ -111,49 +112,50 @@ public class Test {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Profil reçu = " + profil);
-        
-        if(profil != null){
+
+        if (profil != null) {
             c.setSigneZodiaque((String) profil.get(0));
             c.setSigneChinois((String) profil.get(1));
             c.setCouleur((String) profil.get(2));
             c.setAnimal((String) profil.get(3));
             System.out.println("Client perfectionné = " + c);
         }
-        
+
         List predictions = null;
         try {
-            predictions = astro.getPredictions(c.getCouleur(),c.getAnimal(),4,0,4);
+            predictions = astro.getPredictions(c.getCouleur(), c.getAnimal(), 4, 0, 4);
         } catch (IOException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Prédictions reçues = " + predictions);
-        
+
         System.out.println("========== FIN TEST ASTROTEST ==========");
     }
-    
+
     public static void TestServicePrediction() {
+        Calendar calendar1 = new GregorianCalendar(1996, 1, 30);
+        Date dateNais1 = calendar1.getTime();
         System.out.println("\n========== DEBUT TEST SERVICE PREDICTIONS ==========");
-        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
-        
-        List predictions = Service.ObtenirPredictions(c,4,0,4);
+        Client c = new Client("Mentor", "Gerard", "password1", "email1@gmail.com", "0624578675", dateNais1, "Chine");
+
+        List predictions = Service.ObtenirPredictions(c, 4, 0, 4);
         System.out.println("Prédictions reçues = " + predictions);
         System.out.println("========== FIN TEST SERVICE PREDICTIONS ==========");
     }
+
     public static void TestServiceGraphiques() {
+        Calendar calendar1 = new GregorianCalendar(1996, 1, 30);
+        Date dateNais1 = calendar1.getTime();
         System.out.println("\n========== DEBUT TEST SERVICE GRAPHIQUES ==========");
-        Service.seConnecter("email1@gmail.com", "PUoa");
-        Service.seConnecter("email1@gmail.com", "TAns");
-        Service.seConnecter("email1@gmail.com", "KOcc");
-        Service.seConnecter("email1@gmail.com", "GXzr");
-        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        Client c = new Client("Mentor", "Gerard", "password1", "email1@gmail.com", "0624578675", dateNais1, "Chine");
         Service service = new Service();
         service.sInscrire(c);
-        
+
         List<Medium> mediums = Service.obtenirTousMediums();
-        Conversation conversation = service.demanderVoyance(c, mediums.get(0));
-        Service.TerminerVoyance(conversation);
         
-        conversation = service.demanderVoyance(c, mediums.get(0));
+        Conversation conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
         Service.TerminerVoyance(conversation);
         conversation = service.demanderVoyance(c, mediums.get(1));
         Service.TerminerVoyance(conversation);
@@ -175,28 +177,28 @@ public class Test {
         Service.TerminerVoyance(conversation);
         conversation = service.demanderVoyance(c, mediums.get(4));
         Service.TerminerVoyance(conversation);
-        System.out.println("\nhistogramme voyances/mediums = " +Service.ObtenirHistogrammeVoyancesParMedium());
-        System.out.println("\nhistogramme voyances/employe = " +Service.ObtenirHistogrammeVoyancesParEmploye());
-        System.out.println("\ncamembert voyances/employe = " +Service.ObtenirCamembertVoyancesParEmploye());
+        System.out.println("\nhistogramme voyances/mediums = " + Service.ObtenirHistogrammeVoyancesParMedium());
+        System.out.println("\nhistogramme voyances/employe = " + Service.ObtenirHistogrammeVoyancesParEmploye());
+        System.out.println("\ncamembert voyances/employe = " + Service.ObtenirCamembertVoyancesParEmploye());
         System.out.println("========== FIN TEST SERVICE GRAPHIQUES ==========");
     }
-    
+
     /**
      * Méthode main(): point d'entrée de ce programme de test.
-     * @param args 
+     *
+     * @param args
      */
     public static void main(String[] args) {
 
         // Initialisation du JpaUtil
         JpaUtil.init();
-        
+
         //Initialisation des employés et des médiums
         Service.initialisation();
-        
+
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
         // S'assurer que les tables sont bien remplies avant de tester !
-        
         //testerInscription();                //OK
         //testerConnexionClient();          //OK
         //testObtenirTousLesMediums();      //OK
@@ -204,12 +206,9 @@ public class Test {
         //TestAstroTest();
         //TestServicePrediction();            // OK
         TestServiceGraphiques();
-        
+
         // Libération du JpaUtil
         JpaUtil.destroy();
     }
 
-    
-
 }
-
