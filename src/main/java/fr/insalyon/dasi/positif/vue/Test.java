@@ -1,6 +1,5 @@
 package fr.insalyon.dasi.positif.vue;
 
-import fr.insalyon.dasi.positif.dao.AstroTestDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Conversation;
@@ -8,10 +7,13 @@ import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import fr.insalyon.dasi.positif.util.AstroTest;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -94,13 +96,22 @@ public class Test {
     public static void testAccepterDemande(){
         
     }
+    
      public static void TestAstroTest() {
         System.out.println("\n========== DEBUT TEST ASTROTEST ==========");
-        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        AstroTest astro = new AstroTest();
+        //Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        Client c = (Client) Service.seConnecter("email1@gmail.com", "password1");
         System.out.println("Client initial = " + c);
         
-        List profil = AstroTestDAO.getProfil(c.getPrenom(), (java.sql.Date) c.getDateNaissance());
+        List profil = null;
+        try {
+            profil = astro.getProfil(c.getPrenom(), (java.sql.Date) c.getDateNaissance());
+        } catch (IOException ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Profil reçu = " + profil);
+        
         if(profil != null){
             c.setSigneZodiaque((String) profil.get(0));
             c.setSigneChinois((String) profil.get(1));
@@ -109,7 +120,12 @@ public class Test {
             System.out.println("Client perfectionné = " + c);
         }
         
-        List predictions = AstroTestDAO.getPredictions(c.getCouleur(),c.getAnimal(),4,0,4);
+        List predictions = null;
+        try {
+            predictions = astro.getPredictions(c.getCouleur(),c.getAnimal(),4,0,4);
+        } catch (IOException ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Prédictions reçues = " + predictions);
         
         System.out.println("========== FIN TEST ASTROTEST ==========");
@@ -117,13 +133,13 @@ public class Test {
     
     public static void TestServicePrediction() {
         System.out.println("\n========== DEBUT TEST SERVICE PREDICTIONS ==========");
-       Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
         
         List predictions = Service.ObtenirPredictions(c,4,0,4);
         System.out.println("Prédictions reçues = " + predictions);
         System.out.println("========== FIN TEST SERVICE PREDICTIONS ==========");
     }
-public static void TestServiceGraphiques() {
+    public static void TestServiceGraphiques() {
         System.out.println("\n========== DEBUT TEST SERVICE GRAPHIQUES ==========");
         Service.seConnecter("email1@gmail.com", "PUoa");
         Service.seConnecter("email1@gmail.com", "TAns");
@@ -134,105 +150,46 @@ public static void TestServiceGraphiques() {
         service.sInscrire(c);
         
         List<Medium> mediums = Service.obtenirTousMediums();
-        Conversation conversation = service.demanderVoyance(c, mediums.get(0));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(0));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(1));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(3));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(3));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(4));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(4));
-        Service.TerminerVoyance(conversation);
-        conversation = service.demanderVoyance(c, mediums.get(4));
-        Service.TerminerVoyance(conversation);
+        Conversation conversation1 = service.demanderVoyance(c, mediums.get(0));
+        service.AccepterVoyance(conversation1);
+        Service.TerminerVoyance(conversation1);
+        
+        Conversation conversation2 = service.demanderVoyance(c, mediums.get(0));
+        System.out.println(conversation2);
+        Service.TerminerVoyance(conversation2);
+        
+        Conversation conversation3 = service.demanderVoyance(c, mediums.get(1));
+        Service.TerminerVoyance(conversation3);
+        
+        Conversation conversation4 = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation4);
+        
+        Conversation conversation5 = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation5);
+        
+        Conversation conversation6 = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation6);
+        
+        Conversation conversation7 = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation7);
+        
+        Conversation conversation8 = service.demanderVoyance(c, mediums.get(3));
+        Service.TerminerVoyance(conversation8);
+        
+        Conversation conversation9 = service.demanderVoyance(c, mediums.get(3));
+        Service.TerminerVoyance(conversation9);
+        
+        Conversation conversation10 = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation10);
+        
+        Conversation conversation11 = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation11);
+        
+        Conversation conversation12 = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation12);
         System.out.println("\nhistogramme voyances/mediums = " +Service.ObtenirHistogrammeVoyancesParMedium());
         System.out.println("\nhistogramme voyances/employe = " +Service.ObtenirHistogrammeVoyancesParEmploye());
         System.out.println("\ncamembert voyances/employe = " +Service.ObtenirCamembertVoyancesParEmploye());
-        System.out.println("========== FIN TEST SERVICE GRAPHIQUES ==========");
-    }
-    
-    public static void TestAstroTest() {
-        System.out.println("\n========== DEBUT TEST ASTROTEST ==========");
-        Astrotest astro = new AstroTest();
-        Client c = (Client) Service.seConnecter("email1@gmail.com", "password1");
-        //Client c = new Client("Pie","ROUCOULE","mdp",'M',new Date(97,05,28), "pie.roucoule@test.fr");
-        System.out.println("Client initial = " + c);
-        
-        List profil = astro.getProfil(c.getPrenom(),c.getDateNaissance());
-        System.out.println("Profil reçu = " + profil);
-        if(profil != null){
-            c.setSigneZodiaque((String) profil.get(0));
-            c.setSigneChinois((String) profil.get(1));
-            c.setCouleur((String) profil.get(2));
-            c.setAnimalTotem((String) profil.get(3));
-            System.out.println("Client perfectionné = " + c);
-        }
-        
-        List predictions = AstroTestDAO.getPredictions(c.getCouleur(),c.getAnimalTotem(),4,0,4);
-        System.out.println("Prédictions reçues = " + predictions);
-        
-        System.out.println("========== FIN TEST ASTROTEST ==========");
-    }
-    
-    public static void TestServicePrediction() {
-        System.out.println("\n========== DEBUT TEST SERVICE PREDICTIONS ==========");
-        Client c = new Client("Pie","ROUCOULE","mdp",'M',new Date(97,05,28), "pie.roucoule@test.fr");
-        
-        List predictions = Services.ObtenirPredictions(c,4,0,4);
-        System.out.println("Prédictions reçues = " + predictions);
-        System.out.println("========== FIN TEST SERVICE PREDICTIONS ==========");
-    }
-public static void TestServiceGraphiques() {
-        System.out.println("\n========== DEBUT TEST SERVICE GRAPHIQUES ==========");
-        Services.Initialisation();
-        Services.SeConnecter(29l, "PUoa");
-        Services.SeConnecter(6703l, "TAns");
-        Services.SeConnecter(3745l, "KOcc");
-        Services.SeConnecter(586l, "GXzr");
-        Client c = new Client("Pie","ROUCOULE","mdp",'M',new Date(97,05,28), "pie.ule@test.fr");
-        Services.SInscrire(c);
-        
-        List<Medium> mediums = Services.ObtenirTousMediums();
-        Conversation conversation = Services.DemanderVoyance(c, mediums.get(0));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(0));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(1));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(2));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(2));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(2));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(2));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(3));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(3));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(4));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(4));
-        Services.TerminerVoyance(conversation);
-        conversation = Services.DemanderVoyance(c, mediums.get(4));
-        Services.TerminerVoyance(conversation);
-        System.out.println("\nhistogramme voyances/mediums = " +Services.ObtenirHistogrammeVoyancesParMedium());
-        System.out.println("\nhistogramme voyances/employe = " +Services.ObtenirHistogrammeVoyancesParEmploye());
-        System.out.println("\ncamembert voyances/employe = " +Services.ObtenirCamembertVoyancesParEmploye());
         System.out.println("========== FIN TEST SERVICE GRAPHIQUES ==========");
     }
     
@@ -252,11 +209,14 @@ public static void TestServiceGraphiques() {
         // Mettre/Enlever les commentaires pour réaliser une série de test
         // S'assurer que les tables sont bien remplies avant de tester !
         
-        testerInscription();
-        //testerConnexionClient();
-        //testObtenirTousLesMediums();
-        testDemandeVoyance();
-       
+        //testerInscription();                //OK
+        //testerConnexionClient();          //OK
+        //testObtenirTousLesMediums();      //OK
+        //testDemandeVoyance();
+        //TestAstroTest();
+        //TestServicePrediction();            // OK
+        TestServiceGraphiques();
+        
         // Libération du JpaUtil
         JpaUtil.destroy();
     }

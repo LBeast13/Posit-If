@@ -1,6 +1,5 @@
 package fr.insalyon.dasi.positif.metier.service;
 
-import fr.insalyon.dasi.positif.dao.AstroTestDAO;
 import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.ConversationDAO;
@@ -18,17 +17,16 @@ import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.modele.Tarologue;
 import fr.insalyon.dasi.positif.metier.modele.Voyant;
+import fr.insalyon.dasi.positif.util.AstroTest;
 import fr.insalyon.dasi.positif.util.Message;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,12 +34,6 @@ import java.util.List;
  */
 public class Service {
     
-    //Entity Manager, Factory et Transaction (communication DB)
-    JpaUtil jpaU = new JpaUtil();
-    EntityManagerFactory emf;
-    EntityManager em;
-    EntityTransaction tx;
-
     public Service() {
 
     }
@@ -191,7 +183,13 @@ public class Service {
      */
     public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
     {
-        return AstroTestDAO.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+        AstroTest astro = new AstroTest();
+        try {
+            return astro.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+        } catch (IOException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
     
     /**
@@ -316,7 +314,7 @@ public class Service {
         PrintWriter mailWriter = new PrintWriter(corps);
         
         mailWriter.println("Votre demande de voyance du " + conv.getDebut() 
-                         + " a vien été enregistrée. ");
+                         + " a bien été enregistrée. ");
         mailWriter.println("Vous pouvez dès à présent me contacter au "
                          + conv.getEmploye().getNumeroTel() +".");
         mailWriter.println("A tout de suite !");
