@@ -114,11 +114,16 @@ public class Service {
         }
         employe.setDisponible(false);
         Conversation conversation = new Conversation(employe, medium, client);
-        
+        employe.addConversation(conversation);
+        medium.addConversation(conversation);
+        client.addConversation(conversation);
         // Transaction
         JpaUtil.ouvrirTransaction();
         ConversationDAO.creer(conversation);
-        
+        MediumDAO.modifier(medium);
+        ClientDAO.modifier(client);
+        EmployeDAO.modifier(employe);
+               
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
         
@@ -206,6 +211,7 @@ public class Service {
         for(Medium m : mediums){
             String nom = m.getNom();
             Integer nbVoyances = m.getConversations().size();
+             System.out.println("\nhistogramme voyances/mediums SERVICE= " + nbVoyances);
             histogramme.put(nom, nbVoyances);
         }
         return histogramme;

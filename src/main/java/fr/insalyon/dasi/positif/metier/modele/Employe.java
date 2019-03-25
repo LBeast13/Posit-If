@@ -101,7 +101,9 @@ public class Employe extends Personne implements Serializable {
     public void setDisponible(boolean dispo) {
         this.disponible = dispo;
     }
-    
+     public void addConversation (Conversation conversation){
+        this.conversations.add(conversation); 
+    }
 
     @Override
     public int hashCode() {

@@ -17,17 +17,16 @@ import javax.persistence.Query;
  */
 public class EmployeDAO extends PersonneDAO {
 
- 
-
     public static List<Employe> obtenirTous() {
         EntityManager em = JpaUtil.obtenirEntityManager();
         return em.createQuery("SELECT e FROM Employe e").getResultList();
     }
+
     public static void modifier(Employe e) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.merge(e);
     }
-    
+
     public static void creer(Employe e) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.persist(e);
@@ -40,12 +39,25 @@ public class EmployeDAO extends PersonneDAO {
                 + "WHERE :medium MEMBER OF e.mediums and e.disponible = TRUE");
         q.setParameter("medium", medium);
 
-        List l = q.getResultList();
+        List<Employe> l = q.getResultList();
 
         if (l.isEmpty()) {
             return null;
         } else {
-            return (Employe) l.get(0);
+            int min = 99999;
+            int i = 0;
+            int j = 0;
+            for (Employe e : l) {
+                if (min > e.getConversations().size()) {
+                    min = e.getConversations().size();
+
+                    i = j;
+
+                }
+                j++;
+            }
+        
+            return (Employe) l.get(i);
         }
 
     }

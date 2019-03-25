@@ -184,6 +184,10 @@ public class Client extends Personne implements Serializable {
     public void setSigneZodiaque(String signeZodiaque) {
         this.signeZodiaque = signeZodiaque;
     }
+    
+    public void addConversation (Conversation conversation){
+        this.conversations.add(conversation); 
+    }
 
     @Override
     public int hashCode() {
