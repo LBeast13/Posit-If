@@ -54,6 +54,10 @@ public class AstroTest {
     public AstroTest() {
     }
 
+    public AstroTest(String MA_CLÉ_ASTRO_API) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     /*
      * Exemple de Méthode pour appeler le Service Web Profil
      */
