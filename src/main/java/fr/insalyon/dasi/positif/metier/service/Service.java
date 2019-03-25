@@ -1,11 +1,13 @@
 package fr.insalyon.dasi.positif.metier.service;
 
+import fr.insalyon.dasi.positif.dao.AstroTestDAO;
 import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.ConversationDAO;
 import fr.insalyon.dasi.positif.dao.EmployeDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.dao.MediumDAO;
+import static fr.insalyon.dasi.positif.dao.MediumDAO.obtenirTous;
 import fr.insalyon.dasi.positif.dao.PersonneDAO;
 import fr.insalyon.dasi.positif.dao.TarologueDAO;
 import fr.insalyon.dasi.positif.dao.VoyantDAO;
@@ -22,6 +24,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -154,6 +157,80 @@ public class Service {
         ConversationDAO.modifier(conversation);
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
+    }
+    
+     /**
+     * Cette méthode permet d'obtenir des predictions astrologiques personnalisées.
+     * @param client Le client pour lequel on souhaite avoir des prédictions.
+     * @param amour Une note en amour de 1 PAS BON à 4 BON
+     * @param sante Une note en sante de 1 PAS BON à 4 BON
+     * @param travail Une note de 1 PAS BON à 4 BON
+     * @return La liste des predictions dans l'ordre suivant (amour, sante, travail) et null (déso) si une erreur s'est produite.
+     */
+    public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
+    {
+        return AstroTestDAO.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+    }
+    
+    /**
+     * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par médium.
+     * @return Un dictionnaire des couples (clé = nom du medium, valeur = nombre de voyance).
+     */
+    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParMedium()
+    {
+        List<Medium> mediums = obtenirTous();
+        
+        HashMap<String,Integer> histogramme = new HashMap<>();
+        for(Medium m : mediums){
+            String nom = m.getNom();
+            Integer nbVoyances = m.getConversations().size();
+            histogramme.put(nom, nbVoyances);
+        }
+        return histogramme;
+    }
+    
+    
+    /**
+     * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par employé.
+     * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = nombre de voyance)
+     */
+    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParEmploye()
+    {
+        JpaUtil.creerEntityManager();
+        List<Employe> employes = EmployeDAO.obtenirTous();
+        JpaUtil.fermerEntityManager();
+        
+        HashMap<String,Integer> histogramme = new HashMap<>();
+        for(Employe e : employes){
+            String nomPrenom = e.getPrenom() + ' ' + e.getNom();
+            Integer nbVoyances = e.getConversations().size();
+            histogramme.put(nomPrenom, nbVoyances);
+        }
+        return histogramme;
+    }
+    
+    /**
+     * Cette méthode permet d'obtenir les valeurs du camembert du pourcentage de voyances par employé.
+     * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = pourcentage de voyance)
+     */
+    public static HashMap<String,Float> ObtenirCamembertVoyancesParEmploye()
+    {
+        JpaUtil.creerEntityManager();
+        List<Employe> employes = EmployeDAO.obtenirTous();
+        JpaUtil.fermerEntityManager();
+        
+        int totalVoyances = 0;
+        for(Employe e : employes){
+            totalVoyances += e.getConversations().size();
+        }
+        
+        HashMap<String,Float> camembert = new HashMap<>();
+        for(Employe e : employes){
+            String nomPrenom = e.getPrenom() + ' ' + e.getNom();
+            Integer nbVoyances = e.getConversations().size();
+            camembert.put(nomPrenom, (float) nbVoyances/totalVoyances );
+        }
+        return camembert;
     }
 
     /**
