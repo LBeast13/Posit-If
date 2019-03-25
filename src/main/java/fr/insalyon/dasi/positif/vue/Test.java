@@ -205,7 +205,7 @@ public class Test {
         //testDemandeVoyance();
         //TestAstroTest();
         //TestServicePrediction();            // OK
-        TestServiceGraphiques();
+        //TestServiceGraphiques(); //ok
 
         // Libération du JpaUtil
         JpaUtil.destroy();
