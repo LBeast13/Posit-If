@@ -34,10 +34,9 @@ public class EmployeDAO extends PersonneDAO {
 
     public static Employe obtenirEmployePourVoyance(Medium medium) {
         EntityManager em = JpaUtil.obtenirEntityManager();
-<<<<<<< .mine        Query q = em.createQuery("SELECT e FROM Employe e  "
-=======
+
         Query q = em.createQuery("SELECT e FROM Employe e "
->>>>>>> .theirs                + "WHERE :medium MEMBER OF e.mediums and e.disponible = TRUE");
+              + "WHERE :medium MEMBER OF e.mediums and e.disponible = TRUE");
         q.setParameter("medium", medium);
 
         List<Employe> l = q.getResultList();

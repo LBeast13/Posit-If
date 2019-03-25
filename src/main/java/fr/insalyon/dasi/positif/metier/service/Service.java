@@ -26,12 +26,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
-<<<<<<< .mineimport java.util.HashMap;
+import java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-=======import java.util.HashMap;
->>>>>>> .theirsimport java.util.List;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -185,7 +185,8 @@ public class Service {
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }
-<<<<<<< .mine    
+
+    
      /**
      * Cette méthode permet d'obtenir des predictions astrologiques personnalisées.
      * @param client Le client pour lequel on souhaite avoir des prédictions.
@@ -259,88 +260,9 @@ public class Service {
         }
         return camembert;
     }
-=======    
-    /**
-     * Cette méthode permet d'obtenir des predictions astrologiques personnalisées.
-     * @param client Le client pour lequel on souhaite avoir des prédictions.
-     * @param amour Une note en amour de 1 PAS BON à 4 BON
-     * @param sante Une note en sante de 1 PAS BON à 4 BON
-     * @param travail Une note de 1 PAS BON à 4 BON
-     * @return La liste des predictions dans l'ordre suivant (amour, sante, travail) et null (déso) si une erreur s'est produite.
-     */
-    public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
-    {
-        AstroTest astro = new AstroTest();
-        try {
-            return astro.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
-        } catch (IOException ex) {
-            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-    
-    /**
-     * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par médium.
-     * @return Un dictionnaire des couples (clé = nom du medium, valeur = nombre de voyance).
-     */
-    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParMedium()
-    {
-        List<Medium> mediums = obtenirTousMediums();
-        
-        HashMap<String,Integer> histogramme = new HashMap<>();
-        for(Medium m : mediums){
-            String nom = m.getNom();
-            Integer nbVoyances = m.getConversations().size();
-             System.out.println("\nhistogramme voyances/mediums SERVICE= " + nbVoyances);
-            histogramme.put(nom, nbVoyances);
-        }
-        return histogramme;
-    }
-    
-    
-    /**
-     * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par employé.
-     * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = nombre de voyance)
-     */
-    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParEmploye()
-    {
-        JpaUtil.creerEntityManager();
-        List<Employe> employes = EmployeDAO.obtenirTous();
-        JpaUtil.fermerEntityManager();
-        
-        HashMap<String,Integer> histogramme = new HashMap<>();
-        for(Employe e : employes){
-            String nomPrenom = e.getPrenom() + ' ' + e.getNom();
-            Integer nbVoyances = e.getConversations().size();
-            histogramme.put(nomPrenom, nbVoyances);
-        }
-        return histogramme;
-    }
-    
-    /**
-     * Cette méthode permet d'obtenir les valeurs du camembert du pourcentage de voyances par employé.
-     * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = pourcentage de voyance)
-     */
-    public static HashMap<String,Float> ObtenirCamembertVoyancesParEmploye()
-    {
-        JpaUtil.creerEntityManager();
-        List<Employe> employes = EmployeDAO.obtenirTous();
-        JpaUtil.fermerEntityManager();
-        
-        int totalVoyances = 0;
-        for(Employe e : employes){
-            totalVoyances += e.getConversations().size();
-        }
-        
-        HashMap<String,Float> camembert = new HashMap<>();
-        for(Employe e : employes){
-            String nomPrenom = e.getPrenom() + ' ' + e.getNom();
-            Integer nbVoyances = e.getConversations().size();
-            camembert.put(nomPrenom, (float) nbVoyances/totalVoyances );
-        }
-        return camembert;
-    }
->>>>>>> .theirs
+  
+
+
     /**
      * Simule l'envoi d'un mail de confirmation ou d'erreur dans la console
      * suite à l'inscription d'un nouveau client.
