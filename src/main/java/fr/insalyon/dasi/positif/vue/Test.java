@@ -1,7 +1,9 @@
 package fr.insalyon.dasi.positif.vue;
 
+import fr.insalyon.dasi.positif.dao.AstroTestDAO;
 import fr.insalyon.dasi.positif.dao.JpaUtil;
 import fr.insalyon.dasi.positif.metier.modele.Client;
+import fr.insalyon.dasi.positif.metier.modele.Conversation;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
@@ -91,6 +93,75 @@ public class Test {
      */
     public static void testAccepterDemande(){
         
+    }
+     public static void TestAstroTest() {
+        System.out.println("\n========== DEBUT TEST ASTROTEST ==========");
+        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        System.out.println("Client initial = " + c);
+        
+        List profil = AstroTestDAO.getProfil(c.getPrenom(), (java.sql.Date) c.getDateNaissance());
+        System.out.println("Profil reçu = " + profil);
+        if(profil != null){
+            c.setSigneZodiaque((String) profil.get(0));
+            c.setSigneChinois((String) profil.get(1));
+            c.setCouleur((String) profil.get(2));
+            c.setAnimal((String) profil.get(3));
+            System.out.println("Client perfectionné = " + c);
+        }
+        
+        List predictions = AstroTestDAO.getPredictions(c.getCouleur(),c.getAnimal(),4,0,4);
+        System.out.println("Prédictions reçues = " + predictions);
+        
+        System.out.println("========== FIN TEST ASTROTEST ==========");
+    }
+    
+    public static void TestServicePrediction() {
+        System.out.println("\n========== DEBUT TEST SERVICE PREDICTIONS ==========");
+       Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        
+        List predictions = Service.ObtenirPredictions(c,4,0,4);
+        System.out.println("Prédictions reçues = " + predictions);
+        System.out.println("========== FIN TEST SERVICE PREDICTIONS ==========");
+    }
+public static void TestServiceGraphiques() {
+        System.out.println("\n========== DEBUT TEST SERVICE GRAPHIQUES ==========");
+        Service.seConnecter("email1@gmail.com", "PUoa");
+        Service.seConnecter("email1@gmail.com", "TAns");
+        Service.seConnecter("email1@gmail.com", "KOcc");
+        Service.seConnecter("email1@gmail.com", "GXzr");
+        Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
+        Service service = new Service();
+        service.sInscrire(c);
+        
+        List<Medium> mediums = Service.obtenirTousMediums();
+        Conversation conversation = service.demanderVoyance(c, mediums.get(0));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(0));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(1));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(3));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(3));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation);
+        System.out.println("\nhistogramme voyances/mediums = " +Service.ObtenirHistogrammeVoyancesParMedium());
+        System.out.println("\nhistogramme voyances/employe = " +Service.ObtenirHistogrammeVoyancesParEmploye());
+        System.out.println("\ncamembert voyances/employe = " +Service.ObtenirCamembertVoyancesParEmploye());
+        System.out.println("========== FIN TEST SERVICE GRAPHIQUES ==========");
     }
     
     public static void TestAstroTest() {
