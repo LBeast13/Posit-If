@@ -150,43 +150,31 @@ public class Test {
         service.sInscrire(c);
         
         List<Medium> mediums = Service.obtenirTousMediums();
-        Conversation conversation1 = service.demanderVoyance(c, mediums.get(0));
-        service.AccepterVoyance(conversation1);
-        Service.TerminerVoyance(conversation1);
+        Conversation conversation = service.demanderVoyance(c, mediums.get(0));
+        Service.TerminerVoyance(conversation);
         
-        Conversation conversation2 = service.demanderVoyance(c, mediums.get(0));
-        System.out.println(conversation2);
-        Service.TerminerVoyance(conversation2);
-        
-        Conversation conversation3 = service.demanderVoyance(c, mediums.get(1));
-        Service.TerminerVoyance(conversation3);
-        
-        Conversation conversation4 = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation4);
-        
-        Conversation conversation5 = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation5);
-        
-        Conversation conversation6 = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation6);
-        
-        Conversation conversation7 = service.demanderVoyance(c, mediums.get(2));
-        Service.TerminerVoyance(conversation7);
-        
-        Conversation conversation8 = service.demanderVoyance(c, mediums.get(3));
-        Service.TerminerVoyance(conversation8);
-        
-        Conversation conversation9 = service.demanderVoyance(c, mediums.get(3));
-        Service.TerminerVoyance(conversation9);
-        
-        Conversation conversation10 = service.demanderVoyance(c, mediums.get(4));
-        Service.TerminerVoyance(conversation10);
-        
-        Conversation conversation11 = service.demanderVoyance(c, mediums.get(4));
-        Service.TerminerVoyance(conversation11);
-        
-        Conversation conversation12 = service.demanderVoyance(c, mediums.get(4));
-        Service.TerminerVoyance(conversation12);
+        conversation = service.demanderVoyance(c, mediums.get(0));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(1));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(2));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(3));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(3));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation);
+        conversation = service.demanderVoyance(c, mediums.get(4));
+        Service.TerminerVoyance(conversation);
         System.out.println("\nhistogramme voyances/mediums = " +Service.ObtenirHistogrammeVoyancesParMedium());
         System.out.println("\nhistogramme voyances/employe = " +Service.ObtenirHistogrammeVoyancesParEmploye());
         System.out.println("\ncamembert voyances/employe = " +Service.ObtenirCamembertVoyancesParEmploye());
