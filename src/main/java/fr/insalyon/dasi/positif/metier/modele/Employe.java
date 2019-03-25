@@ -30,15 +30,22 @@ public class Employe extends Personne implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * La liste des Mediums que peut incarner l'employé.
+     */
     @ManyToMany
     private List<Medium> mediums = new ArrayList<Medium>();
+    
+    /**
+     * La liste des conversations de l'employé
+     */
     @OneToMany
-    private List<Conversation> conversation = new ArrayList<Conversation>();
+    private List<Conversation> conversations = new ArrayList<Conversation>();
     
     /**
      * La disponibilité de l'employé.
      */
-    private boolean dispo;
+    private boolean disponible;
 
     /**
      * Constructeur par défaut
@@ -59,7 +66,7 @@ public class Employe extends Personne implements Serializable {
      */
     public Employe(boolean dispo, String nom, String prenom, String motDePasse, String email, String numeroTel) {
         super(nom, prenom, motDePasse, email, numeroTel);
-        this.dispo = dispo;
+        this.disponible = dispo;
     }
 
     /**
@@ -74,14 +81,14 @@ public class Employe extends Personne implements Serializable {
     }
 
     public boolean isDispo() {
-        return dispo;
+        return disponible;
     }
 
     public List<Medium> getMedium() {
         return mediums;
     }
     public List<Conversation> getConversations() {
-        return conversation;
+        return conversations;
     }
 
     /**
@@ -91,10 +98,12 @@ public class Employe extends Personne implements Serializable {
         this.mediums = mediums;
     }
 
-    public void setDispo(boolean dispo) {
-        this.dispo = dispo;
+    public void setDisponible(boolean dispo) {
+        this.disponible = dispo;
     }
-    
+     public void addConversation (Conversation conversation){
+        this.conversations.add(conversation); 
+    }
 
     @Override
     public int hashCode() {

@@ -19,29 +19,28 @@ import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.modele.Tarologue;
 import fr.insalyon.dasi.positif.metier.modele.Voyant;
+import fr.insalyon.dasi.positif.util.AstroTest;
 import fr.insalyon.dasi.positif.util.Message;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+<<<<<<< .mineimport java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import java.util.List;
+=======import java.util.HashMap;
+>>>>>>> .theirsimport java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class Service {
-
-    //Entity Manager, Factory et Transaction (communication DB)
-    JpaUtil jpaU = new JpaUtil();
-    EntityManagerFactory emf;
-    EntityManager em;
-    EntityTransaction tx;
-
+    
     public Service() {
 
     }
@@ -105,7 +104,6 @@ public class Service {
     }
 
     /**
-     *
      * Créer une conversation qui met en relation un Client et un Medium
      *
      * @param client Le client qui demande la consultation
@@ -120,45 +118,74 @@ public class Service {
         if (employe == null) {
             return null;
         }
-        employe.setDispo(false);
+        employe.setDisponible(false);
         Conversation conversation = new Conversation(employe, medium, client);
+        employe.addConversation(conversation);
+        medium.addConversation(conversation);
+        client.addConversation(conversation);
+        // Transaction
         JpaUtil.ouvrirTransaction();
         ConversationDAO.creer(conversation);
+        MediumDAO.modifier(medium);
+        ClientDAO.modifier(client);
+        EmployeDAO.modifier(employe);
+               
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
+        
+        // Envoi notification de demande de voyance à l'employé
+        envoiNotificationEmploye(conversation);
+        
         return conversation;
-
     }
 
-    public static void AccepterVoyance(Conversation conversation) {
-        JpaUtil.creerEntityManager();
-        JpaUtil.ouvrirTransaction();
-        conversation.setDebut();
-        ConversationDAO.modifier(conversation);
-        JpaUtil.validerTransaction();
-        JpaUtil.fermerEntityManager();
+    /** 
+     * Accepte la voyance et envoi une notification au client
+     * @param conversation 
+     */
+    public void AccepterVoyance(Conversation conversation) {
+        
+        envoiNotificationClient(conversation);
     }
 
+    /**
+     * Met fin à la voyance (date de fin) et rend disponible l'employé
+     * @param conversation 
+     */
     public static void TerminerVoyance(Conversation conversation) {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
+        
+        // MAJ de la date de fin de la conversation
         conversation.setFin();
+        
+        // MAJ de la disponibilité de l'employé
         Employe employe = conversation.getEmploye();
-        employe.setDispo(true);
+        employe.setDisponible(true);
+        EmployeDAO.modifier(employe);
         ConversationDAO.modifier(conversation);
+        
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }
     
+    /**
+     * Ajoute un commentaire à la voyance
+     * @param conversation La conversation à laquelle ajouter le commentaire
+     * @param commentaire Le texte du commentaire
+     */
     public static void CommenterVoyance(Conversation conversation, String commentaire) {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
+        
+        // MAJ du commentaire de la conversation
         conversation.setCommentaire(commentaire);
         ConversationDAO.modifier(conversation);
+        
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }
-    
+<<<<<<< .mine    
      /**
      * Cette méthode permet d'obtenir des predictions astrologiques personnalisées.
      * @param client Le client pour lequel on souhaite avoir des prédictions.
@@ -232,7 +259,88 @@ public class Service {
         }
         return camembert;
     }
-
+=======    
+    /**
+     * Cette méthode permet d'obtenir des predictions astrologiques personnalisées.
+     * @param client Le client pour lequel on souhaite avoir des prédictions.
+     * @param amour Une note en amour de 1 PAS BON à 4 BON
+     * @param sante Une note en sante de 1 PAS BON à 4 BON
+     * @param travail Une note de 1 PAS BON à 4 BON
+     * @return La liste des predictions dans l'ordre suivant (amour, sante, travail) et null (déso) si une erreur s'est produite.
+     */
+    public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
+    {
+        AstroTest astro = new AstroTest();
+        try {
+            return astro.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+        } catch (IOException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    /**
+     * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par médium.
+     * @return Un dictionnaire des couples (clé = nom du medium, valeur = nombre de voyance).
+     */
+    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParMedium()
+    {
+        List<Medium> mediums = obtenirTousMediums();
+        
+        HashMap<String,Integer> histogramme = new HashMap<>();
+        for(Medium m : mediums){
+            String nom = m.getNom();
+            Integer nbVoyances = m.getConversations().size();
+             System.out.println("\nhistogramme voyances/mediums SERVICE= " + nbVoyances);
+            histogramme.put(nom, nbVoyances);
+        }
+        return histogramme;
+    }
+    
+    
+    /**
+     * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par employé.
+     * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = nombre de voyance)
+     */
+    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParEmploye()
+    {
+        JpaUtil.creerEntityManager();
+        List<Employe> employes = EmployeDAO.obtenirTous();
+        JpaUtil.fermerEntityManager();
+        
+        HashMap<String,Integer> histogramme = new HashMap<>();
+        for(Employe e : employes){
+            String nomPrenom = e.getPrenom() + ' ' + e.getNom();
+            Integer nbVoyances = e.getConversations().size();
+            histogramme.put(nomPrenom, nbVoyances);
+        }
+        return histogramme;
+    }
+    
+    /**
+     * Cette méthode permet d'obtenir les valeurs du camembert du pourcentage de voyances par employé.
+     * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = pourcentage de voyance)
+     */
+    public static HashMap<String,Float> ObtenirCamembertVoyancesParEmploye()
+    {
+        JpaUtil.creerEntityManager();
+        List<Employe> employes = EmployeDAO.obtenirTous();
+        JpaUtil.fermerEntityManager();
+        
+        int totalVoyances = 0;
+        for(Employe e : employes){
+            totalVoyances += e.getConversations().size();
+        }
+        
+        HashMap<String,Float> camembert = new HashMap<>();
+        for(Employe e : employes){
+            String nomPrenom = e.getPrenom() + ' ' + e.getNom();
+            Integer nbVoyances = e.getConversations().size();
+            camembert.put(nomPrenom, (float) nbVoyances/totalVoyances );
+        }
+        return camembert;
+    }
+>>>>>>> .theirs
     /**
      * Simule l'envoi d'un mail de confirmation ou d'erreur dans la console
      * suite à l'inscription d'un nouveau client.
@@ -251,7 +359,7 @@ public class Service {
         switch (statut) {
             case 0: // Inscription confirmée
                 mailWriter.println("  Nous vous confirmons votre inscription au service POSIT'IF.");
-                mailWriter.println("  Votre numéro de client est : 4578.");
+                mailWriter.println("  Votre numéro de client est : " + c.getId() +".");
                 break;
 
             case 1: // Erreur d'inscription
@@ -265,6 +373,43 @@ public class Service {
         mailWriter.println("    L'équipe POSIT'IF");
 
         Message.envoyerMail("contact@posit.if", c.getEmail(), "Bienvenue chez POSIT'IF", corps.toString());
+    }
+    
+    /**
+     * Envoie une notification à l'employé chargé d'incarner un médium
+     * @param conv la conversation avec le client
+     */
+    public void envoiNotificationEmploye(Conversation conv) {
+        StringWriter corps = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(corps);
+        
+        mailWriter.println("Voyance demandée pour " 
+                          + conv.getClient().getPrenom() + " " 
+                          + conv.getClient().getNom() + "(#" 
+                          + conv.getClient().getId() + ")");
+        mailWriter.println("Médium à incarner : " + conv.getMedium().getNom());
+        
+        String telDest = conv.getEmploye().getNumeroTel();
+        Message.envoyerNotification(telDest, corps.toString());
+    }
+    
+    /**
+     * Envoie une notification au client chargé d'incarner un médium
+     * @param conv la conversation avec le client
+     */
+    public void envoiNotificationClient(Conversation conv) {
+        StringWriter corps = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(corps);
+        
+        mailWriter.println("Votre demande de voyance du " + conv.getDebut() 
+                         + " a bien été enregistrée. ");
+        mailWriter.println("Vous pouvez dès à présent me contacter au "
+                         + conv.getEmploye().getNumeroTel() +".");
+        mailWriter.println("A tout de suite !");
+        mailWriter.println("Posit'ifement vôtre, "+ conv.getMedium().getNom());
+        
+        String telDest = conv.getClient().getNumeroTel();
+        Message.envoyerNotification(telDest, corps.toString());
     }
 
     /**

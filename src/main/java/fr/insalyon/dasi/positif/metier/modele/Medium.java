@@ -99,6 +99,9 @@ public class Medium implements Serializable {
     public void setEmployes(List<Employe> employes) {
         this.employes = employes;
     }
+     public void addConversation (Conversation conversation){
+        this.conversation.add(conversation); 
+    }
 
     @Override
     public int hashCode() {

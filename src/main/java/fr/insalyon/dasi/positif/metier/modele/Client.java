@@ -102,12 +102,9 @@ public class Client extends Personne implements Serializable {
         this.dateNaissance = dateNaissance;
         this.adresse = adresse;
         this.numeroTel = numeroTel;
-
-        this.signeChinois = signeChinois;
-        this.couleur = couleur;
-        this.animal = animal;
         this.conversations = new ArrayList<>();
 
+        
         AstroTest astroApi = new AstroTest();
         try {
             List<String> profil = astroApi.getProfil(prenom, this.dateNaissance);
@@ -186,6 +183,10 @@ public class Client extends Personne implements Serializable {
 
     public void setSigneZodiaque(String signeZodiaque) {
         this.signeZodiaque = signeZodiaque;
+    }
+    
+    public void addConversation (Conversation conversation){
+        this.conversations.add(conversation); 
     }
 
     @Override
