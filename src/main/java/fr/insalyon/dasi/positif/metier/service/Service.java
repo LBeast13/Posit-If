@@ -410,4 +410,6 @@ public class Service {
         AstrologueDAO.creer(m6);
         JpaUtil.validerTransaction();
     }
+    
+ 
 }

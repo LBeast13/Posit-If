@@ -1,8 +1,10 @@
 package fr.insalyon.dasi.positif.vue;
 
 import fr.insalyon.dasi.positif.dao.JpaUtil;
+import fr.insalyon.dasi.positif.metier.modele.Astrologue;
 import fr.insalyon.dasi.positif.metier.modele.Client;
 import fr.insalyon.dasi.positif.metier.modele.Conversation;
+import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Medium;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
@@ -182,7 +184,13 @@ public class Test {
         System.out.println("\ncamembert voyances/employe = " + Service.ObtenirCamembertVoyancesParEmploye());
         System.out.println("========== FIN TEST SERVICE GRAPHIQUES ==========");
     }
-
+ 
+//     //  ======================
+//       ||   DEMONSTRATION  ||
+//     *  ======================
+//     *
+//     */
+    
     /**
      * Méthode main(): point d'entrée de ce programme de test.
      *
@@ -192,9 +200,128 @@ public class Test {
 
         // Initialisation du JpaUtil
         JpaUtil.init();
+  Service service = new Service();
+    
 
-        //Initialisation des employés et des médiums
+        System.out.println("\n\n========== INITIALISATION ==========");
+        System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
         Service.initialisation();
+        
+         Astrologue m8 = new Astrologue("brenda", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre passé.", "École Normale Supérieur d'Astrologie (ENS-Astro)", "2006");
+       
+        System.out.println("\n\n========== CONNEXIONS D'EMPLOYES ==========");
+        System.out.println("CONNEXION DE LIAM :");
+        System.out.println("RESULTAT = " + service.seConnecter("liam.bette@posit.if", "toto123"));
+        
+        System.out.println("\nCONNEXION DE ALEXIS :");
+        System.out.println("RESULTAT = " + service.seConnecter("alexis.bosio@posit.if", "123456"));
+              
+               
+        System.out.println("\nCONNEXION DE ZOUHAIR (mauvais identifiant) :");
+        System.out.println("RESULTAT = " + service.seConnecter("souhait@csdkn.lef", "GXzr"));
+        
+        System.out.println("\nCONNEXION DE ZOUHAIR (mauvais mot de passe) :");
+        System.out.println("RESULTAT = " + service.seConnecter("alexis.bosio@posit.if", "mauvais mot de passe"));
+        
+        System.out.println("\n\n========== INSCRIPTION DE EMPLOYES ==========");
+        Employe e3 = new Employe(true, "COTE", "Bernard", "bernardo", "bernardo@peinardo.com", "0600000012");
+        
+        System.out.println("\n\n========== INSCRIPTION DE CLIENTS ==========");
+        Client gerard = new Client("Mentor", "Gerard", "password1", "email1@gmail.com", "0624578675", new Date(97,05,28), "Chine");
+        System.out.println("INSCRIPTION DE GERARD :");
+        System.out.println("RESULTAT = " + service.sInscrire(gerard));
+        
+         Client claude = new Client("RETU", "Claude", "LTce", "claude.lost@google.com", "0624578675", new Date(85,05,28), "Chine");
+        System.out.println("INSCRIPTION DE GERARD :");
+        System.out.println("RESULTAT = " + service.sInscrire(claude));
+            
+        /**/
+        
+        System.out.println("\n\n========== CONNEXIONS DE CLIENTS ==========");
+        System.out.println("CONNEXION DE CLAUDE :");
+        Personne claudeConnecte = Service.seConnecter("claude.lost@google.com", "LTce");
+        System.out.println("RESULTAT = " + claudeConnecte);
+        
+        System.out.println("\nCONNEXION DE JEAN :");
+        Personne jeanConnecte = Service.seConnecter("jean.neymar@google.com", "NRJn");
+        System.out.println("RESULTAT = " + jeanConnecte);
+        
+        System.out.println("\nCONNEXION DE JEAN (mauvaise adresse) :");
+        System.out.println("RESULTAT = " + Service.seConnecter("mauvaise adresse", "NRJn"));
+        
+        System.out.println("\nCONNEXION DE JEAN (mauvais mot de passe) :");
+        System.out.println("RESULTAT = " + Service.seConnecter("jean.neymar@google.com", "mauvais mot de passe"));
+        
+        
+        System.out.println("\n\n========== DEMANDES DINFORMATIONS SUR LES MEDIUMS ==========");       
+        System.out.println("\nDEMANDE TOUT LES MEDIUMS :");
+        List<Medium>  mediums = Service.obtenirTousMediums();
+        System.out.println("RESULTAT = " + mediums);
+        
+        
+        System.out.println("\n\n========== DEMANDES DE VOYANCE ==========");
+        System.out.println("CLAUDE DEMANDE MEDIUM DU JOUR :");
+        Conversation conversationClaude = service.demanderVoyance (claude, mediums.get(0) );
+        Employe employeConversationClaude = conversationClaude.getEmploye();
+        System.out.println("RESULTAT = " + conversationClaude + '\n'); 
+        
+        System.out.println("\n\n========== ACCEPTATION DE VOYANCE ==========");
+        System.out.println("ACCEPTATION DE LA VOYANCE DE CLAUDE :");
+        
+        System.out.println("RESULTAT = " + conversationClaude);
+        
+        
+        System.out.println("\n\n========== DEMANDE DE PREDICTIONS POUR UN CLIENT ==========");
+        System.out.println("DEMANDE DE PREDICTIONS POUR CLAUDE :");
+        System.out.println("RESULTAT = " + Service.ObtenirPredictions(conversationClaude.getClient(), 2, 0, 4));
+              
+        
+        System.out.println("\n\n========== FIN DE VOYANCE ==========");
+        System.out.println("Attente de 2 secondes...");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.hashCode();
+        }
+        System.out.println("FIN DE LA VOYANCE DE CLAUDE (" + new Date() +") :");
+        Service.TerminerVoyance(conversationClaude);
+        System.out.println("RESULTAT = " + conversationClaude);
+        
+        System.out.println("\nAttente de 2 secondes...");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.hashCode();
+        }
+        System.out.println("FIN DE LA VOYANCE DE CLAUDE (" + new Date() +") :");
+        Service.TerminerVoyance(conversationClaude);
+        System.out.println("RESULTAT = " + conversationClaude);
+        
+        
+           
+        
+        System.out.println("\n\n========== COMMENTER UNE VOYANCE ==========");
+        System.out.println("COMMENTER LA VOYANCE De CLAUDE :");
+        Service.CommenterVoyance(conversationClaude,"CLAUDE est complexé par la petite taille de son phalus.");
+        System.out.println("RESULTAT = " + conversationClaude);
+        
+        
+        System.out.println("\n\n========== DEMANDER LES STATISTIQUES ==========");
+        System.out.println("DEMANDER L'HISTOGRAMME DE VOYANCES PAR MEDIUM :");
+        System.out.println("RESULTAT = " + Service.ObtenirHistogrammeVoyancesParMedium());
+        
+        System.out.println("\nDEMANDER L'HISTOGRAMME DE VOYANCES PAR EMPLOYE :");
+        System.out.println("RESULTAT = " + Service.ObtenirHistogrammeVoyancesParEmploye());
+        
+        System.out.println("\nDEMANDER LE CAMEMBERT DE VOYANCES PAR EMPLOYE :");
+        System.out.println("RESULTAT = " + Service.ObtenirCamembertVoyancesParEmploye());
+        
+        System.out.println("\n\n");
+        
+       
+    
+        //Initialisation des employés et des médiums
+        //Service.initialisation();
 
         // Ici, appel des différentes méthodes de test
         // Mettre/Enlever les commentaires pour réaliser une série de test
