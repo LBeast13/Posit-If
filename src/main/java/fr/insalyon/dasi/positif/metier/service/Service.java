@@ -1,6 +1,6 @@
 package fr.insalyon.dasi.positif.metier.service;
 
-import fr.insalyon.dasi.positif.dao.AstroTestDAO;
+
 import fr.insalyon.dasi.positif.dao.AstrologueDAO;
 import fr.insalyon.dasi.positif.dao.ClientDAO;
 import fr.insalyon.dasi.positif.dao.ConversationDAO;
@@ -197,7 +197,13 @@ public class Service {
      */
     public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
     {
-        return AstroTestDAO.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+        AstroTest astro = new AstroTest (); 
+        try {
+            return astro.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+        } catch (IOException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
     
     /**
