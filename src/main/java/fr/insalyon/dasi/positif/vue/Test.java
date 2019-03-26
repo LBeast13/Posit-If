@@ -41,6 +41,11 @@ public class Test {
         // Initialisation du JpaUtil
         JpaUtil.init();
         
+        /*Service service = new Service();
+        System.out.println("\n\n========== INITIALISATION ==========");
+        System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
+        Service.initialisation();*/
+        
         demonstrationIHM();
         //demonstrationTest();
         
@@ -59,15 +64,15 @@ public class Test {
      */
     public static void demonstrationIHM(){
         Service service = new Service();
-        System.out.println("\n\n========== INITIALISATION ==========");
+        /*System.out.println("\n\n========== INITIALISATION ==========");
         System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
-        Service.initialisation();
+        Service.initialisation();*/
         
         boolean exit=false;
         
         // Boucle principale
         while(exit==false){
-            System.out.println("===============================");
+            System.out.println("\n===============================");
             System.out.println("           POSIT'IF");
             System.out.println("===============================");
             System.out.println("Vous souhaitez : ");
@@ -82,7 +87,7 @@ public class Test {
             while(connecte == false){
                 switch(choixConnInsc){
                     case 1 :
-                        System.out.println("===============================");
+                        System.out.println("\n===============================");
                         System.out.println("          CONNEXION");
                         System.out.println("===============================");
                         String email = Saisie.lireChaine("Email : ");
@@ -96,7 +101,7 @@ public class Test {
 
                     case 2 :
                         boolean inscr = false;
-                        System.out.println("===============================");
+                        System.out.println("\n===============================");
                         System.out.println("         INSCRIPTION");
                         System.out.println("===============================");
                         String nom = Saisie.lireChaine("Nom : ");
@@ -141,7 +146,7 @@ public class Test {
             else if(p.getClass() == Client.class){ //CLIENT
                 int choixClient = 0;
                 while(choixClient !=3){
-                    System.out.println("===============================");
+                    System.out.println("\n===============================");
                     System.out.println("BONJOUR " + p.getPrenom().toUpperCase());
                     System.out.println("===============================");
                     System.out.println("Que souhaitez-vous faire ?");
@@ -153,7 +158,7 @@ public class Test {
                     switch(choixClient){
                         case 1: //Liste des médiums
                             List<Medium>  mediums = service.obtenirTousMediums();
-                            System.out.println("===============================");
+                            System.out.println("\n===============================");
                             System.out.println("       LISTE DES MÉDIUMS");
                             System.out.println("===============================");
                             for(int i=0; i<mediums.size(); i++){
@@ -162,7 +167,7 @@ public class Test {
                             break;
                         case 2: //Demander voyance
                             List<Medium>  mediums1 = service.obtenirTousMediums();
-                            System.out.println("===============================");
+                            System.out.println("\n===============================");
                             System.out.println("      DEMANDE DE VOYANCE");
                             System.out.println("===============================");
                             System.out.println("Veuillez choisir le médium pour la voyance :");
@@ -172,7 +177,7 @@ public class Test {
                                 choix.add(i);
                             }
                             int choixMedium = Saisie.lireInteger("Entrez votre choix : ", choix);
-                            System.out.println("===============================");
+                            System.out.println("\n===============================");
                             System.out.println("  NOTIFICATION POUR L'EMPLOYÉ");
                             System.out.println("===============================");
                             Client c = (Client) p;
@@ -185,7 +190,7 @@ public class Test {
                                 ex.hashCode();
                             }
                              
-                            System.out.println("===============================");
+                            System.out.println("\n===============================");
                             System.out.println("PROFIL ET HISTORIQUE DU CLIENT");
                             System.out.println("  (CONSULTÉ PAR L'EMPLOYÉ)");
                             System.out.println("===============================");
@@ -198,12 +203,12 @@ public class Test {
                             
                             Saisie.lireChaine("Tapez quelque chose pour accepter la demande : ");
                             
-                            System.out.println("=======================================");
+                            System.out.println("\n=======================================");
                             System.out.println("ACCEPTATION DE LA DEMANDE PAR L'EMPLOYÉ ");
                             System.out.println("=======================================");
                             service.AccepterVoyance(conv);  
 
-                            System.out.println("========================================");
+                            System.out.println("\n========================================");
                             System.out.println("PRÉDICTION POUR LE CLIENT (CÔTÉ EMPLOYÉ)");
                             System.out.println("========================================");
                             int noteAmour = Saisie.lireInteger("Note pour Amour (0 à 4) :", Arrays.asList(0,1,2,3,4));
@@ -216,7 +221,7 @@ public class Test {
                                 System.out.println("    " + predictions.get(i));
                             }
 
-                            System.out.println("========================================");
+                            System.out.println("\n========================================");
                             System.out.println("            VOYANCE EN COURS");
                             System.out.println("========================================");
                             int finVoyance = 0;
@@ -225,7 +230,7 @@ public class Test {
                             }
                             Service.TerminerVoyance(conv);
 
-                            System.out.println("========================================");
+                            System.out.println("\n========================================");
                             System.out.println("      COMMENTAIRE DE FIN DE VOYANCE");
                             System.out.println("========================================");
                             String commentaire = Saisie.lireChaine("Entrez un commentaire sur la voyance réalisée : ");
@@ -233,8 +238,8 @@ public class Test {
                             break;
                             
                         case 3: //Déconnexion
-                            System.out.println("========================================");
-                            System.out.println("AU REVOIR " + p.getPrenom().toUpperCase() + ":)");
+                            System.out.println("\n========================================");
+                            System.out.println("AU REVOIR " + p.getPrenom().toUpperCase() + " :)");
                             System.out.println("========================================");
                             break;
                     }   
@@ -243,7 +248,7 @@ public class Test {
             else if(p.getClass() == Employe.class){ //EMPLOYÉ
                 int choixEmploye = 0;
                 while(choixEmploye != 4){
-                    System.out.println("===============================");
+                    System.out.println("\n===============================");
                     System.out.println("BONJOUR " + p.getPrenom().toUpperCase());
                     System.out.println("       TABLEAU DE BORD");
                     System.out.println("===============================");
@@ -257,7 +262,7 @@ public class Test {
                     switch (choixEmploye){
                         case 1: //HISTOGRAMME VOYANCES PAR MÉDIUM
                             HashMap<String,Integer> stats1 = service.ObtenirHistogrammeVoyancesParMedium();
-                            System.out.println("========================================");
+                            System.out.println("\n========================================");
                             System.out.println("    HISTOGRAMME VOYANCES PAR MÉDIUM");
                             System.out.println("========================================");
                             Set cles = stats1.keySet();
@@ -267,12 +272,12 @@ public class Test {
                                int valeur = stats1.get(cle); 
                                System.out.println("     - " + cle + " : " + valeur);
                             }
-                            System.out.println("\n\n");
+                            System.out.println("\n");
                             break;
                         
                         case 2: //HISTOGRAME DE VOYANCES PAR EMPLOYÉ
                             HashMap<String,Integer> stats2 = Service.ObtenirHistogrammeVoyancesParEmploye();
-                            System.out.println("========================================");
+                            System.out.println("\n========================================");
                             System.out.println("   HISTOGRAME DE VOYANCES PAR EMPLOYÉ");
                             System.out.println("========================================");
                             Set cles2 = stats2.keySet();
@@ -282,11 +287,11 @@ public class Test {
                                int valeur = stats2.get(cle); 
                                System.out.println("     - " + cle + " : " + valeur);
                             }
-                            System.out.println("\n\n");
+                            System.out.println("\n");
                             break;
                         case 3: //RÉPARTITION DES VOYANCE PAR EMPLOYÉ
                             HashMap<String,Float> stats3 = Service.ObtenirCamembertVoyancesParEmploye();
-                            System.out.println("========================================");
+                            System.out.println("\n========================================");
                             System.out.println("  RÉPARTITION DES VOYANCE PAR EMPLOYÉ");
                             System.out.println("========================================");
                             Set cles3 = stats3.keySet();
@@ -296,7 +301,7 @@ public class Test {
                                float valeur = stats3.get(cle); 
                                System.out.println("     - " + cle + " : " + valeur);
                             }
-                            System.out.println("\n\n");
+                            System.out.println("\n");
                             break;
                     }
                 }
