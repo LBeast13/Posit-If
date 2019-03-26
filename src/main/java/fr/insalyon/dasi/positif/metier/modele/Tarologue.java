@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
@@ -38,7 +33,6 @@ public class Tarologue extends Medium implements Serializable {
      * Constructeur
      * @param nom Le nom du Tarologue
      * @param descriptif Le descriptif du Tarologue
-     * @param listEmp La liste des employés qui peuvent incarner ce personnage
      */
     public Tarologue(String nom, String descriptif) {
         super(nom, descriptif);

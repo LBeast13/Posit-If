@@ -1,23 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.dao;
 
-import fr.insalyon.dasi.positif.metier.modele.Client;
-import fr.insalyon.dasi.positif.metier.modele.Employe;
 import fr.insalyon.dasi.positif.metier.modele.Personne;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
- *
- * @author tremy
+ * The Data Access Object of Personne
+ * 
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class PersonneDAO {
     
-    
+    /**
+     * Récupère dans la table Personne (base de donnée) la personne
+     * possédant l'email passé en paramètre.
+     * @param email l'email de la personne recherchée
+     * @return la Personne recherchée si elle est présente, null sinon
+     */
     public static Personne obtenir(String email) {
          EntityManager em = JpaUtil.obtenirEntityManager();
         try {

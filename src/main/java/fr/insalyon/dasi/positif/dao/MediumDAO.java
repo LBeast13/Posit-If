@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.dao;
 
 
@@ -11,8 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- *
- * @author tremy
+ * Le Data Access Object de Medium
+ * 
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class MediumDAO {
 
@@ -25,6 +21,10 @@ public class MediumDAO {
         return em.createQuery("SELECT m FROM Medium m").getResultList();
     }
 
+    /**
+     * Modifie le Medium passé en paramètre dans la base de donnée
+     * @param m le Medium à modifier
+     */
     public static void modifier(Medium m) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.merge(m);

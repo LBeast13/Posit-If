@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.UniqueConstraint;
 
 /**
  * Classe représentant une personne.
@@ -112,6 +111,8 @@ public class Personne implements Serializable {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
+    
+    
 
     public Long getId() {
         return id;

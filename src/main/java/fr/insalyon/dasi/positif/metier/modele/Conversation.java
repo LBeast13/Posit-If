@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
@@ -43,8 +38,20 @@ public class Conversation implements Serializable {
      * Commentaire de la conversation
      */
     private String commentaire;
+    
+    /**
+     * Employé de la conversation.
+     */
     private Employe employe;
+    
+    /**
+     * Medium de la conversation.
+     */
     private Medium medium;
+    
+    /**
+     * Client de la conversation.
+     */
     private Client client;
 
     /**
@@ -65,7 +72,6 @@ public class Conversation implements Serializable {
         this.employe = employe;
         this.medium = medium;
         this.client = client;
-        this.debut = new Date();
 
     }
 
@@ -146,6 +152,13 @@ public class Conversation implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Conversation[ id=" + id + " ]";
+        String affichage = "Conversation #"+ id +
+                           " | Client : " + client.getPrenom() + " " + client.getNom()+
+                           " |  Médium : " + medium.getNom() +
+                           " |  Employé : " + employe +
+                           " |  Date de début : " + debut +
+                           " |  Date de fin : " + fin +
+                           " |  Commentaire : " + commentaire;
+        return affichage;
     }
 }

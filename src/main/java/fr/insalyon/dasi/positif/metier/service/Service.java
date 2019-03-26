@@ -22,21 +22,23 @@ import fr.insalyon.dasi.positif.util.Message;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.RollbackException;
 
 /**
- *
+ * Classe qui regroupe tous les services utiles à l'application.
+ * 
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class Service {
     
     public Service() {
-
     }
 
     /**
@@ -57,7 +59,7 @@ public class Service {
             JpaUtil.fermerEntityManager();
             return true;
 
-        } catch (Exception e) {
+        } catch (RollbackException e) {
             envoiMailInscription(client, 1);
             JpaUtil.fermerEntityManager();
             return false;
@@ -66,13 +68,13 @@ public class Service {
 
     /**
      * Recherche la personne dans la base de donnée à l'aide de son adresse
-     * email et son mot de passe.
+     * email et de son mot de passe.
      *
      * @param email L'adresse email de la personne
      * @param motDePasse Le mot de passe de la personne
-     * @return La Personne à condition qu'il existe dans la base.
+     * @return La Personne à condition qu'elle existe dans la base.
      */
-    public static Personne seConnecter(String email, String motDePasse) {
+    public Personne seConnecter(String email, String motDePasse) {
         JpaUtil.creerEntityManager();
         Personne personne = PersonneDAO.obtenir(email);
         JpaUtil.fermerEntityManager();
@@ -90,7 +92,7 @@ public class Service {
      *
      * @return La liste des Mediums
      */
-    public static List<Medium> obtenirTousMediums() {
+    public List<Medium> obtenirTousMediums() {
         JpaUtil.creerEntityManager();
         List<Medium> listesMediums = MediumDAO.obtenirTous();
         JpaUtil.fermerEntityManager();
@@ -98,11 +100,13 @@ public class Service {
     }
 
     /**
-     * Créer une conversation qui met en relation un Client et un Medium
+     * Créé une conversation qui met en relation un Client et un Medium
+     * interprété par un employé.
+     * Envoie une notification à l'employé (console)
      *
-     * @param client Le client qui demande la consultation
-     * @param medium Le medium avec qui il veut réaliser la consultation
-     * @return La conversation et nulle si le médium n'est pas disponible
+     * @param client Le client qui demande la conversation
+     * @param medium Le medium avec qui il veut réaliser la conversation
+     * @return La conversation, null si le médium n'est pas disponible
      */
     public Conversation demanderVoyance(Client client, Medium medium) {
 
@@ -117,13 +121,13 @@ public class Service {
         employe.addConversation(conversation);
         medium.addConversation(conversation);
         client.addConversation(conversation);
+        
         // Transaction
         JpaUtil.ouvrirTransaction();
         ConversationDAO.creer(conversation);
         MediumDAO.modifier(medium);
         ClientDAO.modifier(client);
-        EmployeDAO.modifier(employe);
-               
+        EmployeDAO.modifier(employe);    
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
         
@@ -135,16 +139,24 @@ public class Service {
 
     /** 
      * Accepte la voyance et envoi une notification au client
-     * @param conversation 
+     * @param conversation la conversation entre le client et le medium
      */
     public void AccepterVoyance(Conversation conversation) {
+        conversation.setDebut(new Date());
+        
+        //Transaction
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        ConversationDAO.modifier(conversation);
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
         
         envoiNotificationClient(conversation);
     }
 
     /**
      * Met fin à la voyance (date de fin) et rend disponible l'employé
-     * @param conversation 
+     * @param conversation la conversation entre le client et le medium.
      */
     public static void TerminerVoyance(Conversation conversation) {
         JpaUtil.creerEntityManager();
@@ -186,7 +198,7 @@ public class Service {
      * @param amour Une note en amour de 1 PAS BON à 4 BON
      * @param sante Une note en sante de 1 PAS BON à 4 BON
      * @param travail Une note de 1 PAS BON à 4 BON
-     * @return La liste des predictions dans l'ordre suivant (amour, sante, travail) et null (déso) si une erreur s'est produite.
+     * @return La liste des predictions dans l'ordre suivant (amour, sante, travail) et null si une erreur s'est produite.
      */
     public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
     {
@@ -203,17 +215,16 @@ public class Service {
      * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par médium.
      * @return Un dictionnaire des couples (clé = nom du medium, valeur = nombre de voyance).
      */
-    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParMedium()
+    public HashMap<String,Integer> ObtenirHistogrammeVoyancesParMedium()
     {
         List<Medium> mediums = obtenirTousMediums();
         
         HashMap<String,Integer> histogramme = new HashMap<>();
-        for(Medium m : mediums){
+        mediums.forEach((m) -> {
             String nom = m.getNom();
             Integer nbVoyances = m.getConversations().size();
-             System.out.println("\nhistogramme voyances/mediums SERVICE= " + nbVoyances);
             histogramme.put(nom, nbVoyances);
-        }
+        });
         return histogramme;
     }
     
@@ -229,11 +240,11 @@ public class Service {
         JpaUtil.fermerEntityManager();
         
         HashMap<String,Integer> histogramme = new HashMap<>();
-        for(Employe e : employes){
+        employes.forEach((e) -> {
             String nomPrenom = e.getPrenom() + ' ' + e.getNom();
             Integer nbVoyances = e.getConversations().size();
             histogramme.put(nomPrenom, nbVoyances);
-        }
+        });
         return histogramme;
     }
     
@@ -321,7 +332,9 @@ public class Service {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
-        mailWriter.println("Votre demande de voyance du " + conv.getDebut() 
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(conv.getDebut());
+        
+        mailWriter.println("Votre demande de voyance du " + date 
                          + " a bien été enregistrée. ");
         mailWriter.println("Vous pouvez dès à présent me contacter au "
                          + conv.getEmploye().getNumeroTel() +".");
@@ -341,7 +354,7 @@ public class Service {
 
         // Employés Init
         Employe e1 = new Employe(true, "Bette", "Liam", "toto123", "liam.bette@posit.if", "0600000001");
-        Employe e2 = new Employe(false, "Bosio", "Alexis", "123456", "alexis.bosio@posit.if", "0600000002");
+        Employe e2 = new Employe(true, "Bosio", "Alexis", "123456", "alexis.bosio@posit.if", "0600000002");
         Employe e3 = new Employe(true, "Remy", "Thibault", "blabli123", "thibault.remy@posit.if", "0600000003");
 
         // Mediums

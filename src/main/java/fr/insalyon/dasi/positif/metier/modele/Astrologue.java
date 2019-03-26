@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +43,6 @@ public class Astrologue extends Medium implements Serializable {
      * @param descriptif Le descriptif de l'astrologue
      * @param formation La formation de l'astrologue
      * @param promotion La date de promotion de l'astrologue
-     * @param listEmp La liste des employés qui peuvent incarner ce personnage
      */
     public Astrologue(String nom, String descriptif, String formation, String promotion) {
         super(nom, descriptif);

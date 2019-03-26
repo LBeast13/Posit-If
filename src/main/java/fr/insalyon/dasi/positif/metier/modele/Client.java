@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import fr.insalyon.dasi.positif.util.AstroTest;
@@ -22,7 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
- * La classe représentant un Client. Super classe : Personne.
+ * La classe représentant un Client. 
+ * Super classe : Personne.
  *
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
@@ -118,17 +114,12 @@ public class Client extends Personne implements Serializable {
 
     }
 
-    /**
+    /*
      * ******** GETTERS ET SETTERS  ***************
      */
     public Date getDateNaissance() {
         return dateNaissance;
     }
-
-    /**
-     *
-     * @return liste des conversations auxquelles participe client
-     */
     public List<Conversation> getConversations() {
         return conversations;
     }
@@ -211,6 +202,15 @@ public class Client extends Personne implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Client[ id=" + id + " ]";
+        String affichage = "== Client #" + this.getId() +
+                           "\nNom : " + this.getNom() +
+                           "\nPrénom : " + this.getPrenom() +
+                           "\nEmail : " + this.getEmail() +
+                           "\nTéléphone : " + numeroTel +
+                           "\nSigne du Zodiac : " + signeZodiaque +
+                           "\nSigne Chinois : " + signeChinois +
+                           "\nAnimal Totem : " + animal +
+                           "\nCouleur porte bonheur : " + couleur;
+        return affichage;
     }
 }

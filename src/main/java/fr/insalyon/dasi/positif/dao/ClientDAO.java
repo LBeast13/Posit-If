@@ -3,10 +3,10 @@ package fr.insalyon.dasi.positif.dao;
 import fr.insalyon.dasi.positif.metier.modele.Client;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 /**
- *
+ * Le Data Access Object de Personne
+ * 
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class ClientDAO extends PersonneDAO {
@@ -20,8 +20,6 @@ public class ClientDAO extends PersonneDAO {
         return em.createQuery("SELECT c FROM Client c").getResultList();
     }
 
-    
-   
     /**
      * Crée un nouveau client dans la base de données
      * @param c le client à créer
@@ -31,6 +29,10 @@ public class ClientDAO extends PersonneDAO {
         em.persist(c);
     }
 
+    /**
+     * Permet de modifier le client passé en paramètre dans la base de donnée
+     * @param c le client à modifier
+     */
     public static void modifier(Client c) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.merge(c);

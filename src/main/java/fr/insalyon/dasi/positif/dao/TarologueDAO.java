@@ -1,19 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.dao;
 
 import fr.insalyon.dasi.positif.metier.modele.Tarologue;
 import javax.persistence.EntityManager;
 
 /**
- *
- * @author Liam
+ * Le Data Access Object de Tarologue
+ * 
+ * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
 public class TarologueDAO extends MediumDAO {
     
+    /**
+     * Créé le voyant dans la base de donnée
+     * @param t le voyant à insérer dans la base
+     */
     public static void creer(Tarologue t) {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.persist(t);

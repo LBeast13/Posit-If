@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +38,6 @@ public class Voyant extends Medium implements Serializable {
      * @param specialite La specialité du Voyant
      * @param nom Le nom du Voyant
      * @param descriptif Le descriptif du Voyant.
-     * @param listEmp La liste des employés qui peuvent incarner ce personnage
      */
     public Voyant(String specialite, String nom, String descriptif) {
         super(nom, descriptif);
@@ -69,7 +62,6 @@ public class Voyant extends Medium implements Serializable {
     public void setSpecialite(String specialite) {
         this.specialite = specialite;
     }
-    
 
     @Override
     public int hashCode() {
@@ -90,6 +82,4 @@ public class Voyant extends Medium implements Serializable {
         }
         return true;
     }
-
-    
 }

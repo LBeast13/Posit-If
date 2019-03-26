@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
@@ -17,7 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
- * Classe représentant un employé. Super classe : Personne.
+ * Classe représentant un employé. 
+ * Super classe : Personne.
  *
  * @author Liam BETTE, Alexis BOSIO, Thibault REMY
  */
@@ -91,9 +87,6 @@ public class Employe extends Personne implements Serializable {
         return conversations;
     }
 
-    /**
-     * @param mediums que l'employé peut interpréter.
-     */
     public void setMediums(List<Medium> mediums) {
         this.mediums = mediums;
     }
@@ -101,7 +94,8 @@ public class Employe extends Personne implements Serializable {
     public void setDisponible(boolean dispo) {
         this.disponible = dispo;
     }
-     public void addConversation (Conversation conversation){
+    
+    public void addConversation (Conversation conversation){
         this.conversations.add(conversation); 
     }
 
@@ -127,6 +121,6 @@ public class Employe extends Personne implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.dasi.positif.metier.modele.Employe[ id=" + id + " ]";
+        return this.getPrenom() + " " + this.getNom();
     }
 }

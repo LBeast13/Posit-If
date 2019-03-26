@@ -26,18 +26,6 @@ import org.apache.http.message.BasicNameValuePair;
  * @author DASI Team
  *
  */
-/* DÉPENDANCES Maven:
-<dependency>
-   <groupId>com.google.code.gson</groupId>
-   <artifactId>gson</artifactId>
-   <version>2.8.5</version>
-</dependency>
-<dependency>
-   <groupId>org.apache.httpcomponents</groupId>
-   <artifactId>httpclient</artifactId>
-   <version>4.5.7</version>
-</dependency>
- */
 public class AstroTest {
 
     final static String MA_CLE_ASTRO_API = "ASTRO-01-M0lGLURBU0ktQVNUUk8tQjAx";

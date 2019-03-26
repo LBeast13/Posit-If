@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.positif.metier.modele;
 
 import java.io.Serializable;
@@ -32,8 +27,15 @@ public class Medium implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * La liste des employés pouvant incarner le Medium
+     */
     @ManyToMany
     private List<Employe> employes = new ArrayList<Employe>();
+    
+    /**
+     * La liste des conversations du Medium
+     */
     @OneToMany
     private List<Conversation> conversation = new ArrayList<Conversation>();
     
@@ -95,11 +97,19 @@ public class Medium implements Serializable {
         return conversation;
     }
 
-
     public void setEmployes(List<Employe> employes) {
         this.employes = employes;
     }
-     public void addConversation (Conversation conversation){
+
+    public List<Conversation> getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(List<Conversation> conversation) {
+        this.conversation = conversation;
+    }
+
+    public void addConversation (Conversation conversation){
         this.conversation.add(conversation); 
     }
 
