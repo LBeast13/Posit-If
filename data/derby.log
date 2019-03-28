@@ -17,3 +17,33 @@ Le système peut se trouver dans un état incohérent ; fichier manquant C:\Users\L
 ------------  Fin de message d'erreur -------------
 
 Chargeur de classe de la base de données démarré - derby.database.classpath = ''
+----------------------------------------------------------------
+Thu Mar 28 16:38:00 CET 2019:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631) : instance 24e290fc-0169-c4c8-4458-ffffb9a008a8 
+dans le répertoire de base de données C:\Users\Liam\Documents\NetBeansProjects\positif\data\positifDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@60e53b93
+Chargé de file:/C:/Program%20Files/java/jdk1.8.0_40/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_40-b26
+user.dir=C:\Program Files\Java\jdk1.8.0_40\db
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=C:\Users\Liam\Documents\NetBeansProjects\positif\data
+Chargeur de classe de la base de données démarré - derby.database.classpath = ''
+----------------------------------------------------------------
+Thu Mar 28 16:38:07 CET 2019:
+Fermeture de l'instance 24e290fc-0169-c4c8-4458-ffffb9a008a8 sur le répertoire de base de données C:\Users\Liam\Documents\NetBeansProjects\positif\data\positifDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@60e53b93 
+Thu Mar 28 16:38:07 CET 2019 Thread[DRDAConnThread_5,5,main] (DATABASE = positifDB), (DRDAID = {31}), Arrêt de la base de données 'positifDB'.
+----------------------------------------------------------------
+Thu Mar 28 16:38:12 CET 2019:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631) : instance 7fe1519a-0169-c4c8-4458-ffffb9a008a8 
+dans le répertoire de base de données C:\Users\Liam\Documents\NetBeansProjects\positif\data\positifDB avec le chargeur de classe sun.misc.Launcher$AppClassLoader@60e53b93
+Chargé de file:/C:/Program%20Files/java/jdk1.8.0_40/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_40-b26
+user.dir=C:\Program Files\Java\jdk1.8.0_40\db
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=C:\Users\Liam\Documents\NetBeansProjects\positif\data
+Chargeur de classe de la base de données démarré - derby.database.classpath = ''

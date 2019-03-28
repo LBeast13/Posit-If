@@ -100,10 +100,6 @@ public class Medium implements Serializable {
     public void setEmployes(List<Employe> employes) {
         this.employes = employes;
     }
-    
-    public void addConversation (Conversation conversation){
-        this.conversation.add(conversation); 
-    }
 
     public List<Conversation> getConversation() {
         return conversation;
@@ -111,6 +107,10 @@ public class Medium implements Serializable {
 
     public void setConversation(List<Conversation> conversation) {
         this.conversation = conversation;
+    }
+
+    public void addConversation (Conversation conversation){
+        this.conversation.add(conversation); 
     }
 
     @Override

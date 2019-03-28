@@ -9,11 +9,11 @@ import fr.insalyon.dasi.positif.metier.modele.Personne;
 import fr.insalyon.dasi.positif.metier.service.Service;
 import fr.insalyon.dasi.positif.util.AstroTest;
 import fr.insalyon.dasi.positif.util.Saisie;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -41,10 +41,10 @@ public class Test {
         // Initialisation du JpaUtil
         JpaUtil.init();
         
-        Service service = new Service();
+        /*Service service = new Service();
         System.out.println("\n\n========== INITIALISATION ==========");
         System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
-        Service.initialisation();
+        Service.initialisation();*/
         
         demonstrationIHM();
         //demonstrationTest();
@@ -58,14 +58,15 @@ public class Test {
 //     *  ======================
 //     *
 //     */
+    
     /**
      * IHM Console pour la démonstration
      */
     public static void demonstrationIHM(){
         Service service = new Service();
-        /*System.out.println("\n\n========== INITIALISATION ==========");
+        System.out.println("\n\n========== INITIALISATION ==========");
         System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
-        Service.initialisation();*/
+        Service.initialisation();
         
         boolean exit=false;
         
@@ -214,7 +215,7 @@ public class Test {
                             int noteSante = Saisie.lireInteger("Note pour Santé (0 à 4) :", Arrays.asList(0,1,2,3,4));
                             int noteTravail = Saisie.lireInteger("Note pour Travail (0 à 4) :", Arrays.asList(0,1,2,3,4));
 
-                            List<String> predictions = service.ObtenirPredictions(conv.getClient(), noteAmour, noteSante, noteTravail); 
+                            List<String> predictions = Service.ObtenirPredictions(conv.getClient(), noteAmour, noteSante, noteTravail); 
                             System.out.println("PRÉDICTIONS : ");
                             for(int i=0; i<predictions.size(); i++){
                                 System.out.println("    " + predictions.get(i));
@@ -227,13 +228,13 @@ public class Test {
                             while(finVoyance!=1){
                                 finVoyance = Saisie.lireInteger("Entrez 1 pour terminer la voyance : ",Arrays.asList(1));
                             }
-                            service.TerminerVoyance(conv);
+                            Service.TerminerVoyance(conv);
 
                             System.out.println("\n========================================");
                             System.out.println("      COMMENTAIRE DE FIN DE VOYANCE");
                             System.out.println("========================================");
                             String commentaire = Saisie.lireChaine("Entrez un commentaire sur la voyance réalisée : ");
-                            service.CommenterVoyance(conv,commentaire);
+                            Service.CommenterVoyance(conv,commentaire);
                             break;
                             
                         case 3: //Déconnexion
@@ -275,7 +276,7 @@ public class Test {
                             break;
                         
                         case 2: //HISTOGRAME DE VOYANCES PAR EMPLOYÉ
-                            HashMap<String,Integer> stats2 = service.ObtenirHistogrammeVoyancesParEmploye();
+                            HashMap<String,Integer> stats2 = Service.ObtenirHistogrammeVoyancesParEmploye();
                             System.out.println("\n========================================");
                             System.out.println("   HISTOGRAME DE VOYANCES PAR EMPLOYÉ");
                             System.out.println("========================================");
@@ -289,7 +290,7 @@ public class Test {
                             System.out.println("\n");
                             break;
                         case 3: //RÉPARTITION DES VOYANCE PAR EMPLOYÉ
-                            HashMap<String,Float> stats3 = service.ObtenirCamembertVoyancesParEmploye();
+                            HashMap<String,Float> stats3 = Service.ObtenirCamembertVoyancesParEmploye();
                             System.out.println("\n========================================");
                             System.out.println("  RÉPARTITION DES VOYANCE PAR EMPLOYÉ");
                             System.out.println("========================================");
@@ -377,7 +378,7 @@ public class Test {
         
         System.out.println("\n\n========== DEMANDE DE PREDICTIONS POUR UN CLIENT ==========");
         System.out.println("DEMANDE DE PREDICTIONS POUR CLAUDE :");
-        List<String> predictions = service.ObtenirPredictions(conversationClaude.getClient(), 2, 0, 4); 
+        List<String> predictions = Service.ObtenirPredictions(conversationClaude.getClient(), 2, 0, 4); 
         System.out.println("RESULTAT = ");
         for(int i=0; i<predictions.size(); i++){
             System.out.println("    " + predictions.get(i));
@@ -391,13 +392,13 @@ public class Test {
             ex.hashCode();
         }
         System.out.println("FIN DE LA VOYANCE DE CLAUDE (" + new Date() +") :");
-        service.TerminerVoyance(conversationClaude);
+        Service.TerminerVoyance(conversationClaude);
         System.out.println("RESULTAT = " + conversationClaude);
             
         
         System.out.println("\n\n========== COMMENTER UNE VOYANCE ==========");
         System.out.println("COMMENTER LA VOYANCE De CLAUDE :");
-        service.CommenterVoyance(conversationClaude,"Claude est complexé par la petite taille de son phalus.");
+        Service.CommenterVoyance(conversationClaude,"Claude est complexé par la petite taille de son phalus.");
         System.out.println("RESULTAT = " + conversationClaude);
         
         
@@ -414,7 +415,7 @@ public class Test {
         }
         
         System.out.println("\nDEMANDER L'HISTOGRAMME DE VOYANCES PAR EMPLOYE :");
-        HashMap<String,Integer> stats2 = service.ObtenirHistogrammeVoyancesParEmploye();
+        HashMap<String,Integer> stats2 = Service.ObtenirHistogrammeVoyancesParEmploye();
         System.out.println("RESULTAT = ");
         Set cles2 = stats2.keySet();
         Iterator it2 = cles2.iterator();
@@ -425,7 +426,7 @@ public class Test {
         }
         
         System.out.println("\nDEMANDER LE CAMEMBERT DE VOYANCES PAR EMPLOYE :");
-        HashMap<String,Float> stats3 = service.ObtenirCamembertVoyancesParEmploye();
+        HashMap<String,Float> stats3 = Service.ObtenirCamembertVoyancesParEmploye();
         System.out.println("RESULTAT = ");
         Set cles3 = stats3.keySet();
         Iterator it3 = cles3.iterator();
@@ -477,10 +478,8 @@ public class Test {
      * Méthode test pour afficher tous les médiums de la base de données.
      */
     public static void testObtenirTousLesMediums() {
-
         Service service = new Service();
         List<Medium> listeMed = service.obtenirTousMediums();
-
         System.out.println("Voici tous les mediums :");
         for (int i = 0; i < listeMed.size(); i++) {
             System.out.println("-" + listeMed.get(i).toString());
@@ -488,22 +487,10 @@ public class Test {
     }
 
     /**
-     * Méthode Test de demande de voyance (envoi notification à l'employé)
-     */
-    public static void testDemandeVoyance() {
-        Service service = new Service();
-        List<Medium> listeMed = service.obtenirTousMediums();
-        Client c = (Client) service.seConnecter("email1@gmail.com", "password1");
-
-        service.demanderVoyance(c, listeMed.get(0));
-    }
-
-    /**
      * Méthode de Test de l'API Astronet.
      */
     public static void TestAstroTest() {
         Service service = new Service();
-        
         System.out.println("\n========== DEBUT TEST ASTROTEST ==========");
         AstroTest astro = new AstroTest();
         //Client c = new Client("Mentor","Gerard","password1","email1@gmail.com","0624578675",new Date(97,05,28),"Chine");
@@ -541,13 +528,12 @@ public class Test {
      * Méthode de Test pour les prédictions
      */
     public static void TestServicePrediction() {
-        Service service = new Service();
         Calendar calendar1 = new GregorianCalendar(1996, 1, 30);
         Date dateNais1 = calendar1.getTime();
         System.out.println("\n========== DEBUT TEST SERVICE PREDICTIONS ==========");
         Client c = new Client("Mentor", "Gerard", "password1", "email1@gmail.com", "0624578675", dateNais1, "Chine");
 
-        List predictions = service.ObtenirPredictions(c, 4, 0, 4);
+        List predictions = Service.ObtenirPredictions(c, 4, 0, 4);
         System.out.println("Prédictions reçues = " + predictions);
         System.out.println("========== FIN TEST SERVICE PREDICTIONS ==========");
     }
@@ -567,55 +553,55 @@ public class Test {
         
         //Conv 1
         Conversation conversation = service.demanderVoyance(c, mediums.get(2));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 2
         conversation = service.demanderVoyance(c, mediums.get(2));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 3
         conversation = service.demanderVoyance(c, mediums.get(1));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 4
         conversation = service.demanderVoyance(c, mediums.get(2));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 5
         conversation = service.demanderVoyance(c, mediums.get(2));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 6
         conversation = service.demanderVoyance(c, mediums.get(2));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 7
         conversation = service.demanderVoyance(c, mediums.get(2));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 8
         conversation = service.demanderVoyance(c, mediums.get(3));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 9
         conversation = service.demanderVoyance(c, mediums.get(3));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 10
         conversation = service.demanderVoyance(c, mediums.get(4));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 11
         conversation = service.demanderVoyance(c, mediums.get(4));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         //Conv 12
         conversation = service.demanderVoyance(c, mediums.get(4));
-        service.TerminerVoyance(conversation);
+        Service.TerminerVoyance(conversation);
         
         System.out.println("\nhistogramme voyances/mediums = " + service.ObtenirHistogrammeVoyancesParMedium());
-        System.out.println("\nhistogramme voyances/employe = " + service.ObtenirHistogrammeVoyancesParEmploye());
-        System.out.println("\ncamembert voyances/employe = " + service.ObtenirCamembertVoyancesParEmploye());
+        System.out.println("\nhistogramme voyances/employe = " + Service.ObtenirHistogrammeVoyancesParEmploye());
+        System.out.println("\ncamembert voyances/employe = " + Service.ObtenirCamembertVoyancesParEmploye());
         System.out.println("========== FIN TEST SERVICE GRAPHIQUES ==========");
     }
 }

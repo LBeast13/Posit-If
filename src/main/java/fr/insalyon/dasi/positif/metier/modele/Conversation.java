@@ -72,6 +72,7 @@ public class Conversation implements Serializable {
         this.employe = employe;
         this.medium = medium;
         this.client = client;
+
     }
 
 //******** GETTERS ET SETTERS *************
