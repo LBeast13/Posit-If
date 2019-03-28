@@ -41,10 +41,10 @@ public class Test {
         // Initialisation du JpaUtil
         JpaUtil.init();
         
-        /*Service service = new Service();
+        Service service = new Service();
         System.out.println("\n\n========== INITIALISATION ==========");
         System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
-        Service.initialisation();*/
+        Service.initialisation();
         
         demonstrationIHM();
         //demonstrationTest();
