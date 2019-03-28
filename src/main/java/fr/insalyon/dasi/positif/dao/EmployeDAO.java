@@ -52,6 +52,7 @@ public class EmployeDAO extends PersonneDAO {
 
         Query q = em.createQuery("SELECT e FROM Employe e "
                 + "WHERE :medium MEMBER OF e.mediums and e.disponible = TRUE");
+        
         q.setParameter("medium", medium);
 
         List<Employe> l = q.getResultList();

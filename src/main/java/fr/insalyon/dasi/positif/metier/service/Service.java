@@ -158,7 +158,7 @@ public class Service {
      * Met fin à la voyance (date de fin) et rend disponible l'employé
      * @param conversation la conversation entre le client et le medium.
      */
-    public static void TerminerVoyance(Conversation conversation) {
+    public void TerminerVoyance(Conversation conversation) {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         
@@ -180,7 +180,7 @@ public class Service {
      * @param conversation La conversation à laquelle ajouter le commentaire
      * @param commentaire Le texte du commentaire
      */
-    public static void CommenterVoyance(Conversation conversation, String commentaire) {
+    public void CommenterVoyance(Conversation conversation, String commentaire) {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         
@@ -200,7 +200,7 @@ public class Service {
      * @param travail Une note de 1 PAS BON à 4 BON
      * @return La liste des predictions dans l'ordre suivant (amour, sante, travail) et null si une erreur s'est produite.
      */
-    public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
+    public List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
     {
         AstroTest astro = new AstroTest();
         try {
@@ -233,7 +233,7 @@ public class Service {
      * Cette méthode permet d'obtenir les valeurs de l'histogramme du nombre de voyances par employé.
      * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = nombre de voyance)
      */
-    public static HashMap<String,Integer> ObtenirHistogrammeVoyancesParEmploye()
+    public HashMap<String,Integer> ObtenirHistogrammeVoyancesParEmploye()
     {
         JpaUtil.creerEntityManager();
         List<Employe> employes = EmployeDAO.obtenirTous();
@@ -252,7 +252,7 @@ public class Service {
      * Cette méthode permet d'obtenir les valeurs du camembert du pourcentage de voyances par employé.
      * @return Un dictionnaire des couples (clé = prénom et nom de l'employe, valeur = pourcentage de voyance)
      */
-    public static HashMap<String,Float> ObtenirCamembertVoyancesParEmploye()
+    public HashMap<String,Float> ObtenirCamembertVoyancesParEmploye()
     {
         JpaUtil.creerEntityManager();
         List<Employe> employes = EmployeDAO.obtenirTous();
@@ -310,7 +310,7 @@ public class Service {
      * Envoie une notification à l'employé chargé d'incarner un médium
      * @param conv la conversation avec le client
      */
-    public void envoiNotificationEmploye(Conversation conv) {
+    private void envoiNotificationEmploye(Conversation conv) {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
@@ -328,7 +328,7 @@ public class Service {
      * Envoie une notification au client chargé d'incarner un médium
      * @param conv la conversation avec le client
      */
-    public void envoiNotificationClient(Conversation conv) {
+    private void envoiNotificationClient(Conversation conv) {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
@@ -426,3 +426,4 @@ public class Service {
     
  
 }
+

@@ -99,6 +99,7 @@ public class Employe extends Personne implements Serializable {
         this.conversations.add(conversation); 
     }
 
+
     @Override
     public int hashCode() {
         int hash = 0;
