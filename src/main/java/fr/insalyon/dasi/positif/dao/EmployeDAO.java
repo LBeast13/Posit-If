@@ -54,24 +54,25 @@ public class EmployeDAO extends PersonneDAO {
                 + "WHERE :medium MEMBER OF e.mediums and e.disponible = TRUE");
         q.setParameter("medium", medium);
 
-        List<Employe> l = q.getResultList();
+        List<Employe> empListe = q.getResultList();
+        int indexEmp = 0;
 
-        if (l.isEmpty()) {
-            return null;
-        } else {
+        if (!empListe.isEmpty()) {
             int min = 99999;
-            int i = 0;
-            int j = 0;
-            for (Employe e : l) {
+            int compt = 0;
+            
+            //Parcours de la liste d'employé pour récupérer celui qui a eu le
+            //moins de conversations
+            for (Employe e : empListe) {
                 if (min > e.getConversations().size()) {
                     min = e.getConversations().size();
-                    i = j;
+                    indexEmp = compt;
                 }
-                j++;
+                compt++;
             }
-        
-            return (Employe) l.get(i);
         }
+        
+        return (Employe) empListe.get(indexEmp);
 
     }
 }

@@ -18,7 +18,7 @@ public class PersonneDAO {
      * @return la Personne recherchée si elle est présente, null sinon
      */
     public static Personne obtenir(String email) {
-         EntityManager em = JpaUtil.obtenirEntityManager();
+        EntityManager em = JpaUtil.obtenirEntityManager();
         try {
             Query q = em.createQuery("SELECT p "
                                    + "FROM Personne p "

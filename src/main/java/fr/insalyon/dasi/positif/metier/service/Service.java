@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 
 /**
@@ -48,6 +46,9 @@ public class Service {
      * @return Vrai si l'inscription à été réalisée
      */
     public boolean sInscrire(Client client) {
+        
+        boolean resultat = false;
+        
         JpaUtil.creerEntityManager();
         try {
             // Transaction Persistence
@@ -57,13 +58,14 @@ public class Service {
 
             envoiMailInscription(client, 0);
             JpaUtil.fermerEntityManager();
-            return true;
+            resultat = true;
 
         } catch (RollbackException e) {
             envoiMailInscription(client, 1);
             JpaUtil.fermerEntityManager();
-            return false;
         }
+        
+        return resultat;
     }
 
     /**
@@ -78,6 +80,7 @@ public class Service {
         JpaUtil.creerEntityManager();
         Personne personne = PersonneDAO.obtenir(email);
         JpaUtil.fermerEntityManager();
+        
         if (personne != null && personne.getMotDePasse().equals(motDePasse)) {
             System.out.println("Vous êtes connecté !");
             return personne;
@@ -96,6 +99,7 @@ public class Service {
         JpaUtil.creerEntityManager();
         List<Medium> listesMediums = MediumDAO.obtenirTous();
         JpaUtil.fermerEntityManager();
+        
         return listesMediums;
     }
 
@@ -116,6 +120,7 @@ public class Service {
         if (employe == null) {
             return null;
         }
+        
         employe.setDisponible(false);
         Conversation conversation = new Conversation(employe, medium, client);
         employe.addConversation(conversation);
@@ -202,13 +207,15 @@ public class Service {
      */
     public static List<String> ObtenirPredictions(Client client, int amour, int sante, int travail)
     {
+        List<String> predictions = new ArrayList<>();
         AstroTest astro = new AstroTest();
         try {
-            return astro.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
+            predictions = astro.getPredictions(client.getCouleur(), client.getAnimal(), amour, sante, travail);
         } catch (IOException ex) {
-            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            System.out.println("La génération de la prédictions via l'API Astronet a échoué...");
         }
+        
+        return predictions;
     }
     
     /**
@@ -280,7 +287,7 @@ public class Service {
      * @param statut pour différencier le message de confirmation (0) et
      * d'erreur(1)
      */
-    public void envoiMailInscription(Client c, int statut) {
+    private void envoiMailInscription(Client c, int statut) {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
 
@@ -310,7 +317,7 @@ public class Service {
      * Envoie une notification à l'employé chargé d'incarner un médium
      * @param conv la conversation avec le client
      */
-    public void envoiNotificationEmploye(Conversation conv) {
+    private void envoiNotificationEmploye(Conversation conv) {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
@@ -328,7 +335,7 @@ public class Service {
      * Envoie une notification au client chargé d'incarner un médium
      * @param conv la conversation avec le client
      */
-    public void envoiNotificationClient(Conversation conv) {
+    private void envoiNotificationClient(Conversation conv) {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         

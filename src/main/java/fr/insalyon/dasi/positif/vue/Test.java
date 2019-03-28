@@ -53,14 +53,16 @@ public class Test {
         JpaUtil.destroy();
     }
     
-//     //  ======================
+//       ======================
 //       ||   DEMONSTRATION  ||
-//     *  ======================
+//     * ======================
 //     *
 //     */
     
     /**
      * IHM Console pour la démonstration
+     * ATTENTION : PENSER À COMMENTER(RESPECTIVEMENT COMMENTER) L'INITIALISATION
+     * EN CAS DE PERSISTENCE EN MODE CREATE(RESP. DROP AND CREATE)
      */
     public static void demonstrationIHM(){
         Service service = new Service();
@@ -307,136 +309,6 @@ public class Test {
                 }
             }
         }
-    }
-    
-    public static void demonstrationTest(){
-        
-        Service service = new Service();
-        System.out.println("\n\n========== INITIALISATION ==========");
-        System.out.println("INITIALISATION DE LA BASE DE DONNEES AVEC DES VOYANTS ET DES EMPLOYES");
-        Service.initialisation();
-               
-        System.out.println("\n\n========== CONNEXIONS D'EMPLOYES ==========");
-        System.out.println("CONNEXION DE LIAM :");
-        System.out.println("RESULTAT = " + service.seConnecter("liam.bette@posit.if", "toto123"));
-        
-        System.out.println("\nCONNEXION DE ALEXIS :");
-        System.out.println("RESULTAT = " + service.seConnecter("alexis.bosio@posit.if", "123456"));
-              
-               
-        System.out.println("\nCONNEXION DE ZOUHAIR (mauvais identifiant) :");
-        System.out.println("RESULTAT = " + service.seConnecter("souhait@csdkn.lef", "GXzr"));
-        
-        System.out.println("\nCONNEXION DE ZOUHAIR (mauvais mot de passe) :");
-        System.out.println("RESULTAT = " + service.seConnecter("alexis.bosio@posit.if", "mauvais mot de passe"));
-        
-        System.out.println("\n\n========== INSCRIPTION DE CLIENTS ==========");
-        Client gerard = new Client("Mentor", "Gerard", "password1", "email1@gmail.com", "0624578675", new Date(97,05,28), "Chine");
-        System.out.println("INSCRIPTION DE GERARD :");
-        System.out.println("RESULTAT = " + service.sInscrire(gerard));
-        
-        Client claude = new Client("Retu", "Claude", "LTce", "claude.lost@google.com", "0624578675", new Date(85,05,28), "Chine");
-        System.out.println("INSCRIPTION DE CLAUDE :");
-        System.out.println("RESULTAT = " + service.sInscrire(claude));
-            
-        /**/
-        
-        System.out.println("\n\n========== CONNEXIONS DE CLIENTS ==========");
-        System.out.println("CONNEXION DE CLAUDE :");
-        Personne claudeConnecte = service.seConnecter("claude.lost@google.com", "LTce");
-        System.out.println("RESULTAT = " + claudeConnecte);
-        
-        System.out.println("\nCONNEXION DE GERARD :");
-        Personne jeanConnecte = service.seConnecter("email1@gmail.com", "password1");
-        System.out.println("RESULTAT = " + jeanConnecte);
-        
-        System.out.println("\nCONNEXION DE GERARD (mauvaise adresse) :");
-        System.out.println("RESULTAT = " + service.seConnecter("mauvaise adresse", "password1"));
-        
-        System.out.println("\nCONNEXION DE GERARD (mauvais mot de passe) :");
-        System.out.println("RESULTAT = " + service.seConnecter("email1@gmail.com", "mauvais mot de passe"));
-        
-        
-        System.out.println("\n\n========== DEMANDES D'INFORMATIONS SUR LES MEDIUMS ==========");       
-        System.out.println("\nDEMANDE TOUS LES MEDIUMS :");
-        List<Medium>  mediums = service.obtenirTousMediums();
-        System.out.println("RESULTAT = ");
-        for(int i=0; i<mediums.size(); i++){
-            System.out.println("    -" + mediums.get(i));
-        }
-        
-        System.out.println("\n\n========== DEMANDES DE VOYANCE ==========");
-        System.out.println("CLAUDE DEMANDE MEDIUM :");
-        Conversation conversationClaude = service.demanderVoyance (claude, mediums.get(0) );
-        Employe employeConversationClaude = conversationClaude.getEmploye();
-        System.out.println("RESULTAT = " + conversationClaude);
-        
-        System.out.println("\n\n========== ACCEPTATION DE VOYANCE ==========");
-        System.out.println("ACCEPTATION DE LA VOYANCE DE CLAUDE :");
-        service.AccepterVoyance(conversationClaude);  
-        System.out.println("RESULTAT = " + conversationClaude);
-        
-        System.out.println("\n\n========== DEMANDE DE PREDICTIONS POUR UN CLIENT ==========");
-        System.out.println("DEMANDE DE PREDICTIONS POUR CLAUDE :");
-        List<String> predictions = Service.ObtenirPredictions(conversationClaude.getClient(), 2, 0, 4); 
-        System.out.println("RESULTAT = ");
-        for(int i=0; i<predictions.size(); i++){
-            System.out.println("    " + predictions.get(i));
-        }    
-        
-        System.out.println("\n\n========== FIN DE VOYANCE ==========");
-        System.out.println("Attente de 2 secondes...");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.hashCode();
-        }
-        System.out.println("FIN DE LA VOYANCE DE CLAUDE (" + new Date() +") :");
-        Service.TerminerVoyance(conversationClaude);
-        System.out.println("RESULTAT = " + conversationClaude);
-            
-        
-        System.out.println("\n\n========== COMMENTER UNE VOYANCE ==========");
-        System.out.println("COMMENTER LA VOYANCE De CLAUDE :");
-        Service.CommenterVoyance(conversationClaude,"Claude est complexé par la petite taille de son phalus.");
-        System.out.println("RESULTAT = " + conversationClaude);
-        
-        
-        System.out.println("\n\n========== DEMANDER LES STATISTIQUES ==========");
-        System.out.println("\nDEMANDER L'HISTOGRAMME DE VOYANCES PAR MEDIUM :");
-        HashMap<String,Integer> stats1 = service.ObtenirHistogrammeVoyancesParMedium();
-        System.out.println("RESULTAT = ");
-        Set cles = stats1.keySet();
-        Iterator it = cles.iterator();
-        while (it.hasNext()){
-           String cle = (String) it.next(); 
-           int valeur = stats1.get(cle); 
-           System.out.println("     - " + cle + " : " + valeur);
-        }
-        
-        System.out.println("\nDEMANDER L'HISTOGRAMME DE VOYANCES PAR EMPLOYE :");
-        HashMap<String,Integer> stats2 = Service.ObtenirHistogrammeVoyancesParEmploye();
-        System.out.println("RESULTAT = ");
-        Set cles2 = stats2.keySet();
-        Iterator it2 = cles2.iterator();
-        while (it2.hasNext()){
-           String cle = (String) it2.next(); 
-           int valeur = stats2.get(cle); 
-           System.out.println("     - " + cle + " : " + valeur);
-        }
-        
-        System.out.println("\nDEMANDER LE CAMEMBERT DE VOYANCES PAR EMPLOYE :");
-        HashMap<String,Float> stats3 = Service.ObtenirCamembertVoyancesParEmploye();
-        System.out.println("RESULTAT = ");
-        Set cles3 = stats3.keySet();
-        Iterator it3 = cles3.iterator();
-        while (it3.hasNext()){
-           String cle = (String) it3.next(); 
-           float valeur = stats3.get(cle); 
-           System.out.println("     - " + cle + " : " + valeur);
-        }
-        
-        System.out.println("\n\n");
     }
     
 // ============ TESTS ======================
